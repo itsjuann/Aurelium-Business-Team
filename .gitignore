@@ -147,3 +147,15 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# --- Aurelium Motion: client and prospect data never enters git ---
+clients/*/data/
+clients/*/recordings/
+clients/*/transcripts/
+outreach/batches/*-leads.csv
+outreach/suppression-list.csv
+outreach/**/*.csv
+!outreach/suppression-list.csv.example
+*.wav
+*.mp3
+*.m4a
