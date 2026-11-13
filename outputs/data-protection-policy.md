@@ -6,7 +6,7 @@ Owner: Client Data Protection Officer. Enforced by Security Reviewer. Applies to
 A. Customer PII (names, phones, emails, addresses) · B. Call content (audio, transcripts, summaries) · C. Sensitive content (health, legal matter details, financial details, minors) · D. Client business data (scripts, hours, staff numbers) · E. Prospect data (public job postings and business contacts)
 
 ## Flow map (per client, filled in `clients/<slug>/data-policy.md`)
-Caller → telephony (Twilio/SIP) → ElevenLabs Agents (audio, transcript, data-collection fields) → `save_lead` webhook → notification relay (SMS/email) → owner's phone/inbox → optional client CRM. Every hop lists: retention, who can access, deletion path.
+Caller → telephony (Twilio/SIP) → ElevenLabs Agents (audio, transcript, data-collection fields) → LLM (Claude via ElevenLabs; conversation text transits the model provider under ElevenLabs' terms) → `save_lead` webhook → notification relay (SMS/email) → owner's phone/inbox → optional client CRM. Every hop lists: retention, who can access, deletion path.
 
 ## Retention (defaults)
 | Data | Where | Default | Medical / dental / therapy / legal |
@@ -16,6 +16,7 @@ Caller → telephony (Twilio/SIP) → ElevenLabs Agents (audio, transcript, data
 | `save_lead` payload | Client's notification destination and CRM | Aurelium copies ≤30 days | Fields limited to name, number, reason category, callback window |
 | Prospect lead lists | `outreach/batches/*-leads.csv` (git-ignored) | 180 days after last touch | n/a |
 | Suppression list | `outreach/suppression-list.csv` (git-ignored) | Indefinite (legal record) | n/a |
+| Prospect demo calls (people who call our own demo receptionist) | ElevenLabs, "Aurelium Motion Receptionist" | 30 days audio and transcript, retention set explicitly (F3) | n/a |
 | Monthly reports | `clients/<slug>/reports/` | Aggregates and anonymized moments only | same |
 
 ## Rules

@@ -159,3 +159,11 @@ outreach/**/*.csv
 *.wav
 *.mp3
 *.m4a
+*.csv
+!outreach/suppression-list.csv.example
+**/recordings/
+**/transcripts/
+clients/**/*.json
+*.ogg
+*.webm
+*.flac

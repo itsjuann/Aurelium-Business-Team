@@ -4,6 +4,8 @@ Owner: Website & App Security Reviewer. Applies to `save_lead`, booking, transfe
 
 - [ ] HTTPS only; HSTS on the host.
 - [ ] Authenticate every request: shared-secret header (name only in code; value in the platform secret store / `.env`) or HMAC signature over the raw body; constant-time compare; reject with 401 before any processing.
+- [ ] Header name is exactly `X-Aurelium-Signature`; the signed payload includes a timestamp and requests older than 5 minutes are rejected (replay window). The shared secret lives in the ElevenLabs tool **secret store** and the endpoint's server-side env, never in the agent prompt.
+- [ ] Return 200 only after validation and persistence; error bodies are generic (no stack traces, no field echoes).
 - [ ] Validate the JSON schema strictly (types, lengths, enums). Reject unknown fields. Phone numbers normalized to E.164 and validated.
 - [ ] Idempotency on `conversation_id` (or equivalent) so retries never double-notify.
 - [ ] Rate limit per agent/source (e.g., 60/min) and a global ceiling; return 429.

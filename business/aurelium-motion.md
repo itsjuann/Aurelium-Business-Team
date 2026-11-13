@@ -97,7 +97,7 @@ Never quote pricing in a cold email. Pricing is for the demo and the proposal.
 
 1. **Book 5 AI receptionist demos per week** from cold email, starting this week.
 2. **Sign the first 5 paying receptionist clients by December 31, 2026.** **[CONFIRM target]**
-3. Get the sending infrastructure right before volume: secondary domain, SPF/DKIM/DMARC, warm-up, under 30 new contacts per mailbox per day for the first 3 weeks.
+3. Get the sending infrastructure right before volume: secondary domain, SPF/DKIM/DMARC, warm-up, caps per mailbox per day: zero real sends in warm-up days 1–7, then 10 → 20 → 30 through week 4, 50 from week 5 (authoritative: `outputs/sending-caps.md`).
 4. Publish 3 short-form videos per week showing the receptionist handling real-sounding calls.
 5. Zero security or compliance incidents: no leaked keys, no unsubscribed contact ever re-emailed, no client call data stored outside approved locations.
 
