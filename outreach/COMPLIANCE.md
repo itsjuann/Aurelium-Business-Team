@@ -15,7 +15,7 @@ Owner: Outreach Compliance Officer. Applies to every cold email Aurelium Motion 
 - Checked before every batch. Never shared, sold or exported. Kept indefinitely.
 
 ## Sending limits (published by Email Deliverability in `outputs/sending-caps.md`)
-- Warm-up weeks 1–2: ≤10 real sends/mailbox/day. Week 3: 20. Week 4: 30. Week 5+: 50. Follow-ups count.
+- Warm-up days 1–7: zero real sends. Days 8–14: ≤10 real sends/mailbox/day. Week 3: 20. Week 4: 30. Week 5+: 50. Follow-ups count.
 - Max 3 mailboxes per domain. Pause a mailbox at >3% bounces or >0.1% complaints in a day.
 
 ## Domain health (verified before every batch)
