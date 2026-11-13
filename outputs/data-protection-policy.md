@@ -23,7 +23,7 @@ Caller → telephony (Twilio/SIP) → ElevenLabs Agents (audio, transcript, data
 1. Reading, moving, exporting or deleting client/customer data is an approval-class action: staged → Security Reviewer → Juan.
 2. No recordings, transcripts or customer phone numbers in the repo, prompts, knowledge bases, content, or chat examples. Fictional data or `[PLACEHOLDER]` only.
 3. Minimum necessary: every collected field must justify itself.
-4. Medical/dental/therapy/legal clients: BAA decision logged (see [CONFIRM] in business file) before live traffic; shortest retention; audio off unless signed for; receptionist scripted not to collect symptoms or case details.
+4. Medical/dental/therapy/legal clients: Aurelium Motion does not sign BAAs for now (Juan, 2026-11-13); such clients get lead capture and booking only, proposals never imply HIPAA-grade handling; shortest retention; audio off unless signed for; receptionist scripted not to collect symptoms or case details.
 5. Recording disclosure line available to every client ("This call may be recorded"); AI-honesty rule mandatory.
 6. Deletion requests completed across every hop within 10 business days and logged in `clients/<slug>/data/deletion-log.md`. Offboarding deletes everything within 30 days with written confirmation.
 7. Incident (exposure, wrong recipient, lost device): contain → assess → notify Juan with the one decision needed → remediate → 10-line post-mortem in `outputs/incidents/`.

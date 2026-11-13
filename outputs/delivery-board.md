@@ -41,3 +41,13 @@ Approval class: none (the board itself); items 2, 8, 10, 12 carry their own clas
 Reviewer sign-offs: n/a
 Verdict: FORWARD TO JUAN
 ```
+
+
+## Added 2026-11-13 after Juan's answers
+| Item | Owner | Due | Status |
+|---|---|---|---|
+| Set up PO Box or virtual office; write the address into business/aurelium-motion.md §1 | Juan | 2026-11-20 | Open (blocks all outreach) |
+| Buy aureliummotion.co + getaurelium.com, 4 Workspace mailboxes, Instantly plan (approved plan) | Juan | 2026-11-17 | Approved, not purchased |
+| Publish DNS, verify with dig, start warm-up | Email Deliverability → Juan | day after purchase | Waiting |
+| Pricing: keep DRAFT; no quoting until Juan confirms | all | — | Decided |
+| BAA: not signing for now; medical clients lead-capture/booking only | Client Data Protection | — | Decided |

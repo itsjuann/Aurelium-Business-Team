@@ -15,7 +15,7 @@
 | Founder / operator | Juan Jackson (solo founder; every agent reports to Juan) |
 | Business email | aureliummotion@gmail.com (Google Workspace / domain mailbox: **[CONFIRM]**) |
 | Location | Greater Philadelphia, PA (serves the Philadelphia metro: Philadelphia, Montgomery, Bucks, Delaware and Chester counties, plus Camden and Burlington counties in South Jersey) |
-| Physical mailing address for email footers | **[CONFIRM]** — required by CAN-SPAM before any outreach batch is sent |
+| Physical mailing address for email footers | **[CONFIRM — pending]**. Juan is setting up a PO Box or virtual office (decided 2026-11-13). Required by CAN-SPAM; every cold-email batch stays blocked until this line holds a real address. |
 | Time zone | America/New_York |
 | Legal entity | **[CONFIRM]** (LLC / sole proprietor) |
 | What we are | An AI growth and marketing agency. Core product is a done-for-you AI receptionist for local small businesses. Secondary services: AI-assisted marketing (short-form content, paid ads strategy, lead follow-up automation). |
@@ -32,7 +32,7 @@
 - Monthly call summary report: calls answered, leads captured, appointments booked, top questions.
 - Ongoing script tuning based on real transcripts.
 
-**Pricing** **[CONFIRM — working assumption]**
+**Pricing** **[CONFIRM — DRAFT by Juan's decision, 2026-11-13]**. Juan chose to keep these tiers as a working draft. Agents may use them for internal margin math only. **Do not quote pricing to any prospect or in any proposal until Juan replaces this line with "Pricing confirmed".**
 | Tier | Setup | Monthly | Includes |
 |---|---|---|---|
 | Starter | $497 one-time | $297/mo | 1 number, up to 300 minutes/mo, FAQ + message-taking + lead capture, email/SMS alerts |
@@ -63,7 +63,7 @@ Never quote pricing in a cold email. Pricing is for the demo and the proposal.
 
 **The buyer:** owner, practice manager or office manager. Reads email on a phone between appointments. Skeptical of "AI". Cares about: not losing calls, not sounding robotic to patients, not spending weeks setting something up, and what happens when the AI doesn't know something.
 
-**Disqualifiers:** enterprises, franchises with central call centers, businesses outside the Philly metro (for now), anyone who needs HIPAA BAA-level guarantees we have not yet put in writing **[CONFIRM: do we sign BAAs?]**, and anyone who wants the AI to make outbound sales calls.
+**Disqualifiers:** enterprises, franchises with central call centers, businesses outside the Philly metro (for now), anyone who requires a HIPAA Business Associate Agreement. **Decided 2026-11-13: Aurelium Motion does not sign BAAs for now.** Medical, dental and therapy clients get lead capture and booking only; receptionists collect name, number, reason category and callback window, never symptoms or health details; shortest retention; proposals must not imply HIPAA-grade handling. Revisit when a client requires it, and anyone who wants the AI to make outbound sales calls.
 
 ## 4. Go-to-market
 
@@ -79,7 +79,7 @@ Never quote pricing in a cold email. Pricing is for the demo and the proposal.
 - GitHub — this repo and anything we deploy
 - Vercel / Render — website and app hosting (no projects deployed yet)
 - Notion — needs re-authorization before agents can use it
-- Cold-email sending tool and secondary sending domain: **[CONFIRM]** (recommendation: do not send cold outreach from the primary aureliummotion.com domain or from a free gmail.com address; use a warmed secondary domain such as aureliummotion.co via Instantly or Smartlead)
+- Cold-email sending: **plan approved by Juan 2026-11-13** (see `outputs/sending-infrastructure.md`): secondary domains aureliummotion.co and getaurelium.com, two Google Workspace mailboxes each, Instantly for sequencing and warm-up. Juan buys the domains and mailboxes himself with 2FA; Deliverability then publishes DNS and starts the 21-day warm-up. Status: **not yet purchased**. Never send cold outreach from aureliummotion.com or a gmail.com address.
 - Demo booking link: **[CONFIRM]** (Google Calendar appointment page or Cal.com)
 
 ## 5. Brand voice
