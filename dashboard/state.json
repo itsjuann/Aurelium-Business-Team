@@ -1,0 +1,100 @@
+{
+ "summary": [{
+  "week_of": "2026-11-10", "demos_booked": 0, "demos_goal": 5, "emails_sent": 0, "replies": 0, "proposals_out": 0,
+  "clients_live": 0, "mrr": 0, "fixed_costs_month": 148, "approvals_waiting": 2, "blockers_open": 5,
+  "security_verdict": "CLEAR WITH CONDITIONS", "findings_open": 14, "findings_critical": 0, "findings_high": 4,
+  "next_audit": "2026-11-20", "agents_total": 17, "outreach_status": "BLOCKED", "sending_cap_today": 0
+ }],
+ "departments": [
+  {"dept": "Orchestration", "agents": 1, "status": "green", "headline": "Plan for 5 demos/week staged; waiting on 4 facts from Juan", "open_items": 1, "waiting_on_juan": 4, "view": "orchestration"},
+  {"dept": "Sales", "agents": 3, "status": "red", "headline": "Cold email blocked: no mailing address, no sending domain yet", "open_items": 3, "waiting_on_juan": 2, "view": "sales"},
+  {"dept": "Marketing", "agents": 2, "status": "yellow", "headline": "Sending infrastructure approved, not purchased; content week not yet drafted", "open_items": 2, "waiting_on_juan": 1, "view": "marketing"},
+  {"dept": "Paid media", "agents": 1, "status": "gray", "headline": "Not yet: landing page, tracking and 5 proven demos come first", "open_items": 0, "waiting_on_juan": 0, "view": "paid"},
+  {"dept": "Delivery", "agents": 3, "status": "green", "headline": "No client deployments yet; 5-day go-live plan ready", "open_items": 0, "waiting_on_juan": 0, "view": "delivery"},
+  {"dept": "Client success", "agents": 1, "status": "gray", "headline": "No live clients", "open_items": 0, "waiting_on_juan": 0, "view": "clients"},
+  {"dept": "Finance", "agents": 1, "status": "yellow", "headline": "MRR $0; pricing kept as DRAFT by Juan; tier margins modeled 61–78%", "open_items": 1, "waiting_on_juan": 1, "view": "finance"},
+  {"dept": "Security", "agents": 5, "status": "yellow", "headline": "Audit 11/13: CLEAR WITH CONDITIONS, 4 High, 0 Critical", "open_items": 14, "waiting_on_juan": 3, "view": "security"}
+ ],
+ "agents": [
+  {"agent": "Chief of Staff", "dept": "Orchestration", "role": "Orchestrator, reviewer, reporter", "last_run": "2026-11-13", "status": "ran", "latest": "Plan + report for 'book 5 demos this week'", "file": "outputs/2026-11-13-report-book-5-demos.md"},
+  {"agent": "Cold Outreach SDR", "dept": "Sales", "role": "Prospecting, cold email, replies", "last_run": "2026-11-13", "status": "blocked", "latest": "Dental batch staged, 0 verified leads, BLOCKED on address/domain", "file": "outreach/batches/2026-11-13-dental.md"},
+  {"agent": "Outbound Systems Strategist", "dept": "Sales", "role": "ICP, signals, sequences, experiments", "last_run": "2026-11-13", "status": "ran", "latest": "Playbook v1 written", "file": "outreach/PLAYBOOK.md"},
+  {"agent": "Discovery & Demo Coach", "dept": "Sales", "role": "Demo prep, discovery, objections", "last_run": "2026-11-13", "status": "ran", "latest": "Demo playbook written", "file": "outreach/DEMO-PLAYBOOK.md"},
+  {"agent": "Email Deliverability Strategist", "dept": "Marketing", "role": "Domains, DNS, warm-up, caps", "last_run": "2026-11-13", "status": "waiting", "latest": "Infrastructure plan approved by Juan, awaiting purchase", "file": "outputs/sending-infrastructure.md"},
+  {"agent": "Content Engine", "dept": "Marketing", "role": "Short-form scripts, captions, Buffer", "last_run": "", "status": "idle", "latest": "No content week drafted yet (/content-week)", "file": ""},
+  {"agent": "Paid Media Strategist", "dept": "Paid media", "role": "Google/Meta campaigns", "last_run": "", "status": "idle", "latest": "Readiness checklist not met", "file": ""},
+  {"agent": "Client Onboarding", "dept": "Delivery", "role": "Proposals, intake, setup checklist", "last_run": "", "status": "idle", "latest": "Waiting for first won demo", "file": "clients/_template/"},
+  {"agent": "Receptionist Builder", "dept": "Delivery", "role": "ElevenLabs scripts, flows, tests", "last_run": "", "status": "idle", "latest": "Own demo agent live; retention setting open (F3)", "file": ""},
+  {"agent": "Delivery Manager", "dept": "Delivery", "role": "Timelines, board, weekly rhythm", "last_run": "2026-11-13", "status": "ran", "latest": "Delivery board written", "file": "outputs/delivery-board.md"},
+  {"agent": "Client Success", "dept": "Client success", "role": "Live clients, reports, renewals", "last_run": "", "status": "idle", "latest": "No live clients", "file": ""},
+  {"agent": "Finance Controller", "dept": "Finance", "role": "Invoices, MRR, budgets, margins", "last_run": "2026-11-13", "status": "ran", "latest": "Spend note for sending infrastructure", "file": "outputs/sending-infrastructure.md"},
+  {"agent": "Secrets & Access Guardian", "dept": "Security", "role": "Keys, .env, tool scopes", "last_run": "2026-11-13", "status": "ran", "latest": "0 secrets in repo; access inventory written", "file": "outputs/access-inventory.md"},
+  {"agent": "Client Data Protection Officer", "dept": "Security", "role": "Recordings, retention, BAAs", "last_run": "2026-11-13", "status": "ran", "latest": "Policy v1; BAA decided: none for now", "file": "outputs/data-protection-policy.md"},
+  {"agent": "Outreach Compliance Officer", "dept": "Security", "role": "CAN-SPAM, suppression, caps, DNS", "last_run": "2026-11-13", "status": "ran", "latest": "Dental batch: copy PASS, send FAIL (address, domain)", "file": "outreach/COMPLIANCE.md"},
+  {"agent": "Website & App Security Reviewer", "dept": "Security", "role": "Site, webhooks, deploys", "last_run": "2026-11-13", "status": "ran", "latest": "Nothing deployed; webhook checklist v2", "file": "docs/webhook-security-checklist.md"},
+  {"agent": "Security Reviewer (veto)", "dept": "Security", "role": "Final gate on 5 action classes", "last_run": "2026-11-13", "status": "ran", "latest": "Audit verdict CLEAR WITH CONDITIONS", "file": "outputs/2026-11-13-security-audit.md"}
+ ],
+ "approvals": [
+  {"item": "Buy aureliummotion.co + getaurelium.com, 4 Workspace mailboxes, Instantly plan", "class": "spend", "agent": "Email Deliverability", "amount": "~$115–140 now, ~$65–71/mo (estimates)", "since": "2026-11-13", "status": "approved by Juan, not yet purchased", "file": "outputs/sending-infrastructure.md"},
+  {"item": "Dental cold-email batch (3 touches, 0 verified leads)", "class": "email", "agent": "Cold Outreach SDR", "amount": "0 recipients", "since": "2026-11-13", "status": "BLOCKED by Security until address + domain exist", "file": "outreach/batches/2026-11-13-dental.md"}
+ ],
+ "blockers": [
+  {"item": "Physical mailing address (CAN-SPAM)", "blocks": "Every cold-email batch", "owner": "Juan", "since": "2026-11-13", "due": "2026-11-20", "status": "Juan setting up PO Box / virtual office"},
+  {"item": "Secondary sending domain + mailboxes + Instantly", "blocks": "Every cold-email batch; warm-up clock", "owner": "Juan", "since": "2026-11-13", "due": "2026-11-17", "status": "Approved, not purchased"},
+  {"item": "Demo booking link", "blocks": "CTA in every email; demo scheduling", "owner": "Juan", "since": "2026-11-13", "due": "2026-11-17", "status": "Open"},
+  {"item": "ElevenLabs retention on demo receptionist (F3)", "blocks": "First live prospect demo", "owner": "Juan", "since": "2026-11-13", "due": "2026-11-20", "status": "Open"},
+  {"item": "Pricing confirmation", "blocks": "Quoting at demos and in proposals", "owner": "Juan", "since": "2026-11-13", "due": "", "status": "Kept as DRAFT by Juan's decision"}
+ ],
+ "findings": [
+  {"id": "F1", "domain": "Outreach", "finding": "No physical mailing address in business file", "severity": "High", "owner": "Juan", "due": "Before first send", "status": "open"},
+  {"id": "F2", "domain": "Outreach", "finding": "No secondary sending domain/tool; SPF/DKIM/DMARC unverified", "severity": "High", "owner": "Juan", "due": "Before first batch", "status": "open"},
+  {"id": "F3", "domain": "Client data", "finding": "Demo receptionist keeps audio indefinitely (zero_retention off)", "severity": "High", "owner": "Juan", "due": "2026-11-20", "status": "open"},
+  {"id": "F4", "domain": "Client data", "finding": "BAA stance undecided", "severity": "High", "owner": "Juan", "due": "Before medical proposal", "status": "resolved: no BAAs for now"},
+  {"id": "F5", "domain": "Secrets", "finding": "Protections not on main branch yet", "severity": "Low", "owner": "Juan", "due": "2026-11-20", "status": "open"},
+  {"id": "F6", "domain": "Secrets", "finding": "No gitleaks hook; GitHub push protection unknown", "severity": "Medium", "owner": "Juan", "due": "2026-11-20", "status": "open"},
+  {"id": "F7", "domain": "Secrets", "finding": "Over-scoped connectors (Gmail send, Buffer publish, admin Vercel/Render, duplicate ElevenLabs)", "severity": "Medium", "owner": "Juan", "due": "2026-11-20", "status": "open"},
+  {"id": "F8", "domain": "Secrets", "finding": "Connectors with no job: Higgs, Klaviyo, Shopify, Windsor.ai, Composio", "severity": "Medium", "owner": "Juan", "due": "2026-11-20", "status": "open"},
+  {"id": "F9", "domain": "Secrets", "finding": ".gitignore gaps for CSV/JSON/audio outside client folders", "severity": "Low", "owner": "Secrets & Access", "due": "2026-11-20", "status": "fixed 2026-11-13"},
+  {"id": "F10", "domain": "Secrets", "finding": ".env.example missing webhook secret and GitHub token names", "severity": "Low", "owner": "Secrets & Access", "due": "2026-11-27", "status": "fixed 2026-11-13"},
+  {"id": "F11", "domain": "Client data", "finding": "No per-client data-policy template; LLM hop missing from flow map", "severity": "Low", "owner": "Client Data Protection", "due": "2026-11-27", "status": "fixed 2026-11-13"},
+  {"id": "F12", "domain": "Outreach", "finding": "Warm-up caps disagreed across files", "severity": "Low", "owner": "Email Deliverability", "due": "2026-11-20", "status": "fixed 2026-11-13"},
+  {"id": "F13", "domain": "Web & app", "finding": "save_lead endpoint unreviewed (no code yet)", "severity": "Medium", "owner": "Receptionist Builder", "due": "Before first number", "status": "open"},
+  {"id": "F14", "domain": "Web & app", "finding": "aureliummotion.com headers unchecked (network blocked)", "severity": "Low", "owner": "Web & App Security", "due": "2026-11-20", "status": "open"},
+  {"id": "F15", "domain": "Outreach", "finding": "Prospect business names in tracked batch file", "severity": "Low", "owner": "Cold Outreach SDR", "due": "2026-11-13", "status": "fixed 2026-11-13"},
+  {"id": "F16", "domain": "Outreach", "finding": "Suppression list, experiments log, threat model missing", "severity": "Low", "owner": "SDR / Security Reviewer", "due": "2026-11-20", "status": "fixed 2026-11-13"}
+ ],
+ "delivery": [
+  {"item": "PO Box / virtual office → address in business file", "owner": "Juan", "due": "2026-11-20", "status": "red", "note": "Blocks all outreach"},
+  {"item": "Buy domains, mailboxes, Instantly (approved plan)", "owner": "Juan", "due": "2026-11-17", "status": "yellow", "note": "Approved, not purchased"},
+  {"item": "Publish DNS, verify, start 21-day warm-up", "owner": "Email Deliverability → Juan", "due": "day after purchase", "status": "gray", "note": "Waiting on purchase"},
+  {"item": "First real sends (≤10/mailbox/day)", "owner": "Cold Outreach SDR", "due": "2026-11-24", "status": "gray", "note": "Warm-up day 8"},
+  {"item": "Demo booking link", "owner": "Juan", "due": "2026-11-17", "status": "yellow", "note": "Google Calendar appointment page"},
+  {"item": "Set ElevenLabs retention on demo agent", "owner": "Juan", "due": "2026-11-20", "status": "yellow", "note": "Audit F3"},
+  {"item": "Content week 1 drafted and staged", "owner": "Content Engine", "due": "2026-11-14", "status": "yellow", "note": "Run /content-week"},
+  {"item": "Dental demo agent (fictional practice) for live demos", "owner": "Receptionist Builder", "due": "2026-11-21", "status": "gray", "note": "Needed before first dental demo"},
+  {"item": "GitHub push protection + gitleaks hook", "owner": "Juan", "due": "2026-11-20", "status": "yellow", "note": "Audit F6"},
+  {"item": "Disconnect idle connectors", "owner": "Juan", "due": "2026-11-20", "status": "yellow", "note": "Audit F7/F8"},
+  {"item": "Weekly security audit", "owner": "Security Reviewer", "due": "2026-11-20", "status": "green", "note": "/security-audit"}
+ ],
+ "finance": [
+  {"item": "MRR", "amount": 0, "kind": "revenue", "note": "No clients live"},
+  {"item": "Fixed tooling per month", "amount": 148, "kind": "cost", "note": "ElevenLabs, Buffer, Workspace, domains (estimate)"},
+  {"item": "Sending infrastructure per month", "amount": 68, "kind": "cost", "note": "Approved, not purchased; midpoint of $65–71 estimate"},
+  {"item": "Sending infrastructure one-time", "amount": 128, "kind": "cost", "note": "Midpoint of $115–140 estimate"},
+  {"item": "Starter tier modeled margin", "amount": 78, "kind": "margin_pct", "note": "$297/mo, 300 min, modeled COGS ~$64 (pricing DRAFT)"},
+  {"item": "Growth tier modeled margin", "amount": 72, "kind": "margin_pct", "note": "$497/mo, 750 min (pricing DRAFT)"},
+  {"item": "Pro tier modeled margin", "amount": 61, "kind": "margin_pct", "note": "$797/mo, 1,500 bilingual min (pricing DRAFT)"}
+ ],
+ "content": [
+  {"channel": "Instagram @aureliummotion", "planned_week": 5, "staged": 0, "published_week": 0, "note": "3 Reels + 2 carousels target"},
+  {"channel": "LinkedIn (Juan Jackson)", "planned_week": 2, "staged": 0, "published_week": 0, "note": "2 posts target"},
+  {"channel": "Threads", "planned_week": 3, "staged": 0, "published_week": 0, "note": "Reposts of Reels"}
+ ],
+ "outreach": [
+  {"metric": "Sending cap today (per mailbox)", "value": 0, "target": 10, "note": "Warm-up not started"},
+  {"metric": "Mailboxes ready", "value": 0, "target": 4, "note": "Awaiting purchase"},
+  {"metric": "Suppression list entries", "value": 0, "target": 0, "note": "Created empty 2026-11-13"},
+  {"metric": "Reply rate target %", "value": 0, "target": 12, "note": "No sends yet"},
+  {"metric": "Demos per 100 emails target", "value": 0, "target": 4, "note": "No sends yet"}
+ ]
+}

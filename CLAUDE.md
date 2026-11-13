@@ -81,6 +81,8 @@ clients/_template/                skeleton for a new client
 outreach/                         lead lists, sequences, suppression list (git-ignored where sensitive)
 content/                          scripts, captions, calendars
 outputs/                          dated run outputs (briefs, audits, reports)
+dashboard/                        state.json (team state), command-center.json (built), index.html (dashboard page source)
+scripts/                          build_dashboard_data.py and other helpers
 .env.example                      names of every secret the stack needs; values live only in .env
 ```
 
@@ -96,6 +98,13 @@ Secrets & Access Guardian audits it.
 | `/outreach-batch` | SDR builds a batch of signal-based leads and emails, Compliance and Security review, Juan approves before anything sends |
 | `/content-week` | Content Engine drafts 7 days of short-form scripts and captions plus a Buffer calendar, staged as drafts |
 | `/security-audit` | Security team runs the full audit: secrets, client data, outreach compliance, web/app, with a Reviewer verdict |
+| `/dashboard-sync` | Chief of Staff refreshes the Command Center dashboard from `dashboard/state.json` plus Aurelium Motion HQ aggregates (read-only on HQ) |
+
+## Dashboards and Aurelium Motion HQ
+
+- **Aurelium Motion Command Center** (https://claude.ai/artifact/Cngkv1ZwsPw6uHyKEbjNUg): Overview plus one tab per department (Orchestration, Sales, Marketing, Paid media, Delivery, Client success, Finance, Security). It reads `dashboard/command-center.json`, built by `scripts/build_dashboard_data.py` from `dashboard/state.json` and HQ aggregates. The Chief of Staff updates `dashboard/state.json` at the end of every run (daily brief, outreach batch, content week, security audit) and runs `/dashboard-sync` so the dashboard never lags the repo.
+- **Aurelium Motion HQ** (https://claude.ai/artifact/9uffcdaut84mtgYfuon9ZG) is Juan's CRM and automation hub (leads, pipeline stages, appointments, proposals, n8n automations, assistant). Agents read it with the `ArtifactData` tool for pipeline facts. Writing to HQ (new leads, stage changes, activities) is a **client/prospect data** action: stage the change, get Data Protection and Security sign-off, and Juan approves. Only aggregates (counts, stage totals, campaign splits) ever leave HQ for the dashboard; never names, phones or emails.
+- Other Aurelium pages the team links to: Client Dashboard (https://claude.ai/artifact/24gW1RM5UXmjYg2c8i3qDb), Content Library (https://claude.ai/artifact/SWFnFaVXJkSfFDyX5XDbCM), Aurelium Motion CRM (https://claude.ai/artifact/Pn1tRUgk6yM5GhPQQrJznX).
 
 ## Working style
 

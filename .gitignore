@@ -167,3 +167,4 @@ clients/**/*.json
 *.ogg
 *.webm
 *.flac
+/dashboard/db/

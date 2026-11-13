@@ -1,0 +1,607 @@
+<meta name="dash-one-writer">
+<style>
+/* Layout: one summary strip, then tabs: Overview + one per department. Panels on --color-panel, status by pill color, charts on d3 with dash.colors. */
+.cc{display:flex;flex-direction:column;gap:var(--cds-gap-lg);font-family:var(--font-anthropic-sans);color:var(--color-fg)}
+.cc-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--cds-gap-md)}
+.cc-title{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);margin:0;line-height:1.15}
+.cc-sub{margin:4px 0 0;color:var(--color-fg-muted);max-width:70ch}
+.cc-links{display:flex;flex-wrap:wrap;gap:var(--cds-gap-sm);font-size:var(--cds-font-size-caption)}
+.cc-links a{color:var(--color-fg);text-decoration:underline;text-underline-offset:2px}
+.cc-tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--color-border-line);padding-bottom:4px}
+.cc-tab{background:none;border:1px solid transparent;border-radius:var(--cds-radius);padding:6px 12px;font:inherit;font-size:var(--cds-font-size-body);color:var(--color-fg-muted);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.cc-tab:hover{background:var(--color-panel)}
+.cc-tab[aria-selected="true"]{background:var(--color-panel);border-color:var(--color-border-line);color:var(--color-fg);font-weight:var(--cds-font-weight-medium)}
+.cc-tab:focus-visible{outline:2px solid var(--color-fg);outline-offset:2px}
+.cc-dot{width:8px;height:8px;border-radius:50%;background:var(--color-fg-muted);display:inline-block}
+.cc-dot.green{background:var(--color-ok)}.cc-dot.yellow{background:var(--color-warn)}.cc-dot.red{background:var(--color-bad)}
+.cc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--cds-gap-md)}
+.cc-card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0;display:flex;flex-direction:column;gap:6px}
+.cc-card .lbl{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-weight:var(--cds-font-weight-medium);letter-spacing:.04em;text-transform:uppercase}
+.cc-card .val{font-family:var(--font-anthropic-serif);font-weight:400;font-size:34px;line-height:1.05;font-variant-numeric:tabular-nums}
+.cc-card .val.sm{font-size:22px;font-family:var(--font-anthropic-sans)}
+.cc-card .sub{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.cc-card.bad .val{color:var(--color-bad)}.cc-card.warn .val{color:var(--color-warn)}.cc-card.ok .val{color:var(--color-ok)}
+.cc-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--cds-gap-md)}
+.cc-panel{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0;display:flex;flex-direction:column;gap:var(--cds-gap-sm)}
+.cc-panel h2{margin:0;font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium)}
+.cc-panel .note{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin:0}
+.cc-chart{position:relative;width:100%;min-height:220px}
+.cc-chart svg{width:100%;height:auto;display:block}
+.cc-chart .tip{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);box-shadow:var(--cds-shadow-popover);border-radius:var(--cds-radius);padding:6px 10px;font-size:var(--cds-font-size-caption);color:var(--color-fg);white-space:nowrap;max-width:calc(100% - 8px)}
+.cc-chart .tip[hidden]{display:none}
+.cc-axis text{fill:var(--cds-text-secondary);font-size:var(--cds-font-size-caption);font-family:var(--font-anthropic-sans)}
+.cc-axis line,.cc-axis path{stroke:var(--cds-chart-axis)}
+.cc-grid-line{stroke:var(--cds-chart-grid)}
+.cc-tablewrap{overflow-x:auto}
+.cc table{width:100%;border-collapse:collapse;font-size:var(--cds-font-size-body);min-width:560px}
+.cc th{text-align:left;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-weight:var(--cds-font-weight-medium);padding:6px 10px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.cc td{padding:8px 10px;border-bottom:1px solid var(--color-border-line);vertical-align:top}
+.cc td.num,.cc th.num{text-align:right;font-variant-numeric:tabular-nums}
+.cc td.wrap{min-width:220px}
+.pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:var(--cds-font-size-caption);font-weight:var(--cds-font-weight-medium);border:1px solid var(--color-border-line);color:var(--color-fg);white-space:nowrap}
+.pill.green{border-color:var(--color-ok);color:var(--color-ok)}.pill.yellow{border-color:var(--color-warn);color:var(--color-warn)}.pill.red{border-color:var(--color-bad);color:var(--color-bad)}.pill.gray{color:var(--color-fg-muted)}
+.cc-meter{height:12px;background:var(--cds-chart-grid);border-radius:999px;overflow:hidden}
+.cc-meter i{display:block;height:100%;border-radius:999px;width:0}
+.cc-deptcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--cds-gap-md)}
+.cc-dept{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-md);text-align:left;font:inherit;color:var(--color-fg);cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0}
+.cc-dept:hover{border-color:var(--color-fg-muted)}
+.cc-dept:focus-visible{outline:2px solid var(--color-fg);outline-offset:2px}
+.cc-dept .name{display:flex;align-items:center;gap:8px;font-weight:var(--cds-font-weight-medium)}
+.cc-dept .head{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.cc-dept .meta{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);display:flex;gap:12px}
+.cc-kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:var(--cds-font-size-body);margin:0}
+.cc-kv dt{color:var(--color-fg-muted)}.cc-kv dd{margin:0}
+[data-dash-source-state=refreshing]{opacity:.5}
+.cc-foot{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.cc-foot details summary{cursor:pointer}
+@media (max-width:520px){.cc-card .val{font-size:28px}}
+</style>
+
+<div class="cc" id="command-center">
+  <header class="cc-head" id="head">
+    <div>
+      <h1 class="cc-title">Aurelium Motion Command Center</h1>
+      <p class="cc-sub">The AI agent team at a glance: <b data-draw="s-demos" data-source="cc_summary" data-field="demos_booked" data-row="0">—</b> of <b data-draw="s-goal" data-source="cc_summary" data-field="demos_goal" data-row="0">—</b> demos booked this week, <b data-draw="s-approvals" data-source="cc_summary" data-field="approvals_waiting" data-row="0">—</b> items waiting on Juan, outreach <b data-draw="s-outreach" data-source="cc_summary" data-field="outreach_status" data-row="0">—</b>, security <b data-draw="s-sec" data-source="cc_summary" data-field="security_verdict" data-row="0">—</b>. Synced <span data-draw="s-synced" data-source="cc_summary" data-field="week_of" data-row="0">—</span> (week of).</p>
+    </div>
+    <nav class="cc-links" aria-label="Related Aurelium pages">
+      <a href="https://claude.ai/artifact/9uffcdaut84mtgYfuon9ZG">Aurelium Motion HQ (CRM)</a>
+      <a href="https://claude.ai/artifact/24gW1RM5UXmjYg2c8i3qDb">Client Dashboard</a>
+      <a href="https://claude.ai/artifact/SWFnFaVXJkSfFDyX5XDbCM">Content Library</a>
+      <a href="https://github.com/itsjuann/Aurelium-Business-Team">Agent team repo</a>
+    </nav>
+  </header>
+
+  <div class="cc-tabs" role="tablist" aria-label="Views" id="tabs">
+    <button class="cc-tab" role="tab" data-view="overview" aria-selected="true" id="tab-overview">Overview</button>
+    <button class="cc-tab" role="tab" data-view="orchestration" aria-selected="false" id="tab-orchestration"><span class="cc-dot" data-draw="dot-orchestration"></span>Orchestration</button>
+    <button class="cc-tab" role="tab" data-view="sales" aria-selected="false" id="tab-sales"><span class="cc-dot" data-draw="dot-sales"></span>Sales</button>
+    <button class="cc-tab" role="tab" data-view="marketing" aria-selected="false" id="tab-marketing"><span class="cc-dot" data-draw="dot-marketing"></span>Marketing</button>
+    <button class="cc-tab" role="tab" data-view="paid" aria-selected="false" id="tab-paid"><span class="cc-dot" data-draw="dot-paid"></span>Paid media</button>
+    <button class="cc-tab" role="tab" data-view="delivery" aria-selected="false" id="tab-delivery"><span class="cc-dot" data-draw="dot-delivery"></span>Delivery</button>
+    <button class="cc-tab" role="tab" data-view="clients" aria-selected="false" id="tab-clients"><span class="cc-dot" data-draw="dot-clients"></span>Client success</button>
+    <button class="cc-tab" role="tab" data-view="finance" aria-selected="false" id="tab-finance"><span class="cc-dot" data-draw="dot-finance"></span>Finance</button>
+    <button class="cc-tab" role="tab" data-view="security" aria-selected="false" id="tab-security"><span class="cc-dot" data-draw="dot-security"></span>Security</button>
+  </div>
+
+  <!-- ================= OVERVIEW ================= -->
+  <section id="overview" data-view="overview" aria-labelledby="tab-overview">
+    <div class="cc" style="gap:var(--cds-gap-lg)">
+      <div class="cc-grid" id="overview-kpis">
+        <div class="cc-card" id="k-demos-card"><div class="lbl">Demos booked this week</div><div class="val" data-draw="k-demos" data-source="cc_summary" data-field="demos_booked" data-row="0">—</div><div class="sub">Goal <span data-draw="k-goal" data-source="cc_summary" data-field="demos_goal" data-row="0">—</span> per week</div></div>
+        <div class="cc-card" id="k-approvals-card"><div class="lbl">Waiting on Juan</div><div class="val" data-draw="k-approvals" data-source="cc_summary" data-field="approvals_waiting" data-row="0">—</div><div class="sub">approval-class items staged</div></div>
+        <div class="cc-card" id="k-blockers-card"><div class="lbl">Open blockers</div><div class="val" data-draw="k-blockers" data-source="cc_summary" data-field="blockers_open" data-row="0">—</div><div class="sub">facts or purchases only Juan can supply</div></div>
+        <div class="cc-card"><div class="lbl">HQ open leads</div><div class="val" data-draw="k-hq-open" data-source="hq_summary" data-field="open_leads" data-row="0">—</div><div class="sub">in Aurelium Motion HQ, all campaigns</div></div>
+        <div class="cc-card"><div class="lbl">Clients live</div><div class="val" data-draw="k-clients" data-source="cc_summary" data-field="clients_live" data-row="0">—</div><div class="sub">MRR $<span data-draw="k-mrr" data-source="cc_summary" data-field="mrr" data-row="0">—</span></div></div>
+        <div class="cc-card" id="k-sec-card"><div class="lbl">Security verdict</div><div class="val sm" data-draw="k-sec" data-source="cc_summary" data-field="security_verdict" data-row="0">—</div><div class="sub"><span data-draw="k-high" data-source="cc_summary" data-field="findings_high" data-row="0">—</span> High, <span data-draw="k-crit" data-source="cc_summary" data-field="findings_critical" data-row="0">—</span> Critical. Next audit <span data-draw="k-next" data-source="cc_summary" data-field="next_audit" data-row="0">—</span></div></div>
+      </div>
+
+      <div class="cc-panel" id="dept-health">
+        <h2>Departments</h2>
+        <p class="note">Status is the department's own call: green on track, yellow waiting on something, red blocked, gray not started. Click a card to open its view.</p>
+        <div class="cc-deptcards" data-draw="dept-cards" data-source="cc_departments"></div>
+      </div>
+
+      <div class="cc-row">
+        <div class="cc-panel" id="demo-goal">
+          <h2>Demo goal this week</h2>
+          <p class="note">Booked demos against the weekly goal of 5. The cold-email channel is blocked until the mailing address and sending domain exist, so this stays at zero by design until warm-up day 8.</p>
+          <div class="cc-meter" aria-hidden="true"><i data-draw="demo-meter" data-source="cc_summary"></i></div>
+          <dl class="cc-kv">
+            <dt>Emails sent</dt><dd data-draw="o-emails" data-source="cc_summary" data-field="emails_sent" data-row="0">—</dd>
+            <dt>Replies</dt><dd data-draw="o-replies" data-source="cc_summary" data-field="replies" data-row="0">—</dd>
+            <dt>Proposals out</dt><dd data-draw="o-props" data-source="cc_summary" data-field="proposals_out" data-row="0">—</dd>
+            <dt>Sending cap today</dt><dd data-draw="o-cap" data-source="cc_summary" data-field="sending_cap_today" data-row="0">—</dd>
+          </dl>
+        </div>
+        <div class="cc-panel" id="hq-funnel-overview">
+          <h2>HQ pipeline by stage</h2>
+          <p class="note">Every lead in Aurelium Motion HQ, by its current stage. Most are untouched imports from the November pulls.</p>
+          <div class="cc-chart" data-draw="hq-funnel" data-source="hq_stages"></div>
+        </div>
+      </div>
+
+      <div class="cc-row">
+        <div class="cc-panel" id="waiting">
+          <h2>Waiting on Juan</h2>
+          <p class="note">Approval-class items the agents have staged. Nothing here moves until Juan says so.</p>
+          <div class="cc-tablewrap"><table data-source="cc_approvals" data-row-key="item"><thead><tr><th data-field="item">Item</th><th data-field="class">Class</th><th data-field="agent">Agent</th><th data-field="amount">Amount / scope</th><th data-field="status">Status</th></tr></thead><tbody data-draw="approvals-body"></tbody></table></div>
+        </div>
+        <div class="cc-panel" id="blockers">
+          <h2>Blockers</h2>
+          <p class="note">What stops the team, who owns the unblock, and when it is due.</p>
+          <div class="cc-tablewrap"><table data-source="cc_blockers" data-row-key="item"><thead><tr><th data-field="item">Blocker</th><th data-field="blocks">Blocks</th><th data-field="owner">Owner</th><th data-field="due">Due</th><th data-field="status">Status</th></tr></thead><tbody data-draw="blockers-body"></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ORCHESTRATION ================= -->
+  <section id="orchestration" data-view="orchestration" hidden aria-labelledby="tab-orchestration">
+    <div class="cc">
+      <div class="cc-panel" id="orch-head"><h2>Orchestration: Chief of Staff</h2><p class="note">Takes any goal, plans it, delegates, reviews, reports. Current goal: book 5 AI receptionist demos per week.</p>
+        <div class="cc-grid">
+          <div class="cc-card"><div class="lbl">Agents on the team</div><div class="val" data-draw="or-agents" data-source="cc_summary" data-field="agents_total" data-row="0">—</div></div>
+          <div class="cc-card"><div class="lbl">Agents that ran this week</div><div class="val" data-draw="or-ran" data-source="agents_ran">—</div></div>
+          <div class="cc-card"><div class="lbl">Blocked or waiting</div><div class="val" data-draw="or-blocked" data-source="agents_blocked">—</div></div>
+          <div class="cc-card"><div class="lbl">Idle (nothing to do yet)</div><div class="val" data-draw="or-idle" data-source="agents_idle">—</div></div>
+        </div>
+      </div>
+      <div class="cc-panel" id="roster"><h2>Agent roster and last run</h2>
+        <div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="dept">Department</th><th data-field="status">Status</th><th data-field="last_run">Last run</th><th data-field="latest">Latest output</th><th data-field="file">File</th></tr></thead><tbody data-draw="agents-body"></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SALES ================= -->
+  <section id="sales" data-view="sales" hidden aria-labelledby="tab-sales">
+    <div class="cc">
+      <div class="cc-grid">
+        <div class="cc-card"><div class="lbl">Demos booked (week)</div><div class="val" data-draw="sa-demos" data-source="cc_summary" data-field="demos_booked" data-row="0">—</div></div>
+        <div class="cc-card"><div class="lbl">Outreach status</div><div class="val sm" data-draw="sa-status" data-source="cc_summary" data-field="outreach_status" data-row="0">—</div></div>
+        <div class="cc-card"><div class="lbl">HQ leads total</div><div class="val" data-draw="sa-hq-total" data-source="hq_summary" data-field="total_leads" data-row="0">—</div></div>
+        <div class="cc-card"><div class="lbl">HQ calls booked</div><div class="val" data-draw="sa-hq-calls" data-source="hq_summary" data-field="call_booked" data-row="0">—</div></div>
+        <div class="cc-card"><div class="lbl">HQ proposals sent</div><div class="val" data-draw="sa-hq-props" data-source="hq_summary" data-field="proposals_sent" data-row="0">—</div></div>
+        <div class="cc-card"><div class="lbl">HQ lost</div><div class="val" data-draw="sa-hq-lost" data-source="hq_summary" data-field="lost" data-row="0">—</div></div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-panel" id="hq-campaigns"><h2>HQ campaigns</h2><p class="note">Leads per campaign in Aurelium Motion HQ, split by whether anyone has touched them yet.</p><div class="cc-chart" data-draw="campaigns-chart" data-source="hq_campaigns"></div></div>
+        <div class="cc-panel" id="hq-activity"><h2>HQ activity, last 14 days</h2><p class="note">Logged activities per day in HQ. Outbound (calls, emails, texts, meetings) in the darker bar.</p><div class="cc-chart" data-draw="activity-chart" data-source="hq_activity"></div></div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-panel" id="outreach-metrics"><h2>Cold-email system</h2><p class="note">Where the agent team's outbound machine stands against its targets.</p>
+          <div class="cc-tablewrap"><table data-source="cc_outreach" data-row-key="metric"><thead><tr><th data-field="metric">Metric</th><th class="num" data-field="value">Now</th><th class="num" data-field="target">Target</th><th data-field="note">Note</th></tr></thead><tbody data-draw="outreach-body"></tbody></table></div>
+        </div>
+        <div class="cc-panel" id="hq-industries"><h2>HQ leads by industry</h2><div class="cc-tablewrap"><table data-source="hq_industries" data-row-key="industry"><thead><tr><th data-field="industry">Industry</th><th class="num" data-field="leads">Leads</th></tr></thead><tbody data-draw="industries-body"></tbody></table></div></div>
+      </div>
+      <div class="cc-panel" id="sales-agents"><h2>Sales agents</h2><div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="status">Status</th><th data-field="latest">Latest output</th><th data-field="file">File</th></tr></thead><tbody data-draw="agents-sales"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <!-- ================= MARKETING ================= -->
+  <section id="marketing" data-view="marketing" hidden aria-labelledby="tab-marketing">
+    <div class="cc">
+      <div class="cc-grid">
+        <div class="cc-card"><div class="lbl">Posts planned this week</div><div class="val" data-draw="mk-planned" data-source="content_totals">—</div></div>
+        <div class="cc-card"><div class="lbl">Staged for approval</div><div class="val" data-draw="mk-staged" data-source="content_totals">—</div></div>
+        <div class="cc-card"><div class="lbl">Published this week</div><div class="val" data-draw="mk-published" data-source="content_totals">—</div></div>
+        <div class="cc-card"><div class="lbl">Sending cap today</div><div class="val" data-draw="mk-cap" data-source="cc_summary" data-field="sending_cap_today" data-row="0">—</div><div class="sub">per mailbox, warm-up schedule</div></div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-panel" id="content-plan"><h2>Content by channel</h2><p class="note">Weekly target: 3 Reels, 2 carousels, 2 LinkedIn posts, Threads reposts. Everything is staged as Buffer drafts until Juan approves.</p>
+          <div class="cc-tablewrap"><table data-source="cc_content" data-row-key="channel"><thead><tr><th data-field="channel">Channel</th><th class="num" data-field="planned_week">Planned</th><th class="num" data-field="staged">Staged</th><th class="num" data-field="published_week">Published</th><th data-field="note">Note</th></tr></thead><tbody data-draw="content-body"></tbody></table></div>
+        </div>
+        <div class="cc-panel" id="deliverability"><h2>Email deliverability</h2><p class="note">Secondary domains, Workspace mailboxes and Instantly: plan approved by Juan on November 13, not yet purchased. Warm-up starts the day DNS verifies; first real sends on day 8.</p>
+          <dl class="cc-kv">
+            <dt>Primary domain for cold email</dt><dd>Never. aureliummotion.com stays clean.</dd>
+            <dt>Caps</dt><dd>Days 1–7: 0. Days 8–14: 10. Week 3: 20. Week 4: 30. Week 5+: 50 per mailbox per day.</dd>
+            <dt>Pause rules</dt><dd>Bounce over 3% or complaints over 0.1% in a day pauses the mailbox.</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="cc-panel" id="marketing-agents"><h2>Marketing agents</h2><div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="status">Status</th><th data-field="latest">Latest output</th><th data-field="file">File</th></tr></thead><tbody data-draw="agents-marketing"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <!-- ================= PAID MEDIA ================= -->
+  <section id="paid" data-view="paid" hidden aria-labelledby="tab-paid">
+    <div class="cc">
+      <div class="cc-panel" id="paid-readiness"><h2>Paid media: not yet, by design</h2>
+        <p class="note">Spend starts only when every item below is true. Until then the Paid Media Strategist's answer is "not yet" with this checklist.</p>
+        <dl class="cc-kv">
+          <dt>Landing page with demo number and booking link</dt><dd>Not built</dd>
+          <dt>Call, form and booking conversions tracked</dt><dd>Not built</dd>
+          <dt>At least 5 demos run from cold email</dt><dd><span data-draw="pd-demos" data-source="cc_summary" data-field="demos_booked" data-row="0">—</span> of 5</dd>
+          <dt>Monthly budget line approved by Finance</dt><dd>Not set</dd>
+          <dt>First test when ready</dt><dd>Google Search, $15–25/day, exact and phrase match, Philly metro, 4 weeks, read on cost per booked demo</dd>
+        </dl>
+      </div>
+      <div class="cc-panel" id="paid-agents"><h2>Paid media agent</h2><div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="status">Status</th><th data-field="latest">Latest output</th></tr></thead><tbody data-draw="agents-paid"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <!-- ================= DELIVERY ================= -->
+  <section id="delivery" data-view="delivery" hidden aria-labelledby="tab-delivery">
+    <div class="cc">
+      <div class="cc-grid">
+        <div class="cc-card"><div class="lbl">Board items</div><div class="val" data-draw="dl-total" data-source="delivery_counts">—</div></div>
+        <div class="cc-card bad"><div class="lbl">Red</div><div class="val" data-draw="dl-red" data-source="delivery_counts">—</div></div>
+        <div class="cc-card warn"><div class="lbl">Yellow</div><div class="val" data-draw="dl-yellow" data-source="delivery_counts">—</div></div>
+        <div class="cc-card ok"><div class="lbl">Green</div><div class="val" data-draw="dl-green" data-source="delivery_counts">—</div></div>
+        <div class="cc-card"><div class="lbl">Clients in deployment</div><div class="val" data-draw="dl-clients" data-source="cc_summary" data-field="clients_live" data-row="0">—</div><div class="sub">5-business-day go-live promise</div></div>
+      </div>
+      <div class="cc-panel" id="board"><h2>Delivery board</h2><p class="note">Every active item with owner, due date and status. Red blocks revenue, yellow waits on someone, gray is queued.</p>
+        <div class="cc-tablewrap"><table data-source="cc_delivery" data-row-key="item"><thead><tr><th data-field="item">Item</th><th data-field="owner">Owner</th><th data-field="due">Due</th><th data-field="status">Status</th><th data-field="note">Note</th></tr></thead><tbody data-draw="delivery-body"></tbody></table></div>
+      </div>
+      <div class="cc-panel" id="delivery-agents"><h2>Delivery agents</h2><div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="status">Status</th><th data-field="latest">Latest output</th><th data-field="file">File</th></tr></thead><tbody data-draw="agents-delivery"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <!-- ================= CLIENT SUCCESS ================= -->
+  <section id="clients" data-view="clients" hidden aria-labelledby="tab-clients">
+    <div class="cc">
+      <div class="cc-grid">
+        <div class="cc-card"><div class="lbl">Clients live</div><div class="val" data-draw="cs-live" data-source="cc_summary" data-field="clients_live" data-row="0">—</div></div>
+        <div class="cc-card"><div class="lbl">MRR</div><div class="val" data-draw="cs-mrr" data-source="cc_summary" data-field="mrr" data-row="0">—</div><div class="sub">US dollars per month</div></div>
+        <div class="cc-card"><div class="lbl">HQ won deals</div><div class="val" data-draw="cs-won" data-source="hq_summary" data-field="won" data-row="0">—</div></div>
+        <div class="cc-card"><div class="lbl">HQ appointments</div><div class="val" data-draw="cs-appts" data-source="hq_summary" data-field="appointments" data-row="0">—</div></div>
+      </div>
+      <div class="cc-panel" id="cs-plan"><h2>What Client Success does once a client is live</h2>
+        <dl class="cc-kv">
+          <dt>Days 1–5</dt><dd>Review the first 20 calls with Juan; fixes shipped as v1.1 within 48 hours</dd>
+          <dt>Day 7</dt><dd>Check-in email, staged for Juan</dd>
+          <dt>Day 30</dt><dd>First one-page monthly report: calls answered, after-hours calls, leads captured, bookings, top questions</dd>
+          <dt>Churn watch</dt><dd>Call volume down 30%, unopened reports, "pause" questions, flagged same day</dd>
+        </dl>
+      </div>
+      <div class="cc-panel" id="cs-agents"><h2>Client success agent</h2><div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="status">Status</th><th data-field="latest">Latest output</th></tr></thead><tbody data-draw="agents-clients"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <!-- ================= FINANCE ================= -->
+  <section id="finance" data-view="finance" hidden aria-labelledby="tab-finance">
+    <div class="cc">
+      <div class="cc-grid">
+        <div class="cc-card"><div class="lbl">MRR</div><div class="val" data-draw="fi-mrr" data-source="cc_summary" data-field="mrr" data-row="0">—</div><div class="sub">US dollars</div></div>
+        <div class="cc-card"><div class="lbl">Fixed tooling per month</div><div class="val" data-draw="fi-fixed" data-source="cc_summary" data-field="fixed_costs_month" data-row="0">—</div><div class="sub">US dollars, estimate</div></div>
+        <div class="cc-card"><div class="lbl">Monthly costs if approved spend lands</div><div class="val" data-draw="fi-run" data-source="monthly_costs">—</div><div class="sub">US dollars: fixed tooling plus sending infrastructure</div></div>
+        <div class="cc-card"><div class="lbl">HQ pipeline value</div><div class="val" data-draw="fi-pipe" data-source="hq_pipeline_value">—</div><div class="sub">US dollars on open HQ deals with a value entered</div></div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-panel" id="margins"><h2>Modeled gross margin by tier</h2><p class="note">Pricing is a DRAFT by Juan's decision and is never quoted. Margins assume the draft prices and modeled AI, telephony and SMS costs. Target 70%; nothing under 60% without Juan's explicit call.</p><div class="cc-chart" data-draw="margin-chart" data-source="cc_finance"></div></div>
+        <div class="cc-panel" id="ledger"><h2>Money lines</h2><div class="cc-tablewrap"><table data-source="cc_finance" data-row-key="item"><thead><tr><th data-field="item">Line</th><th class="num" data-field="amount">Amount</th><th data-field="kind">Kind</th><th data-field="note">Note</th></tr></thead><tbody data-draw="finance-body"></tbody></table></div></div>
+      </div>
+      <div class="cc-panel" id="finance-agents"><h2>Finance agent</h2><div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="status">Status</th><th data-field="latest">Latest output</th><th data-field="file">File</th></tr></thead><tbody data-draw="agents-finance"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <!-- ================= SECURITY ================= -->
+  <section id="security" data-view="security" hidden aria-labelledby="tab-security">
+    <div class="cc">
+      <div class="cc-grid">
+        <div class="cc-card"><div class="lbl">Verdict</div><div class="val sm" data-draw="se-verdict" data-source="cc_summary" data-field="security_verdict" data-row="0">—</div><div class="sub">audit of November 13</div></div>
+        <div class="cc-card bad"><div class="lbl">Critical open</div><div class="val" data-draw="se-crit" data-source="sev_counts">—</div></div>
+        <div class="cc-card warn"><div class="lbl">High open</div><div class="val" data-draw="se-high" data-source="sev_counts">—</div></div>
+        <div class="cc-card"><div class="lbl">Medium open</div><div class="val" data-draw="se-med" data-source="sev_counts">—</div></div>
+        <div class="cc-card ok"><div class="lbl">Fixed or resolved</div><div class="val" data-draw="se-fixed" data-source="sev_counts">—</div></div>
+        <div class="cc-card"><div class="lbl">Next audit</div><div class="val sm" data-draw="se-next" data-source="cc_summary" data-field="next_audit" data-row="0">—</div><div class="sub">weekly during launch</div></div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-panel" id="sev-chart-panel"><h2>Findings by severity and state</h2><div class="cc-chart" data-draw="sev-chart" data-source="cc_findings"></div></div>
+        <div class="cc-panel" id="gate"><h2>The approval gate</h2><p class="note">Five action classes need the Security Reviewer's sign-off and Juan's per-instance approval. Agents draft and stage; Juan clicks send.</p>
+          <dl class="cc-kv"><dt>Sends email</dt><dd>Compliance + Security</dd><dt>Spends money</dt><dd>Finance + Security</dd><dt>Publishes</dt><dd>Security</dd><dt>Deploys</dt><dd>Web &amp; App + Security</dd><dt>Touches client data</dt><dd>Data Protection + Security</dd></dl>
+        </div>
+      </div>
+      <div class="cc-panel" id="findings"><h2>Findings</h2>
+        <div class="cc-tablewrap"><table data-source="cc_findings" data-row-key="id"><thead><tr><th data-field="id">#</th><th data-field="domain">Domain</th><th data-field="finding">Finding</th><th data-field="severity">Severity</th><th data-field="owner">Owner</th><th data-field="due">Due</th><th data-field="status">Status</th></tr></thead><tbody data-draw="findings-body"></tbody></table></div>
+      </div>
+      <div class="cc-panel" id="security-agents"><h2>Security team</h2><div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="status">Status</th><th data-field="latest">Latest output</th><th data-field="file">File</th></tr></thead><tbody data-draw="agents-security"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <footer class="cc-foot" id="foot">
+    <details><summary>How this dashboard is fed</summary>
+      <p>The agent team keeps one state file in the repo. The Chief of Staff updates it after every run, the sync script merges in aggregate numbers from Aurelium Motion HQ (stage counts, campaigns, activity; never names, phones or emails), and the result is uploaded here as the attached file every source on this page reads. Open Sources beside the page to see any number's row.</p>
+    </details>
+  </footer>
+</div>
+
+<script>
+/* ---- loaders: every source reads one key of the attached command-center.json ---- */
+dash.loader('cc_summary', {description: 'Rows under "summary" in command-center.json', fn: ({answer}) => { const rows = answer && answer.summary; if (!Array.isArray(rows)) throw new Error('command-center.json has no "summary" list'); return rows; }});
+dash.loader('cc_departments', {description: 'Rows under "departments" in command-center.json', fn: ({answer}) => { const rows = answer && answer.departments; if (!Array.isArray(rows)) throw new Error('command-center.json has no "departments" list'); return rows; }});
+dash.loader('cc_agents', {description: 'Rows under "agents" in command-center.json', fn: ({answer}) => { const rows = answer && answer.agents; if (!Array.isArray(rows)) throw new Error('command-center.json has no "agents" list'); return rows; }});
+dash.loader('cc_approvals', {description: 'Rows under "approvals" in command-center.json', fn: ({answer}) => { const rows = answer && answer.approvals; if (!Array.isArray(rows)) throw new Error('command-center.json has no "approvals" list'); return rows; }});
+dash.loader('cc_blockers', {description: 'Rows under "blockers" in command-center.json', fn: ({answer}) => { const rows = answer && answer.blockers; if (!Array.isArray(rows)) throw new Error('command-center.json has no "blockers" list'); return rows; }});
+dash.loader('cc_findings', {description: 'Rows under "findings" in command-center.json', fn: ({answer}) => { const rows = answer && answer.findings; if (!Array.isArray(rows)) throw new Error('command-center.json has no "findings" list'); return rows; }});
+dash.loader('cc_delivery', {description: 'Rows under "delivery" in command-center.json', fn: ({answer}) => { const rows = answer && answer.delivery; if (!Array.isArray(rows)) throw new Error('command-center.json has no "delivery" list'); return rows; }});
+dash.loader('cc_finance', {description: 'Rows under "finance" in command-center.json', fn: ({answer}) => { const rows = answer && answer.finance; if (!Array.isArray(rows)) throw new Error('command-center.json has no "finance" list'); return rows; }});
+dash.loader('cc_content', {description: 'Rows under "content" in command-center.json', fn: ({answer}) => { const rows = answer && answer.content; if (!Array.isArray(rows)) throw new Error('command-center.json has no "content" list'); return rows; }});
+dash.loader('cc_outreach', {description: 'Rows under "outreach" in command-center.json', fn: ({answer}) => { const rows = answer && answer.outreach; if (!Array.isArray(rows)) throw new Error('command-center.json has no "outreach" list'); return rows; }});
+dash.loader('hq_summary', {description: 'Rows under "hq_summary" in command-center.json', fn: ({answer}) => { const rows = answer && answer.hq_summary; if (!Array.isArray(rows)) throw new Error('command-center.json has no "hq_summary" list'); return rows; }});
+dash.loader('hq_stages', {description: 'Rows under "hq_stages" in command-center.json', fn: ({answer}) => { const rows = answer && answer.hq_stages; if (!Array.isArray(rows)) throw new Error('command-center.json has no "hq_stages" list'); return rows; }});
+dash.loader('hq_campaigns', {description: 'Rows under "hq_campaigns" in command-center.json', fn: ({answer}) => { const rows = answer && answer.hq_campaigns; if (!Array.isArray(rows)) throw new Error('command-center.json has no "hq_campaigns" list'); return rows; }});
+dash.loader('hq_industries', {description: 'Rows under "hq_industries" in command-center.json', fn: ({answer}) => { const rows = answer && answer.hq_industries; if (!Array.isArray(rows)) throw new Error('command-center.json has no "hq_industries" list'); return rows; }});
+dash.loader('hq_activity', {description: 'Rows under "hq_activity" in command-center.json', fn: ({answer}) => { const rows = answer && answer.hq_activity; if (!Array.isArray(rows)) throw new Error('command-center.json has no "hq_activity" list'); return rows; }});
+</script>
+
+<script>
+/* ---- derived values (calcs) ---- */
+dash.calc('agents_ran', {inputs: ['cc_agents'], title: 'Agents that ran', description: 'Agents whose status is "ran"', fn: (agents) => agents.filter((a) => a.status === 'ran').length});
+dash.calc('agents_blocked', {inputs: ['cc_agents'], title: 'Agents blocked or waiting', description: 'Agents whose status is "blocked" or "waiting"', fn: (agents) => agents.filter((a) => a.status === 'blocked' || a.status === 'waiting').length});
+dash.calc('agents_idle', {inputs: ['cc_agents'], title: 'Agents idle', description: 'Agents whose status is "idle"', fn: (agents) => agents.filter((a) => a.status === 'idle').length});
+dash.calc('content_totals', {inputs: ['cc_content'], title: 'Content totals', description: 'Planned, staged and published posts summed across channels', fn: (content) => [{planned: content.reduce((s, r) => s + Number(r.planned_week || 0), 0), staged: content.reduce((s, r) => s + Number(r.staged || 0), 0), published: content.reduce((s, r) => s + Number(r.published_week || 0), 0)}]});
+dash.calc('delivery_counts', {inputs: ['cc_delivery'], title: 'Delivery board counts', description: 'Items by status color', fn: (board) => [{total: board.length, red: board.filter((r) => r.status === 'red').length, yellow: board.filter((r) => r.status === 'yellow').length, green: board.filter((r) => r.status === 'green').length, gray: board.filter((r) => r.status === 'gray').length}]});
+dash.calc('sev_counts', {inputs: ['cc_findings'], title: 'Findings by severity', description: 'Open findings per severity, and how many are fixed or resolved', fn: (findings) => {
+  const open = findings.filter((f) => f.status === 'open');
+  return [{critical: open.filter((f) => f.severity === 'Critical').length, high: open.filter((f) => f.severity === 'High').length, medium: open.filter((f) => f.severity === 'Medium').length, low: open.filter((f) => f.severity === 'Low').length, fixed: findings.length - open.length}];
+}});
+dash.calc('monthly_costs', {inputs: ['cc_finance'], title: 'Monthly costs', description: 'Sum of finance lines of kind "cost" whose item says "per month"', fn: (fin) => fin.filter((r) => r.kind === 'cost' && /per month/i.test(r.item)).reduce((s, r) => s + Number(r.amount || 0), 0)});
+dash.calc('hq_pipeline_value', {inputs: ['hq_stages'], title: 'HQ open pipeline value', description: 'Sum of deal value on HQ stages other than Won and Lost', fn: (stages) => stages.filter((s) => s.stage !== 'Won' && s.stage !== 'Lost').reduce((sum, s) => sum + Number(s.value || 0), 0)});
+
+/* ---- helpers ---- */
+const CC = window.CC = {};
+CC.fmt = d3.format(',');
+CC.money = (n) => '$' + d3.format(',')(Math.round(Number(n) || 0));
+CC.pillClass = (s) => {
+  const v = String(s || '').toLowerCase();
+  if (v === 'green' || v === 'ran' || v === 'ok' || v.startsWith('fixed') || v.startsWith('resolved') || v === 'low') return 'green';
+  if (v === 'yellow' || v === 'waiting' || v === 'medium' || v.startsWith('approved')) return 'yellow';
+  if (v === 'red' || v === 'blocked' || v === 'high' || v === 'critical' || v.startsWith('blocked')) return 'red';
+  return 'gray';
+};
+CC.pill = (text) => { const s = document.createElement('span'); s.className = 'pill ' + CC.pillClass(text); s.textContent = text == null || text === '' ? '—' : String(text); return s; };
+CC.td = (tr, text, cls) => { const td = document.createElement('td'); if (cls) td.className = cls; td.textContent = text == null || text === '' ? '—' : String(text); tr.appendChild(td); return td; };
+CC.tdPill = (tr, text) => { const td = document.createElement('td'); td.appendChild(CC.pill(text)); tr.appendChild(td); return td; };
+CC.rows = (el, id, build, filter) => {
+  const d = dash.data(id);
+  el.replaceChildren();
+  if (d.status !== 'ok') return;
+  let rows = d.data;
+  if (filter) rows = rows.filter(filter);
+  rows.forEach((r, i) => { const tr = document.createElement('tr'); build(tr, r, i); el.appendChild(tr); });
+};
+CC.value = (el, id, field, fmt) => {
+  const d = dash.data(id);
+  if (d.status !== 'ok' || !d.data || !d.data.length) { el.textContent = '—'; return; }
+  const v = d.data[0][field];
+  el.textContent = v == null || v === '' ? '—' : (fmt ? fmt(v) : String(v));
+};
+CC.calcValue = (el, id, field, fmt) => {
+  const d = dash.data(id);
+  if (d.status !== 'ok' || d.data == null) { el.textContent = '—'; return; }
+  const v = Array.isArray(d.data) ? (d.data[0] ? d.data[0][field] : null) : d.data;
+  el.textContent = v == null ? '—' : (fmt ? fmt(v) : String(v));
+};
+CC.tip = (box) => {
+  let t = box.querySelector('.tip');
+  if (!t) { t = document.createElement('div'); t.className = 'tip'; t.hidden = true; box.appendChild(t); }
+  return {
+    show(ev, text) { t.textContent = text; t.hidden = false; const r = box.getBoundingClientRect(); let x = ev.clientX - r.left + 10; let y = ev.clientY - r.top - 28; if (x + t.offsetWidth > r.width) x = r.width - t.offsetWidth - 4; if (y < 0) y = 4; t.style.left = x + 'px'; t.style.top = y + 'px'; },
+    hide() { t.hidden = true; }
+  };
+};
+CC.svg = (box, h) => {
+  let svg = box.querySelector('svg');
+  const w = Math.max(280, box.clientWidth || 320);
+  if (!svg) { svg = d3.select(box).append('svg').node(); }
+  d3.select(svg).attr('viewBox', '0 0 ' + w + ' ' + h).attr('role', 'img').selectAll('*').remove();
+  return {svg: d3.select(svg), w, h};
+};
+CC.horizontalBars = (el, id, opts) => {
+  const d = dash.data(id);
+  if (d.status !== 'ok') { el.replaceChildren(); el.textContent = d.status === 'error' ? 'Failed to load' : '—'; return; }
+  el.textContent = '';
+  const rows = d.data.filter(opts.filter || (() => true));
+  const rowH = 26, left = 150, right = 60, top = 6;
+  const h = top + rows.length * rowH + 8;
+  const {svg, w} = CC.svg(el, h);
+  svg.attr('aria-label', opts.label + ': ' + rows.map((r) => r[opts.name] + ' ' + r[opts.value]).join(', '));
+  const max = d3.max(rows, (r) => Number(r[opts.value]) || 0) || 1;
+  const x = d3.scaleLinear().domain([0, max]).range([0, Math.max(40, w - left - right)]);
+  const tip = CC.tip(el);
+  const g = svg.append('g').attr('transform', 'translate(' + left + ',' + top + ')');
+  const bars = g.selectAll('g').data(rows).join('g').attr('transform', (r, i) => 'translate(0,' + i * rowH + ')');
+  bars.append('text').attr('x', -8).attr('y', rowH / 2).attr('dy', '0.35em').attr('text-anchor', 'end').style('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text((r) => { const s = String(r[opts.name]); return s.length > 22 ? s.slice(0, 21) + '…' : s; });
+  if (opts.stack) {
+    bars.each(function (r) {
+      let acc = 0;
+      opts.stack.forEach((key, k) => {
+        const v = Number(r[key]) || 0;
+        d3.select(this).append('rect').attr('x', x(acc)).attr('y', 5).attr('height', rowH - 10).attr('width', Math.max(0, x(acc + v) - x(acc))).attr('rx', 2).style('fill', dash.colors[k % dash.colors.length])
+          .on('pointermove', (ev) => tip.show(ev, r[opts.name] + ': ' + v + ' ' + (opts.stackLabels ? opts.stackLabels[k] : key))).on('pointerleave', tip.hide);
+        acc += v;
+      });
+    });
+  } else {
+    bars.append('rect').attr('x', 0).attr('y', 5).attr('height', rowH - 10).attr('width', (r) => x(Number(r[opts.value]) || 0)).attr('rx', 2).style('fill', (r) => opts.color ? opts.color(r) : dash.colors[0])
+      .on('pointermove', (ev, r) => tip.show(ev, r[opts.name] + ': ' + (opts.format ? opts.format(r[opts.value]) : r[opts.value]))).on('pointerleave', tip.hide);
+  }
+  bars.append('text').attr('x', (r) => x(opts.stack ? opts.stack.reduce((s, k) => s + (Number(r[k]) || 0), 0) : Number(r[opts.value]) || 0) + 6).attr('y', rowH / 2).attr('dy', '0.35em').style('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').style('font-variant-numeric', 'tabular-nums')
+    .text((r) => opts.format ? opts.format(opts.stack ? opts.stack.reduce((s, k) => s + (Number(r[k]) || 0), 0) : r[opts.value]) : (opts.stack ? opts.stack.reduce((s, k) => s + (Number(r[k]) || 0), 0) : r[opts.value]));
+  if (opts.stackLabels) {
+    const lg = svg.append('g').attr('transform', 'translate(' + left + ',' + (h - 2) + ')');
+    let off = 0;
+    opts.stackLabels.forEach((lab, k) => { lg.append('rect').attr('x', off).attr('y', -9).attr('width', 9).attr('height', 9).attr('rx', 2).style('fill', dash.colors[k % dash.colors.length]); lg.append('text').attr('x', off + 13).attr('y', -1).style('fill', 'var(--cds-text-secondary)').style('font-size', 'var(--cds-font-size-caption)').text(lab); off += 13 + lab.length * 6.5 + 14; });
+    svg.attr('viewBox', '0 0 ' + w + ' ' + (h + 14));
+  }
+};
+</script>
+
+<script>
+/* ---- tabs ---- */
+(() => {
+  const tabs = Array.from(document.querySelectorAll('#tabs .cc-tab'));
+  const sections = Array.from(document.querySelectorAll('section[data-view]'));
+  const show = (view, push) => {
+    if (!sections.some((s) => s.dataset.view === view)) view = 'overview';
+    sections.forEach((s) => { s.hidden = s.dataset.view !== view; });
+    tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.view === view)));
+    if (push !== false) dash.setLink(view);
+  };
+  window.CC.show = show;
+  tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.view)));
+  const start = (location.hash || '').slice(1);
+  show(start || 'overview', false);
+  window.addEventListener('hashchange', () => show((location.hash || '').slice(1), false));
+})();
+</script>
+
+<script>
+/* ---- summary strip and KPI cards ---- */
+['s-demos', 'k-demos', 'sa-demos', 'pd-demos'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'demos_booked')));
+['s-goal', 'k-goal'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'demos_goal')));
+['s-approvals', 'k-approvals'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'approvals_waiting')));
+['s-outreach', 'sa-status'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'outreach_status')));
+['s-sec', 'k-sec', 'se-verdict'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'security_verdict')));
+dash.draw('s-synced', (el) => CC.value(el, 'cc_summary', 'week_of'));
+dash.draw('k-blockers', (el) => CC.value(el, 'cc_summary', 'blockers_open'));
+['k-clients', 'dl-clients', 'cs-live'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'clients_live')));
+dash.draw('k-mrr', (el) => CC.value(el, 'cc_summary', 'mrr', CC.fmt));
+['cs-mrr', 'fi-mrr'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'mrr', CC.money)));
+dash.draw('fi-fixed', (el) => CC.value(el, 'cc_summary', 'fixed_costs_month', CC.money));
+dash.draw('k-high', (el) => CC.value(el, 'cc_summary', 'findings_high'));
+dash.draw('k-crit', (el) => CC.value(el, 'cc_summary', 'findings_critical'));
+['k-next', 'se-next'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'next_audit')));
+dash.draw('or-agents', (el) => CC.value(el, 'cc_summary', 'agents_total'));
+['o-cap', 'mk-cap'].forEach((n) => dash.draw(n, (el) => CC.value(el, 'cc_summary', 'sending_cap_today')));
+dash.draw('o-emails', (el) => CC.value(el, 'cc_summary', 'emails_sent'));
+dash.draw('o-replies', (el) => CC.value(el, 'cc_summary', 'replies'));
+dash.draw('o-props', (el) => CC.value(el, 'cc_summary', 'proposals_out'));
+dash.draw('k-hq-open', (el) => CC.value(el, 'hq_summary', 'open_leads', CC.fmt));
+dash.draw('sa-hq-total', (el) => CC.value(el, 'hq_summary', 'total_leads', CC.fmt));
+dash.draw('sa-hq-calls', (el) => CC.value(el, 'hq_summary', 'call_booked'));
+dash.draw('sa-hq-props', (el) => CC.value(el, 'hq_summary', 'proposals_sent'));
+dash.draw('sa-hq-lost', (el) => CC.value(el, 'hq_summary', 'lost'));
+dash.draw('cs-won', (el) => CC.value(el, 'hq_summary', 'won'));
+dash.draw('cs-appts', (el) => CC.value(el, 'hq_summary', 'appointments'));
+
+/* card color by value: class changes outside drawings, allowed */
+dash.onData(() => {
+  const d = dash.data('cc_summary');
+  const q = (id) => document.getElementById(id);
+  const set = (el, cls) => { if (!el) return; el.classList.remove('bad', 'ok', 'warn'); if (cls) el.classList.add(cls); };
+  if (d.status !== 'ok' || !d.data[0]) { ['k-demos-card', 'k-approvals-card', 'k-blockers-card', 'k-sec-card'].forEach((id) => set(q(id), null)); return; }
+  const r = d.data[0];
+  set(q('k-demos-card'), Number(r.demos_booked) >= Number(r.demos_goal) ? 'ok' : Number(r.demos_booked) > 0 ? 'warn' : 'bad');
+  set(q('k-approvals-card'), Number(r.approvals_waiting) > 0 ? 'warn' : null);
+  set(q('k-blockers-card'), Number(r.blockers_open) > 0 ? 'bad' : null);
+  const v = String(r.security_verdict || '');
+  set(q('k-sec-card'), v === 'CLEAR' ? 'ok' : v.startsWith('BLOCKED') ? 'bad' : 'warn');
+});
+
+/* calcs into cards */
+dash.draw('or-ran', (el) => CC.calcValue(el, 'agents_ran'));
+dash.draw('or-blocked', (el) => CC.calcValue(el, 'agents_blocked'));
+dash.draw('or-idle', (el) => CC.calcValue(el, 'agents_idle'));
+dash.draw('mk-planned', (el) => CC.calcValue(el, 'content_totals', 'planned'));
+dash.draw('mk-staged', (el) => CC.calcValue(el, 'content_totals', 'staged'));
+dash.draw('mk-published', (el) => CC.calcValue(el, 'content_totals', 'published'));
+dash.draw('dl-total', (el) => CC.calcValue(el, 'delivery_counts', 'total'));
+dash.draw('dl-red', (el) => CC.calcValue(el, 'delivery_counts', 'red'));
+dash.draw('dl-yellow', (el) => CC.calcValue(el, 'delivery_counts', 'yellow'));
+dash.draw('dl-green', (el) => CC.calcValue(el, 'delivery_counts', 'green'));
+dash.draw('se-crit', (el) => CC.calcValue(el, 'sev_counts', 'critical'));
+dash.draw('se-high', (el) => CC.calcValue(el, 'sev_counts', 'high'));
+dash.draw('se-med', (el) => CC.calcValue(el, 'sev_counts', 'medium'));
+dash.draw('se-fixed', (el) => CC.calcValue(el, 'sev_counts', 'fixed'));
+dash.draw('fi-run', (el) => CC.calcValue(el, 'monthly_costs', null, CC.money));
+dash.draw('fi-pipe', (el) => CC.calcValue(el, 'hq_pipeline_value', null, CC.money));
+
+/* demo meter */
+dash.draw('demo-meter', (el) => { const d = dash.data('cc_summary'); if (d.status !== 'ok' || !d.data[0]) { el.style.width = '0'; return; } const r = d.data[0]; const pct = Math.min(100, Math.round(100 * Number(r.demos_booked || 0) / Math.max(1, Number(r.demos_goal || 5)))); el.style.width = pct + '%'; el.style.background = pct >= 100 ? 'var(--color-ok)' : 'var(--color-fg)'; });
+
+/* department dots and cards */
+const DEPT_VIEW = {Orchestration: 'orchestration', Sales: 'sales', Marketing: 'marketing', 'Paid media': 'paid', Delivery: 'delivery', 'Client success': 'clients', Finance: 'finance', Security: 'security'};
+Object.entries(DEPT_VIEW).forEach(([dept, view]) => dash.draw('dot-' + view, (el) => { const d = dash.data('cc_departments'); el.classList.remove('green', 'yellow', 'red'); if (d.status !== 'ok') return; const row = d.data.find((r) => r.dept === dept); if (row && row.status !== 'gray') el.classList.add(row.status); }));
+dash.draw('dept-cards', (el) => {
+  const d = dash.data('cc_departments');
+  el.replaceChildren();
+  if (d.status !== 'ok') return;
+  d.data.forEach((r) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'cc-dept'; b.setAttribute('data-where', 'dept=' + encodeURIComponent(r.dept));
+    const name = document.createElement('div'); name.className = 'name'; const dot = document.createElement('span'); dot.className = 'cc-dot ' + (r.status === 'gray' ? '' : r.status); name.appendChild(dot); name.appendChild(document.createTextNode(r.dept)); b.appendChild(name);
+    const head = document.createElement('div'); head.className = 'head'; head.textContent = r.headline; head.setAttribute('data-field', 'headline'); b.appendChild(head);
+    const meta = document.createElement('div'); meta.className = 'meta';
+    const a = document.createElement('span'); a.textContent = r.agents + (Number(r.agents) === 1 ? ' agent' : ' agents'); meta.appendChild(a);
+    const o = document.createElement('span'); o.textContent = r.open_items + ' open'; meta.appendChild(o);
+    const w = document.createElement('span'); w.textContent = r.waiting_on_juan + ' on Juan'; meta.appendChild(w);
+    b.appendChild(meta);
+    b.addEventListener('click', () => CC.show(r.view || DEPT_VIEW[r.dept] || 'overview'));
+    el.appendChild(b);
+  });
+});
+</script>
+
+<script>
+/* ---- tables ---- */
+const agentRow = (full) => (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.agent)); CC.td(tr, r.agent); if (full) CC.td(tr, r.dept); CC.tdPill(tr, r.status); if (full) CC.td(tr, r.last_run); CC.td(tr, r.latest, 'wrap'); if (tr.children.length < (full ? 6 : 4) && full !== 'short') CC.td(tr, r.file); };
+dash.draw('agents-body', (el) => CC.rows(el, 'cc_agents', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.agent)); CC.td(tr, r.agent); CC.td(tr, r.dept); CC.tdPill(tr, r.status); CC.td(tr, r.last_run); CC.td(tr, r.latest, 'wrap'); CC.td(tr, r.file); }));
+const deptTable = (name, dept, withFile) => dash.draw(name, (el) => CC.rows(el, 'cc_agents', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.agent)); CC.td(tr, r.agent); CC.tdPill(tr, r.status); CC.td(tr, r.latest, 'wrap'); if (withFile) CC.td(tr, r.file); }, (r) => r.dept === dept));
+deptTable('agents-sales', 'Sales', true); deptTable('agents-marketing', 'Marketing', true); deptTable('agents-paid', 'Paid media', false); deptTable('agents-delivery', 'Delivery', true); deptTable('agents-clients', 'Client success', false); deptTable('agents-finance', 'Finance', true); deptTable('agents-security', 'Security', true);
+
+dash.draw('approvals-body', (el) => CC.rows(el, 'cc_approvals', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.item)); CC.td(tr, r.item, 'wrap'); CC.tdPill(tr, r.class); CC.td(tr, r.agent); CC.td(tr, r.amount); CC.td(tr, r.status, 'wrap'); }));
+dash.draw('blockers-body', (el) => CC.rows(el, 'cc_blockers', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.item)); CC.td(tr, r.item, 'wrap'); CC.td(tr, r.blocks, 'wrap'); CC.td(tr, r.owner); CC.td(tr, r.due); CC.td(tr, r.status, 'wrap'); }));
+dash.draw('outreach-body', (el) => CC.rows(el, 'cc_outreach', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.metric)); CC.td(tr, r.metric); CC.td(tr, r.value, 'num'); CC.td(tr, r.target, 'num'); CC.td(tr, r.note, 'wrap'); }));
+dash.draw('industries-body', (el) => CC.rows(el, 'hq_industries', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.industry)); CC.td(tr, r.industry); CC.td(tr, CC.fmt(Number(r.leads) || 0), 'num'); }));
+dash.draw('content-body', (el) => CC.rows(el, 'cc_content', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.channel)); CC.td(tr, r.channel); CC.td(tr, r.planned_week, 'num'); CC.td(tr, r.staged, 'num'); CC.td(tr, r.published_week, 'num'); CC.td(tr, r.note, 'wrap'); }));
+dash.draw('delivery-body', (el) => CC.rows(el, 'cc_delivery', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.item)); CC.td(tr, r.item, 'wrap'); CC.td(tr, r.owner); CC.td(tr, r.due); CC.tdPill(tr, r.status); CC.td(tr, r.note, 'wrap'); }));
+dash.draw('finance-body', (el) => CC.rows(el, 'cc_finance', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.item)); CC.td(tr, r.item, 'wrap'); CC.td(tr, r.kind === 'margin_pct' ? r.amount + '%' : CC.money(r.amount), 'num'); CC.td(tr, r.kind); CC.td(tr, r.note, 'wrap'); }));
+dash.draw('findings-body', (el) => CC.rows(el, 'cc_findings', (tr, r) => { tr.setAttribute('data-key', encodeURIComponent(r.id)); CC.td(tr, r.id); CC.td(tr, r.domain); CC.td(tr, r.finding, 'wrap'); CC.tdPill(tr, r.severity); CC.td(tr, r.owner); CC.td(tr, r.due); CC.td(tr, r.status, 'wrap'); }));
+</script>
+
+<script>
+/* ---- charts ---- */
+dash.draw('hq-funnel', (el) => CC.horizontalBars(el, 'hq_stages', {label: 'HQ leads by stage', name: 'stage', value: 'leads', format: CC.fmt, color: (r) => r.stage === 'Won' ? 'var(--color-ok)' : r.stage === 'Lost' ? 'var(--cds-chart-muted)' : dash.colors[0]}));
+dash.draw('campaigns-chart', (el) => CC.horizontalBars(el, 'hq_campaigns', {label: 'HQ leads by campaign', name: 'campaign', value: 'leads', stack: ['untouched', 'in_progress', 'won', 'lost'], stackLabels: ['Untouched', 'In progress', 'Won', 'Lost'], format: CC.fmt}));
+dash.draw('margin-chart', (el) => CC.horizontalBars(el, 'cc_finance', {label: 'Modeled gross margin by tier, percent', name: 'item', value: 'amount', filter: (r) => r.kind === 'margin_pct', format: (v) => v + '%', color: (r) => Number(r.amount) >= 70 ? 'var(--color-ok)' : Number(r.amount) >= 60 ? 'var(--color-warn)' : 'var(--color-bad)'}));
+
+dash.draw('activity-chart', (el) => {
+  const d = dash.data('hq_activity');
+  if (d.status !== 'ok') { el.replaceChildren(); el.textContent = d.status === 'error' ? 'Failed to load' : '—'; return; }
+  el.textContent = '';
+  const rows = d.data;
+  const h = 220, top = 10, bottom = 28, left = 34, right = 8;
+  const {svg, w} = CC.svg(el, h);
+  svg.attr('aria-label', 'HQ activities per day, last 14 days: ' + rows.map((r) => r.day + ' ' + r.activities).join(', '));
+  const x = d3.scaleBand().domain(rows.map((r) => r.day)).range([left, w - right]).padding(0.25);
+  const max = d3.max(rows, (r) => Number(r.activities) || 0) || 1;
+  const y = d3.scaleLinear().domain([0, max]).nice().range([h - bottom, top]);
+  const tip = CC.tip(el);
+  const ticks = y.ticks(4);
+  svg.append('g').selectAll('line').data(ticks).join('line').attr('class', 'cc-grid-line').attr('x1', left).attr('x2', w - right).attr('y1', (t) => y(t)).attr('y2', (t) => y(t));
+  const ax = svg.append('g').attr('class', 'cc-axis');
+  ax.selectAll('text').data(ticks).join('text').attr('x', left - 6).attr('y', (t) => y(t)).attr('dy', '0.35em').attr('text-anchor', 'end').text((t) => t);
+  const fmtDay = d3.utcFormat('%b %-d');
+  const every = Math.ceil(rows.length / Math.max(3, Math.floor((w - left - right) / 60)));
+  svg.append('g').attr('class', 'cc-axis').selectAll('text').data(rows.filter((r, i) => i % every === 0 || i === rows.length - 1)).join('text').attr('x', (r) => x(r.day) + x.bandwidth() / 2).attr('y', h - 8).attr('text-anchor', 'middle').text((r) => fmtDay(new Date(r.day + 'T00:00:00Z')));
+  const g = svg.append('g');
+  g.selectAll('rect.all').data(rows).join('rect').attr('class', 'all').attr('x', (r) => x(r.day)).attr('width', x.bandwidth()).attr('y', (r) => y(Number(r.activities) || 0)).attr('height', (r) => y(0) - y(Number(r.activities) || 0)).attr('rx', 2).style('fill', 'var(--cds-chart-muted)')
+    .on('pointermove', (ev, r) => tip.show(ev, fmtDay(new Date(r.day + 'T00:00:00Z')) + ': ' + r.activities + ' activities, ' + r.outbound + ' outbound')).on('pointerleave', tip.hide);
+  g.selectAll('rect.out').data(rows).join('rect').attr('class', 'out').attr('x', (r) => x(r.day)).attr('width', x.bandwidth()).attr('y', (r) => y(Number(r.outbound) || 0)).attr('height', (r) => y(0) - y(Number(r.outbound) || 0)).attr('rx', 2).style('fill', dash.colors[0]).style('pointer-events', 'none');
+});
+
+dash.draw('sev-chart', (el) => {
+  const d = dash.data('cc_findings');
+  if (d.status !== 'ok') { el.replaceChildren(); el.textContent = d.status === 'error' ? 'Failed to load' : '—'; return; }
+  el.textContent = '';
+  const sev = ['Critical', 'High', 'Medium', 'Low'];
+  const rows = sev.map((s) => ({severity: s, open: d.data.filter((f) => f.severity === s && f.status === 'open').length, done: d.data.filter((f) => f.severity === s && f.status !== 'open').length}));
+  const rowH = 28, left = 70, right = 40, top = 6, h = top + rows.length * rowH + 20;
+  const {svg, w} = CC.svg(el, h);
+  svg.attr('aria-label', 'Findings by severity: ' + rows.map((r) => r.severity + ' ' + r.open + ' open, ' + r.done + ' fixed').join('; '));
+  const max = d3.max(rows, (r) => r.open + r.done) || 1;
+  const x = d3.scaleLinear().domain([0, max]).range([0, Math.max(40, w - left - right)]);
+  const tip = CC.tip(el);
+  const g = svg.append('g').attr('transform', 'translate(' + left + ',' + top + ')');
+  const bars = g.selectAll('g').data(rows).join('g').attr('transform', (r, i) => 'translate(0,' + i * rowH + ')');
+  bars.append('text').attr('x', -8).attr('y', rowH / 2).attr('dy', '0.35em').attr('text-anchor', 'end').style('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text((r) => r.severity);
+  bars.append('rect').attr('x', 0).attr('y', 5).attr('height', rowH - 10).attr('width', (r) => x(r.open)).attr('rx', 2).style('fill', (r) => r.severity === 'Critical' || r.severity === 'High' ? 'var(--color-bad)' : r.severity === 'Medium' ? 'var(--color-warn)' : dash.colors[0]).on('pointermove', (ev, r) => tip.show(ev, r.severity + ': ' + r.open + ' open')).on('pointerleave', tip.hide);
+  bars.append('rect').attr('x', (r) => x(r.open)).attr('y', 5).attr('height', rowH - 10).attr('width', (r) => x(r.done)).attr('rx', 2).style('fill', 'var(--cds-chart-muted)').on('pointermove', (ev, r) => tip.show(ev, r.severity + ': ' + r.done + ' fixed or resolved')).on('pointerleave', tip.hide);
+  bars.append('text').attr('x', (r) => x(r.open + r.done) + 6).attr('y', rowH / 2).attr('dy', '0.35em').style('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text((r) => r.open + ' open · ' + r.done + ' fixed');
+  const lg = svg.append('g').attr('transform', 'translate(' + left + ',' + (h - 4) + ')');
+  lg.append('rect').attr('x', 0).attr('y', -9).attr('width', 9).attr('height', 9).attr('rx', 2).style('fill', 'var(--color-bad)');
+  lg.append('text').attr('x', 13).attr('y', -1).style('fill', 'var(--cds-text-secondary)').style('font-size', 'var(--cds-font-size-caption)').text('Open');
+  lg.append('rect').attr('x', 60).attr('y', -9).attr('width', 9).attr('height', 9).attr('rx', 2).style('fill', 'var(--cds-chart-muted)');
+  lg.append('text').attr('x', 73).attr('y', -1).style('fill', 'var(--cds-text-secondary)').style('font-size', 'var(--cds-font-size-caption)').text('Fixed or resolved');
+});
+</script>

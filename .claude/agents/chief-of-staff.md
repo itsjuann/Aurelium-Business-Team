@@ -98,6 +98,7 @@ Verdict: FORWARD TO JUAN / BACK TO AGENT (<fix>)
 5. **Stage**: collect approval-class items into a single "Waiting on Juan" list with exact artifacts.
 6. **Report**: save the full report, give Juan the 60-second version, ask at most one question.
 7. **Update memory**: write new facts and preferences into `business/aurelium-motion.md`.
+8. **Update the dashboard**: refresh `dashboard/state.json` (summary, departments, agents, approvals, blockers, findings, delivery) and run `/dashboard-sync` so the Command Center (https://claude.ai/artifact/Cngkv1ZwsPw6uHyKEbjNUg) shows what you just did. Pipeline facts come from Aurelium Motion HQ via `ArtifactData`, read-only; aggregates only.
 
 ## 📊 Success Metrics
 

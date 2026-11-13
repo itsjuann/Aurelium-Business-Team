@@ -22,7 +22,11 @@ Built on [The Agency](https://github.com/msitarzewski/agency-agents) agent forma
 | Security | Secrets & Access Guardian · Client Data Protection Officer · Outreach Compliance Officer · Website & App Security Reviewer · **Security Reviewer (veto)** | `secrets-access-guardian.md` · `client-data-protection.md` · `outreach-compliance-officer.md` · `website-app-security-reviewer.md` · `security-reviewer.md` |
 
 ## Slash commands
-`/daily-brief` · `/outreach-batch [size] [vertical]` · `/content-week [theme]` · `/security-audit [scope]`
+`/daily-brief` · `/outreach-batch [size] [vertical]` · `/content-week [theme]` · `/security-audit [scope]` · `/dashboard-sync`
+
+## Dashboard and HQ
+- **Aurelium Motion Command Center**: https://claude.ai/artifact/Cngkv1ZwsPw6uHyKEbjNUg (Overview + a tab per department). Fed by `dashboard/state.json` + HQ aggregates through `scripts/build_dashboard_data.py`.
+- **Aurelium Motion HQ** (CRM, automations, assistant): https://claude.ai/artifact/9uffcdaut84mtgYfuon9ZG. Agents read it; writes need the client-data approval gate.
 
 ## The rule
 Anything that **sends email, spends money, publishes, deploys, or touches client data** is staged by an agent, signed off by the Security Reviewer (and the relevant specialist), and approved by Juan per instance. Agents never click send.
