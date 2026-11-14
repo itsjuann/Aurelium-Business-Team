@@ -1,5 +1,7 @@
 # Outbound playbook (v1, Nov 2026)
 
+> **Focus change 2026-11-13: HVAC only.** The ICP, signals and pricing in `business/aurelium-motion.md` now govern. The ICP and search strings below were written for the front-desk-hiring signal across verticals and are superseded until this playbook is rewritten for HVAC (5–25 trucks; signals: Local Services Ads or Google Ads, CSR or dispatcher hiring, 50+ reviews with "nobody answered", 24/7 service). Phone is the primary channel while email domains warm.
+
 Owner: Outbound Systems Strategist. Executed by Cold Outreach SDR. Read `business/aurelium-motion.md` first.
 
 ## ICP (falsifiable)

@@ -267,7 +267,7 @@
         <div class="cc-card"><div class="lbl">HQ pipeline value</div><div class="val" data-draw="fi-pipe" data-source="hq_pipeline_value">—</div><div class="sub">US dollars on open HQ deals with a value entered</div></div>
       </div>
       <div class="cc-row">
-        <div class="cc-panel" id="margins"><h2>Modeled gross margin by tier</h2><p class="note">Pricing is a DRAFT by Juan's decision and is never quoted. Margins assume the draft prices and modeled AI, telephony and SMS costs. Target 70%; nothing under 60% without Juan's explicit call.</p><div class="cc-chart" data-draw="margin-chart" data-source="cc_finance"></div></div>
+        <div class="cc-panel" id="margins"><h2>HVAC price per client</h2><p class="note">Set by Juan on November 13: $2,500 setup and $1,500 a month. Cash at signing is setup plus the first month. What the $6,500 package covers is still to confirm.</p><div class="cc-chart" data-draw="margin-chart" data-source="cc_finance"></div></div>
         <div class="cc-panel" id="ledger"><h2>Money lines</h2><div class="cc-tablewrap"><table data-source="cc_finance" data-row-key="item"><thead><tr><th data-field="item">Line</th><th class="num" data-field="amount">Amount</th><th data-field="kind">Kind</th><th data-field="note">Note</th></tr></thead><tbody data-draw="finance-body"></tbody></table></div></div>
       </div>
       <div class="cc-panel" id="finance-agents"><h2>Finance agent</h2><div class="cc-tablewrap"><table data-source="cc_agents" data-row-key="agent"><thead><tr><th data-field="agent">Agent</th><th data-field="status">Status</th><th data-field="latest">Latest output</th><th data-field="file">File</th></tr></thead><tbody data-draw="agents-finance"></tbody></table></div></div>
@@ -553,7 +553,7 @@ dash.draw('findings-body', (el) => CC.rows(el, 'cc_findings', (tr, r) => { tr.se
 /* ---- charts ---- */
 dash.draw('hq-funnel', (el) => CC.horizontalBars(el, 'hq_stages', {label: 'HQ leads by stage', name: 'stage', value: 'leads', format: CC.fmt, color: (r) => r.stage === 'Won' ? 'var(--color-ok)' : r.stage === 'Lost' ? 'var(--cds-chart-muted)' : dash.colors[0]}));
 dash.draw('campaigns-chart', (el) => CC.horizontalBars(el, 'hq_campaigns', {label: 'HQ leads by campaign', name: 'campaign', value: 'leads', stack: ['untouched', 'in_progress', 'won', 'lost'], stackLabels: ['Untouched', 'In progress', 'Won', 'Lost'], format: CC.fmt}));
-dash.draw('margin-chart', (el) => CC.horizontalBars(el, 'cc_finance', {label: 'Modeled gross margin by tier, percent', name: 'item', value: 'amount', filter: (r) => r.kind === 'margin_pct', format: (v) => v + '%', color: (r) => Number(r.amount) >= 70 ? 'var(--color-ok)' : Number(r.amount) >= 60 ? 'var(--color-warn)' : 'var(--color-bad)'}));
+dash.draw('margin-chart', (el) => CC.horizontalBars(el, 'cc_finance', {label: 'HVAC price per client, US dollars', name: 'item', value: 'amount', filter: (r) => r.kind === 'price', format: CC.money}));
 
 dash.draw('activity-chart', (el) => {
   const d = dash.data('hq_activity');

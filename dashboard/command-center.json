@@ -11,7 +11,7 @@
    "mrr": 0,
    "fixed_costs_month": 148,
    "approvals_waiting": 2,
-   "blockers_open": 5,
+   "blockers_open": 6,
    "security_verdict": "CLEAR WITH CONDITIONS",
    "findings_open": 14,
    "findings_critical": 0,
@@ -27,7 +27,7 @@
    "dept": "Orchestration",
    "agents": 1,
    "status": "green",
-   "headline": "Plan for 5 demos/week staged; waiting on 4 facts from Juan",
+   "headline": "Focus narrowed to HVAC; two-week cash target $15k\u2013$20k",
    "open_items": 1,
    "waiting_on_juan": 4,
    "view": "orchestration"
@@ -36,7 +36,7 @@
    "dept": "Sales",
    "agents": 3,
    "status": "red",
-   "headline": "Cold email blocked: no mailing address, no sending domain yet",
+   "headline": "HVAC only: $2,500 setup + $1,500/mo. HQ HVAC list is mostly too small; new 5\u201325 truck list needed",
    "open_items": 3,
    "waiting_on_juan": 2,
    "view": "sales"
@@ -81,7 +81,7 @@
    "dept": "Finance",
    "agents": 1,
    "status": "yellow",
-   "headline": "MRR $0; pricing kept as DRAFT by Juan; tier margins modeled 61\u201378%",
+   "headline": "MRR $0; HVAC pricing set by Juan: $2,500 setup + $1,500/mo; $6,500 package to confirm",
    "open_items": 1,
    "waiting_on_juan": 1,
    "view": "finance"
@@ -305,12 +305,20 @@
    "status": "Open"
   },
   {
-   "item": "Pricing confirmation",
-   "blocks": "Quoting at demos and in proposals",
+   "item": "What the $6,500 package covers",
+   "blocks": "Proposal wording and cash-per-close math",
    "owner": "Juan",
    "since": "2026-11-13",
    "due": "",
-   "status": "Kept as DRAFT by Juan's decision"
+   "status": "Asked Juan 2026-11-13"
+  },
+  {
+   "item": "HVAC list of 5\u201325 truck shops",
+   "blocks": "Demos at the $2,500 + $1,500 price",
+   "owner": "Cold Outreach SDR",
+   "since": "2026-11-13",
+   "due": "2026-11-17",
+   "status": "HQ list has 8 of 87 shops with 50+ reviews"
   }
  ],
  "findings": [
@@ -461,6 +469,13 @@
  ],
  "delivery": [
   {
+   "item": "Build list: 200 HVAC shops, 5\u201325 trucks, hottest 50 tagged",
+   "owner": "Cold Outreach SDR",
+   "due": "2026-11-17",
+   "status": "red",
+   "note": "Current HQ HVAC list is mostly too small for the offer"
+  },
+  {
    "item": "PO Box / virtual office \u2192 address in business file",
    "owner": "Juan",
    "due": "2026-11-20",
@@ -510,11 +525,11 @@
    "note": "Run /content-week"
   },
   {
-   "item": "Dental demo agent (fictional practice) for live demos",
+   "item": "HVAC demo line (AC-out call booked into demo CRM)",
    "owner": "Receptionist Builder",
-   "due": "2026-11-21",
-   "status": "gray",
-   "note": "Needed before first dental demo"
+   "due": "2026-11-17",
+   "status": "yellow",
+   "note": "Needed for every HVAC demo"
   },
   {
    "item": "GitHub push protection + gitleaks hook",
@@ -564,22 +579,22 @@
    "note": "Midpoint of $115\u2013140 estimate"
   },
   {
-   "item": "Starter tier modeled margin",
-   "amount": 78,
-   "kind": "margin_pct",
-   "note": "$297/mo, 300 min, modeled COGS ~$64 (pricing DRAFT)"
+   "item": "HVAC setup fee per client",
+   "amount": 2500,
+   "kind": "price",
+   "note": "Set by Juan 2026-11-13"
   },
   {
-   "item": "Growth tier modeled margin",
-   "amount": 72,
-   "kind": "margin_pct",
-   "note": "$497/mo, 750 min (pricing DRAFT)"
+   "item": "HVAC monthly per client",
+   "amount": 1500,
+   "kind": "price",
+   "note": "Set by Juan 2026-11-13"
   },
   {
-   "item": "Pro tier modeled margin",
-   "amount": 61,
-   "kind": "margin_pct",
-   "note": "$797/mo, 1,500 bilingual min (pricing DRAFT)"
+   "item": "Cash at signing per client (setup + first month)",
+   "amount": 4000,
+   "kind": "price",
+   "note": "$6,500 package meaning to confirm"
   }
  ],
  "content": [
@@ -637,7 +652,7 @@
    "note": "No sends yet"
   }
  ],
- "synced_at": "2026-11-14T01:29:56Z",
+ "synced_at": "2026-11-14T01:35:39Z",
  "hq_stages": [
   {
    "stage": "New lead",

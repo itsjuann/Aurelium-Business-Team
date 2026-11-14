@@ -18,56 +18,57 @@
 | Physical mailing address for email footers | **[CONFIRM — pending]**. Juan is setting up a PO Box or virtual office (decided 2026-11-13). Required by CAN-SPAM; every cold-email batch stays blocked until this line holds a real address. |
 | Time zone | America/New_York |
 | Legal entity | **[CONFIRM]** (LLC / sole proprietor) |
-| What we are | An AI growth and marketing agency. Core product is a done-for-you AI receptionist for local small businesses. Secondary services: AI-assisted marketing (short-form content, paid ads strategy, lead follow-up automation). |
+| What we are | An AI growth and marketing agency. Core product is the Aurelium Front Office for HVAC: a custom CRM with an AI receptionist built in. Focus as of 2026-11-13: HVAC deals only. |
 
-## 2. Core offer: the AI Receptionist
+## 2. Core offer: Aurelium Front Office for HVAC
 
-**One sentence:** We give Greater Philadelphia small businesses a 24/7 AI receptionist that answers every call, books appointments, captures leads and texts the owner, for less than one week of a human front-desk salary per month.
+> **Focus decided by Juan on 2026-11-13: HVAC deals only.** Every other vertical is paused. The source of truth for what is included, the guarantee, the demo flow and the objection answers is Juan's offer doc, "Aurelium HVAC Offer" (https://claude.ai/artifact/T15BkbgChhJi6iLkEm2VaE). Where that doc and this file disagree on price, this file wins because it carries Juan's latest word.
 
-**What the client gets**
-- A branded AI voice receptionist built on ElevenLabs Agents (our current production platform; the agent we run ourselves is "Aurelium Motion Receptionist" on Claude Haiku 4.5 with a `save_lead` tool).
-- A dedicated local phone number or call-forwarding from their existing line (Twilio or SIP trunk via ElevenLabs). Overflow / after-hours / missed-call modes.
-- A custom call script: greeting, FAQ answers (hours, location, services, pricing ranges, insurance, parking), appointment booking or intake, lead capture, and escalation rules (transfer to owner, take a message, flag emergencies).
-- Lead notifications by SMS and email within 60 seconds of a call ending.
-- Monthly call summary report: calls answered, leads captured, appointments booked, top questions.
-- Ongoing script tuning based on real transcripts.
+**One sentence:** A custom CRM with an AI receptionist built in, for HVAC shops in the Philadelphia region: every call answered, booked and followed up, 24/7.
 
-**Pricing** **[CONFIRM — DRAFT by Juan's decision, 2026-11-13]**. Juan chose to keep these tiers as a working draft. Agents may use them for internal margin math only. **Do not quote pricing to any prospect or in any proposal until Juan replaces this line with "Pricing confirmed".**
-| Tier | Setup | Monthly | Includes |
-|---|---|---|---|
-| Starter | $497 one-time | $297/mo | 1 number, up to 300 minutes/mo, FAQ + message-taking + lead capture, email/SMS alerts |
-| Growth | $997 one-time | $497/mo | Everything in Starter + appointment booking into their calendar, 750 minutes, monthly report |
-| Pro | $1,497 one-time | $797/mo | Everything in Growth + CRM/booking-system integration, bilingual (EN/ES), 1,500 minutes, quarterly script review |
+**What the client gets** (from the offer doc)
+- AI receptionist, 24/7, in their brand voice: triages emergencies vs routine, quotes service call fees.
+- Live booking onto the tech calendar, with a confirmation text to the customer.
+- Custom HVAC CRM: one dashboard for every lead, call, job and customer.
+- Estimate follow-up at day 2, 7 and 14. Maintenance-plan reactivation for spring AC and fall furnace tune-ups.
+- Review requests after every completed job. Missed-call text back. Monthly ROI report.
+- Built on ElevenLabs Agents (our own agent is "Aurelium Motion Receptionist" on Claude Haiku 4.5 with a `save_lead` tool). The offer doc mentions Vapi and Twilio for minutes; platform per client is Juan's call.
 
-Overage: $0.35/minute **[CONFIRM]**. Month-to-month, cancel any time, 14-day money-back on setup **[CONFIRM]**.
-Never quote pricing in a cold email. Pricing is for the demo and the proposal.
+**Pricing (set by Juan, 2026-11-13)**
+| Item | Amount |
+|---|---|
+| Setup fee | $2,500 one-time |
+| Monthly (MRR) | $1,500 per month |
+| Package | $6,500 **[CONFIRM: what the $6,500 covers. Working reading: the upfront package, setup plus the first three months prepaid at $500 off ($2,500 + $4,500 − $500).]** |
+
+- Supersedes the earlier draft tiers ($297–$797/mo) and the offer doc's Growth price of $2,500/mo.
+- Terms carried from the offer doc until Juan says otherwise: 6-month minimum then month to month; live in 10 days; no free trial, a live demo instead. **[CONFIRM]** the 90-day guarantee threshold: the doc's $7,500 was three months of fees at $2,500/mo; at $1,500/mo three months is $4,500.
+- Pricing is discussed on the demo and in the proposal, never in cold outreach.
 
 **Why we win**
-- Speed: live in 5 business days from signed proposal.
-- Local: we are in Philly, we know the neighborhoods, the accents, the "is there parking" questions.
-- Human-in-the-loop: Juan personally reviews the first 20 calls of every deployment.
-- Honest positioning: it is a receptionist, not a replacement for the whole team. It never pretends to be human if asked.
+- Local: Philly operator, not a national call center.
+- The owner calls the AI live on the demo and watches the booking land in the CRM.
+- One recovered install pays for months of the system; the ROI math is done with the owner's own numbers.
+- Honest positioning: it says it is an AI receptionist if asked.
 
 ## 3. Audience: who we sell to
 
-**Ideal Customer Profile (ICP)**
-- Local, owner-operated service businesses in Greater Philadelphia with 2–25 staff.
-- They are **currently hiring a receptionist / front desk / office coordinator / scheduler** (Indeed, ZipRecruiter, LinkedIn, Craigslist, their own site). This is our primary buying signal.
-- Verticals, in priority order:
-  1. Dental, orthodontic and medical/dermatology practices
-  2. Med spas, aesthetics, chiropractic, physical therapy
-  3. Law firms (personal injury, immigration, family)
-  4. Home services: HVAC, plumbing, electrical, roofing, cleaning
-  5. Salons, barbershops, tattoo studios, veterinary clinics, auto repair
-- Pain: missed calls = missed revenue. Front desk turnover. Paying $38k–$48k/yr plus benefits for someone who is on the phone 30% of the day. Phones ringing while the one receptionist is checking a patient in.
+**Ideal Customer Profile (ICP): HVAC only**
+- Owner-operated HVAC shops with **5 to 25 trucks**, roughly $1M–$10M revenue, in Philadelphia, the Main Line, Bucks, Montgomery, Delaware and Chester counties, and South Jersey.
+- Buying signals, strongest first: running Google Local Services Ads or Google Ads (paying for calls they miss); hiring a CSR, dispatcher or receptionist; 50+ Google reviews with some saying "nobody answered"; advertising 24/7 or emergency service.
+- Pain: jobs lost to voicemail after hours, on weekends and in peak season. A CSR costs $3,500+ a month and does not work nights.
 
-**The buyer:** owner, practice manager or office manager. Reads email on a phone between appointments. Skeptical of "AI". Cares about: not losing calls, not sounding robotic to patients, not spending weeks setting something up, and what happens when the AI doesn't know something.
+**The buyer:** the owner or general manager. Skeptical of "AI", moved by missed-install math and by hearing it answer.
 
-**Disqualifiers:** enterprises, franchises with central call centers, businesses outside the Philly metro (for now), anyone who requires a HIPAA Business Associate Agreement. **Decided 2026-11-13: Aurelium Motion does not sign BAAs for now.** Medical, dental and therapy clients get lead capture and booking only; receptionists collect name, number, reason category and callback window, never symptoms or health details; shortest retention; proposals must not imply HIPAA-grade handling. Revisit when a client requires it, and anyone who wants the AI to make outbound sales calls.
+**Disqualifiers:** one-truck owner-operators, shops with no real call volume, big franchises with a corporate call center, anyone outside the region, any non-HVAC business for now.
+
+**Paused verticals:** dental, medical, med spa, law, cleaning, lawn care, bars and restaurants. The offer doc's plan is to copy this offer to other verticals after three HVAC case studies. (BAA stance for when medical returns: Aurelium Motion does not sign BAAs for now; decided 2026-11-13.)
+
+**HQ list note (2026-11-13):** the 87 HVAC leads in Aurelium Motion HQ were pulled for a website pitch. Median 8 Google reviews, 50 with no website, only 8 with 50 or more reviews. Most are too small for this offer. A new list of 5–25 truck shops is needed.
 
 ## 4. Go-to-market
 
-**Primary channel: signal-based cold email.** Find businesses actively hiring front desk staff, email the owner/manager with a specific, honest, short note that references the job post, offer a 15-minute demo where they call the receptionist live.
+**Primary channel right now: phone.** Call HVAC owners directly (live calls to business lines only; no cold texts to cell phones) and book a 30-minute demo where the owner calls the AI live. **Cold email joins once the secondary domains finish warm-up:** signal-based, to shops running ads or hiring a CSR or dispatcher.
 
 **Secondary channels:** LinkedIn (Juan's profile), Instagram @aureliummotion and Threads, short-form video demos of the receptionist handling a real-sounding call, referrals from existing clients, local business groups (Chambers of Commerce in Montgomery/Bucks/Delaware counties, Philly BNI chapters).
 
@@ -95,11 +96,12 @@ Never quote pricing in a cold email. Pricing is for the demo and the proposal.
 
 ## 6. Current goals (Q4 2026)
 
-1. **Book 5 AI receptionist demos per week** from cold email, starting this week.
-2. **Sign the first 5 paying receptionist clients by December 31, 2026.** **[CONFIRM target]**
-3. Get the sending infrastructure right before volume: secondary domain, SPF/DKIM/DMARC, warm-up, caps per mailbox per day: zero real sends in warm-up days 1–7, then 10 → 20 → 30 through week 4, 50 from week 5 (authoritative: `outputs/sending-caps.md`).
-4. Publish 3 short-form videos per week showing the receptionist handling real-sounding calls.
-5. Zero security or compliance incidents: no leaked keys, no unsubscribed contact ever re-emailed, no client call data stored outside approved locations.
+1. **Sign HVAC clients at $2,500 setup + $1,500/month.** Juan's cash target (set 2026-11-13): turn $4k of incoming cash into $15k–$20k collected within about two weeks. Offer-doc milestone: first signed HVAC client by December 20, 2026.
+2. **Build the right list:** 200 HVAC shops with 5–25 trucks in the region, with the hottest 50 tagged (running ads or hiring a CSR). The current HQ HVAC list is mostly too small.
+3. **Demos:** 2+ booked per week as the floor; the two-week cash target needs far more (see `outputs/` sprint math).
+4. Get the sending infrastructure right before email volume: secondary domains, SPF/DKIM/DMARC, warm-up caps per `outputs/sending-caps.md`.
+5. One piece of HVAC demo or case-study content per week.
+6. Zero security or compliance incidents: no leaked keys, no unsubscribed contact ever re-emailed, no client call data stored outside approved locations.
 
 ## 7. Non-negotiables (every agent)
 

@@ -1,3 +1,5 @@
+> **Focus change 2026-11-13: HVAC only.** For HVAC demos use the 30-minute flow, ROI math and objection answers in Juan's offer doc (https://claude.ai/artifact/T15BkbgChhJi6iLkEm2VaE) and the pricing in `business/aurelium-motion.md`. The dental scenarios below are paused.
+
 # Demo playbook — AI receptionist (v1, 2026-11-13)
 
 Owner: Discovery & Demo Coach. Used by Juan on every demo. Read `business/aurelium-motion.md` first; pricing, the 5-day promise, the first-20-calls review and the honest-AI rule come from there and nowhere else.
