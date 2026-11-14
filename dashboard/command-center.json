@@ -637,7 +637,7 @@
    "note": "No sends yet"
   }
  ],
- "synced_at": "2026-11-13T16:54:41Z",
+ "synced_at": "2026-11-14T01:29:56Z",
  "hq_stages": [
   {
    "stage": "New lead",
@@ -666,14 +666,14 @@
   {
    "stage": "Proposal sent",
    "order": 4,
-   "leads": 1,
+   "leads": 0,
    "value": 0
   },
   {
    "stage": "Negotiation",
    "order": 5,
-   "leads": 1,
-   "value": 2000
+   "leads": 0,
+   "value": 0
   },
   {
    "stage": "Won",
@@ -684,8 +684,8 @@
   {
    "stage": "Lost",
    "order": 7,
-   "leads": 16,
-   "value": 0
+   "leads": 18,
+   "value": 2000
   }
  ],
  "hq_campaigns": [
@@ -701,9 +701,9 @@
    "campaign": "No campaign",
    "leads": 99,
    "untouched": 76,
-   "in_progress": 14,
+   "in_progress": 12,
    "won": 0,
-   "lost": 9
+   "lost": 11
   },
   {
    "campaign": "Lawn care pull Nov 2026",
@@ -782,11 +782,6 @@
  ],
  "hq_activity": [
   {
-   "day": "2026-10-31",
-   "activities": 0,
-   "outbound": 0
-  },
-  {
    "day": "2026-11-01",
    "activities": 0,
    "outbound": 0
@@ -850,19 +845,24 @@
    "day": "2026-11-13",
    "activities": 0,
    "outbound": 0
+  },
+  {
+   "day": "2026-11-14",
+   "activities": 5,
+   "outbound": 0
   }
  ],
  "hq_summary": [
   {
    "total_leads": 502,
-   "open_leads": 486,
+   "open_leads": 484,
    "won": 0,
-   "lost": 16,
+   "lost": 18,
    "call_booked": 1,
-   "proposals_sent": 1,
+   "proposals_sent": 0,
    "appointments": 2,
    "proposals_docs": 2,
-   "activities_14d": 75
+   "activities_14d": 80
   }
  ]
 }
