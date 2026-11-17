@@ -11,7 +11,7 @@ Turns a table QR code into a guest list, then fills slow hours with SMS offers.
 | 5. Contact list | Guests, new-per-day chart, CSV export. |
 | 6. Slow time | Finds the quietest upcoming hour from the covers you enter, or from scan data. |
 | 7. SMS blast | Sends a timed offer to opted-in guests at that hour, manually or on autopilot weekly. |
-| 8. Results | Blast redemptions × average check. |
+| 8. Seats fill up | Live dining-room map: staff tap tables seated / free, showing % full. Plus blast redemptions × average check. |
 
 One deployment serves many restaurants; each has its own QR codes, guest list and settings.
 

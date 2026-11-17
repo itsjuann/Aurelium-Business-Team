@@ -105,8 +105,16 @@ export function createApp(db, opts = {}) {
   const staffCookie = (r) => `staff_${r.id}`;
   const staffAuthed = (req) => tokenValid(cookies(req)[staffCookie(req.r)], `staff${req.r.id}`);
 
+  const staffView = (req, extra = {}) => v.staffPage(req.r, { authed: true, floor: core.floorState(req.r), ...extra });
+
   app.get('/r/:slug/staff', withRestaurant, (req, res) => {
-    res.send(v.staffPage(req.r, { authed: staffAuthed(req) }));
+    res.send(staffAuthed(req) ? staffView(req) : v.staffPage(req.r, { authed: false }));
+  });
+  app.post('/r/:slug/staff/table/:table', withRestaurant, (req, res) => {
+    if (staffAuthed(req)) {
+      try { core.toggleTable(req.r, req.params.table); } catch (e) { if (!(e instanceof UserError)) throw e; }
+    }
+    res.redirect(`/r/${req.r.slug}/staff`);
   });
   app.post('/r/:slug/staff', withRestaurant, (req, res) => {
     const r = req.r;
@@ -123,10 +131,10 @@ export function createApp(db, opts = {}) {
     if (!staffAuthed(req)) return res.redirect(`/r/${req.r.slug}/staff`);
     try {
       const out = core.redeem(req.r, req.body.code);
-      res.send(v.staffPage(req.r, { authed: true, success: `${out.code} redeemed: ${out.offer}` }));
+      res.send(staffView(req, { success: `${out.code} redeemed: ${out.offer}` }));
     } catch (e) {
       if (!(e instanceof UserError)) throw e;
-      res.status(400).send(v.staffPage(req.r, { authed: true, error: e.message }));
+      res.status(400).send(staffView(req, { error: e.message }));
     }
   });
 
@@ -206,13 +214,19 @@ export function createApp(db, opts = {}) {
     const r = req.r;
     res.send(v.overviewPage(r, {
       s: core.stats(r), slot: core.slowestSlot(r), grid: core.activityGrid(r).grid, hours: core.sendableHours(r),
-      next: core.nextCampaign(r), live: { sms: smsLive(), email: emailLive() }, baseUrl: config.baseUrl,
+      floor: core.floorState(r), next: core.nextCampaign(r), live: { sms: smsLive(), email: emailLive() }, baseUrl: config.baseUrl,
     }, readFlash(req, res)));
   });
 
   rr.post('/redeem', action(home, (req) => {
     const out = core.redeem(req.r, req.body.code);
     return `${out.code} redeemed: ${out.offer}`;
+  }));
+
+  rr.get('/floor', (req, res) => res.send(v.floorPage(req.r, core.floorState(req.r), readFlash(req, res))));
+  rr.post('/floor/:table', action((req) => `${home(req)}/floor`, (req) => {
+    const out = core.toggleTable(req.r, req.params.table);
+    return `Table ${out.table} ${out.seated ? 'seated' : 'freed'}.`;
   }));
 
   rr.get('/qr', wrap(async (req, res) => {

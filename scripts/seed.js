@@ -35,4 +35,5 @@ for (let dow = 0; dow < 7; dow++) {
   for (const [hour, covers] of Object.entries(shape)) cells.push({ dow, hour: +hour, covers: covers * dayFactor[dow] });
 }
 core.setBaseline(r, cells);
+for (const t of [1, 2, 4, 5, 7, 8, 9, 11]) core.toggleTable(r, t, new Date(Date.now() - t * 6 * 60e3));
 console.log(`Seeded demo restaurant at ${nowIso()}: /admin/r/bella-cucina (staff PIN 1234)`);

@@ -115,3 +115,19 @@ td.msg { min-width: 240px; white-space: pre-line; }
   .qr-sheet { grid-template-columns: repeat(3, 1fr); gap: 8mm; }
   .qr-card { border: 1px solid #ccc; border-top: 8px solid var(--brand); }
 }
+
+/* dining-room map */
+.section { margin-top: 1.5rem; }
+.floor-head { display: flex; flex-wrap: wrap; gap: .2rem .6rem; align-items: baseline; }
+.floor-head strong { font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.floor { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+.tbl small { white-space: nowrap; }
+.floor form { display: contents; }
+.tbl { display: grid; place-items: center; gap: .1rem; min-height: 72px; padding: .5rem .25rem; font: inherit; font-weight: 700;
+  color: var(--muted); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.tbl small { font-weight: 400; font-size: .7rem; color: var(--muted); }
+.tbl.on { color: var(--text); border-color: var(--good); background: rgb(52 211 153 / .14); }
+.tbl.on small { color: var(--good); }
+button.tbl:hover { border-color: var(--accent); }
+.floor.mini { gap: 4px; grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); margin-bottom: .75rem; }
+.floor.mini .tbl { min-height: 30px; padding: 0; font-size: .7rem; border-radius: 6px; cursor: default; }

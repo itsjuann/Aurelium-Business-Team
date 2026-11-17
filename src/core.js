@@ -14,6 +14,8 @@ const QUIET_END = 21;
 const ACTIVITY_DAYS = 56;
 const MIN_ACTIVITY_EVENTS = 20;
 const STALE_MS = 2 * 60 * 60 * 1000;
+// A table nobody cleared is assumed free again after this long.
+const MAX_SEATING_MS = 4 * 60 * 60 * 1000;
 
 export class UserError extends Error {}
 
@@ -184,7 +186,8 @@ export function createCore(db, messenger) {
     }
     const since = new Date(now.getTime() - ACTIVITY_DAYS * 864e5).toISOString();
     const events = q(`SELECT created_at FROM scans WHERE restaurant_id = ?1 AND created_at >= ?2
-                      UNION ALL SELECT created_at FROM redemptions WHERE restaurant_id = ?1 AND created_at >= ?2`)
+                      UNION ALL SELECT created_at FROM redemptions WHERE restaurant_id = ?1 AND created_at >= ?2
+                      UNION ALL SELECT seated_at FROM seatings WHERE restaurant_id = ?1 AND seated_at >= ?2`)
       .all(r.id, since);
     if (events.length < MIN_ACTIVITY_EVENTS) return { source: null, grid };
     for (const e of events) {
@@ -325,6 +328,32 @@ export function createCore(db, messenger) {
     return null;
   }
 
+  // ---- step 8: live floor ------------------------------------------------------
+
+  /** Every table with the time it was seated, or null when free. */
+  function floorState(r, now = new Date()) {
+    const cutoff = new Date(now.getTime() - MAX_SEATING_MS).toISOString();
+    for (const s of q('SELECT id, seated_at FROM seatings WHERE restaurant_id = ? AND cleared_at IS NULL AND seated_at < ?').all(r.id, cutoff)) {
+      q('UPDATE seatings SET cleared_at = ? WHERE id = ?')
+        .run(new Date(new Date(s.seated_at).getTime() + MAX_SEATING_MS).toISOString(), s.id);
+    }
+    const open = new Map(q('SELECT table_no, seated_at FROM seatings WHERE restaurant_id = ? AND cleared_at IS NULL')
+      .all(r.id).map((s) => [s.table_no, s.seated_at]));
+    return Array.from({ length: r.table_count }, (_, i) => ({ table: i + 1, seatedAt: open.get(i + 1) ?? null }));
+  }
+
+  /** Staff tap a table: free -> seated, seated -> free. */
+  function toggleTable(r, rawTable, now = new Date()) {
+    const table = Number.parseInt(rawTable, 10);
+    if (!(table >= 1 && table <= r.table_count)) throw new UserError('That table does not exist.');
+    const at = now.toISOString();
+    const cleared = q('UPDATE seatings SET cleared_at = ? WHERE restaurant_id = ? AND table_no = ? AND cleared_at IS NULL')
+      .run(at, r.id, table);
+    if (cleared.changes) return { table, seated: false };
+    q('INSERT INTO seatings (restaurant_id, table_no, seated_at) VALUES (?, ?, ?)').run(r.id, table, at);
+    return { table, seated: true };
+  }
+
   // ---- steps 5 & 8: list + results --------------------------------------------
 
   function stats(r, now = new Date()) {
@@ -370,6 +399,6 @@ export function createCore(db, messenger) {
     recordScan, claimOffer, redeem,
     activityGrid, slowestSlot, setBaseline, sendableHours,
     audienceCount, createCampaign, cancelCampaign, sendCampaign, tick, nextCampaign,
-    handleInbound, stats, listContacts, listCampaigns, listMessages,
+    floorState, toggleTable, handleInbound, stats, listContacts, listCampaigns, listMessages,
   };
 }

@@ -178,3 +178,24 @@ test('twilio signature validation', () => {
   assert.equal(validTwilioSignature('tok', 'bad', url, params), false);
   assert.equal(validTwilioSignature('', sig, url, params), false);
 });
+
+test('floor: tables toggle seated/free, stale seatings clear, seatings feed slow-time data', () => {
+  const { core, r } = setup({ table_count: 4 });
+  const t0 = zonedToUtc(2026, 1, 12, 18, 0, 'America/Toronto');
+  assert.deepEqual(core.toggleTable(r, '2', t0), { table: 2, seated: true });
+  core.toggleTable(r, 3, t0);
+  assert.throws(() => core.toggleTable(r, 5, t0), /does not exist/);
+  assert.throws(() => core.toggleTable(r, 'x', t0), /does not exist/);
+  assert.deepEqual(core.floorState(r, t0).map((t) => Boolean(t.seatedAt)), [false, true, true, false]);
+
+  assert.deepEqual(core.toggleTable(r, 2, new Date(t0.getTime() + 3600e3)), { table: 2, seated: false });
+  // Table 3 was never cleared: it frees itself after 4 hours.
+  const late = new Date(t0.getTime() + 5 * 3600e3);
+  assert.equal(core.floorState(r, late).filter((t) => t.seatedAt).length, 0);
+  assert.deepEqual(core.toggleTable(r, 3, late), { table: 3, seated: true }, 'can be seated again');
+
+  for (let i = 0; i < 40; i++) core.toggleTable(r, 1, new Date(t0.getTime() + i * 1000));
+  const { source, grid } = core.activityGrid(r, late);
+  assert.equal(source, 'activity');
+  assert.ok(grid[1][18] >= 12, 'Monday 6 PM seatings counted');
+});

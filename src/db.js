@@ -95,6 +95,15 @@ CREATE TABLE IF NOT EXISTS messages (
   created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS msg_rest ON messages(restaurant_id, id);
+-- One row each time staff mark a table seated; cleared_at is set when it frees up.
+CREATE TABLE IF NOT EXISTS seatings (
+  id INTEGER PRIMARY KEY,
+  restaurant_id INTEGER NOT NULL REFERENCES restaurants(id),
+  table_no INTEGER NOT NULL,
+  seated_at TEXT NOT NULL,
+  cleared_at TEXT
+);
+CREATE INDEX IF NOT EXISTS seat_rest ON seatings(restaurant_id, seated_at);
 -- Typical guests seated per weekday/hour, entered by the owner or pulled from the POS.
 CREATE TABLE IF NOT EXISTS traffic_baseline (
   restaurant_id INTEGER NOT NULL REFERENCES restaurants(id),

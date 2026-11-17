@@ -53,7 +53,24 @@ export function claimedPage(r, result) {
   <p class="code" aria-label="Your code">${esc(result.code)}</p>`);
 }
 
-export function staffPage(r, { authed, error, success }) {
+const clock = (iso, tz) => new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', minute: '2-digit' }).format(new Date(iso));
+
+/** Dining-room map. With an action URL each table is a tap-to-toggle button. */
+function floorMap(r, floor, action) {
+  const seated = floor.filter((t) => t.seatedAt).length;
+  const pct = floor.length ? Math.round((seated / floor.length) * 100) : 0;
+  const tables = floor.map((t) => {
+    const label = `T${t.table}`;
+    if (!action) return `<span class="tbl ${t.seatedAt ? 'on' : ''}">${label}</span>`;
+    return `<form method="post" action="${esc(action)}/${t.table}"><button class="tbl ${t.seatedAt ? 'on' : ''}" type="submit"
+      aria-label="Table ${t.table}, ${t.seatedAt ? 'seated, tap to free' : 'free, tap to seat'}">${label}
+      <small>${t.seatedAt ? `Seated ${esc(clock(t.seatedAt, r.timezone))}` : 'Free'}</small></button></form>`;
+  }).join('');
+  return `<p class="floor-head"><strong>${pct}% full</strong> <span class="muted">${seated} of ${floor.length} tables seated</span></p>
+  <div class="floor ${action ? '' : 'mini'}">${tables}</div>`;
+}
+
+export function staffPage(r, { authed, error, success, floor }) {
   const body = authed ? `
   <h1>Redeem a code</h1>
   ${success ? `<p class="flash ok" role="status">${esc(success)}</p>` : ''}
@@ -62,7 +79,10 @@ export function staffPage(r, { authed, error, success }) {
     <label>Code from the guest's text<input name="code" required autocapitalize="characters" autocomplete="off"
       placeholder="APP-4821" autofocus></label>
     <button class="btn brand" type="submit">Redeem</button>
-  </form>` : `
+  </form>
+  <h2 class="section">Dining room</h2>
+  <p class="fine">Tap a table when you seat it, and again when it frees up.</p>
+  ${floorMap(r, floor ?? [], `/r/${r.slug}/staff/table`)}` : `
   <h1>Staff sign-in</h1>
   ${error ? `<p class="flash err" role="alert">${esc(error)}</p>` : ''}
   <form method="post" action="/r/${esc(r.slug)}/staff" class="stack">
@@ -87,12 +107,12 @@ export function loginPage(error) {
   </form></main></body></html>`;
 }
 
-function adminShell(title, r, active, inner, f) {
+function adminShell(title, r, active, inner, f, headExtra = '') {
   const tabs = r ? [
-    ['', 'Overview'], ['/qr', 'QR codes'], ['/guests', 'Guests'], ['/campaigns', 'Blasts'],
+    ['', 'Overview'], ['/floor', 'Floor'], ['/qr', 'QR codes'], ['/guests', 'Guests'], ['/campaigns', 'Blasts'],
     ['/traffic', 'Slow times'], ['/messages', 'Messages'], ['/settings', 'Settings'],
   ].map(([p, label]) => `<a href="/admin/r/${esc(r.slug)}${p}" ${p === active ? 'aria-current="page"' : ''}>${label}</a>`).join('') : '';
-  return `${head(title)}
+  return `${head(title, headExtra)}
 <body class="admin">
 <header class="top">
   <a class="brandmark" href="/admin">Restaurant Autopilot</a>
@@ -150,7 +170,7 @@ function bars(items, { highlight = -1, unit = '' } = {}) {
 const slotText = (slot) => (slot ? `${DAY_NAMES[slot.dow]} ${hourLabel(slot.hour)}` : null);
 
 export function overviewPage(r, d, f) {
-  const { s, slot, grid, hours, next, live, baseUrl } = d;
+  const { s, slot, grid, hours, next, live, baseUrl, floor } = d;
   const step = (n, title, body) => `<section class="card step"><h2><span class="num">${n}</span>${title}</h2>${body}</section>`;
   const slowDay = slot ? hours.map((h) => ({ label: String(h % 12 || 12), title: hourLabel(h), value: grid[slot.dow][h] })) : [];
   return adminShell(r.name, r, '', `
@@ -182,16 +202,26 @@ export function overviewPage(r, d, f) {
       <p class="muted">new guests per day · ${s.audience.toLocaleString()} can be texted</p>`)}
     ${step(6, 'Slow time', slot ? `${bars(slowDay, { highlight: hours.indexOf(slot.hour) })}
       <p><strong>Slowest slot: ${esc(slotText(slot))}</strong></p>
-      <p class="muted">${slot.source === 'baseline' ? 'From your typical-covers grid' : 'From scans and redemptions, last 8 weeks'}</p>`
+      <p class="muted">${slot.source === 'baseline' ? 'From your typical-covers grid' : 'From seatings, scans and redemptions, last 8 weeks'}</p>`
       : `<p class="muted">Not enough traffic data yet. Enter your typical covers per hour and the slowest slot appears here.</p>
       <a class="btn ghost" href="/admin/r/${esc(r.slug)}/traffic">Enter covers</a>`)}
     ${step(7, 'SMS blast', `${next ? `<p><strong>Next: ${esc(formatLocal(next.scheduled_at, r.timezone))}</strong></p>
       <p class="sms">${esc(next.body)}</p>` : '<p class="muted">Nothing scheduled.</p>'}
       <a class="btn ghost" href="/admin/r/${esc(r.slug)}/campaigns">${next ? 'Manage blasts' : 'Schedule a blast'}</a>`)}
-    ${step(8, 'Seats fill up', `<p class="big">${money(s.blastRevenueCents)}</p>
-      <p class="muted">${s.blastRedemptions.toLocaleString()} blast redemptions × ${money(r.avg_check_cents)} average check,
-      from ${s.blastsSent} blast${s.blastsSent === 1 ? '' : 's'}</p>`)}
+    ${step(8, 'Seats fill up', `${floorMap(r, floor)}
+      <p><strong>${money(s.blastRevenueCents)}</strong> <span class="muted">from ${s.blastRedemptions.toLocaleString()} blast
+      redemption${s.blastRedemptions === 1 ? '' : 's'} × ${money(r.avg_check_cents)} average check</span></p>
+      <a class="btn ghost" href="/admin/r/${esc(r.slug)}/floor">Open floor</a>`)}
   </div>`, f);
+}
+
+export function floorPage(r, floor, f) {
+  return adminShell(`Floor · ${r.name}`, r, '/floor', `
+  <h1>Dining room</h1>
+  <p class="muted">Tap a table when you seat it, and again when it frees up. Servers can do the same from the staff page.
+  Every seating also feeds the slow-time finder. A table left seated for 4 hours frees itself.</p>
+  <section class="card">${floorMap(r, floor, `/admin/r/${r.slug}/floor`)}</section>`, f,
+  '<meta http-equiv="refresh" content="30">');
 }
 
 export function qrPage(r, cards) {
@@ -266,7 +296,7 @@ export function trafficPage(r, d, f) {
   <h1>Slow times</h1>
   <p class="muted">${slot ? `<strong>Slowest upcoming slot: ${esc(slotText(slot))}.</strong> ` : ''}
   ${source === 'baseline' ? 'Using the typical covers you entered below.'
-    : source === 'activity' ? 'Estimated from QR scans and redemptions over the last 8 weeks. Enter your real covers below to override.'
+    : source === 'activity' ? 'Estimated from seatings, QR scans and redemptions over the last 8 weeks. Enter your real covers below to override.'
     : 'No traffic data yet. Enter the typical number of guests seated in each hour (your POS hourly sales report has this).'}</p>
   <form method="post" action="/admin/r/${esc(r.slug)}/traffic">
   <div class="table-wrap"><table class="heat">
