@@ -22,7 +22,7 @@
 
 ## 2. Core offer: Aurelium Front Office for HVAC
 
-> **Focus decided by Juan on 2026-11-13: HVAC deals only.** Every other vertical is paused. The source of truth for what is included, the guarantee, the demo flow and the objection answers is Juan's offer doc, "Aurelium HVAC Offer" (https://claude.ai/artifact/T15BkbgChhJi6iLkEm2VaE). Where that doc and this file disagree on price, this file wins because it carries Juan's latest word.
+> **Focus decided by Juan on 2026-11-13: HVAC deals only.** Every other vertical is paused. The source of truth for what is included, the guarantee, the demo flow and the objection answers is Juan's offer doc, "Aurelium HVAC Offer" (https://claude.ai/artifact/T15BkbgChhJi6iLkEm2VaE). Where that doc and this file disagree on price, this file wins because it carries Juan's latest word. The offer doc was brought in line with this file on 2026-11-18 (price, guarantee, exclusivity, integration, two-call sales flow, demo line).
 
 **One sentence:** One front-office system built for an HVAC shop: it answers and books every call, follows up on every estimate, brings past customers back, earns reviews, gets the shop found, and shows the owner what it made them.
 
