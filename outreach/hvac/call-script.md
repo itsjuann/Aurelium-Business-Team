@@ -45,7 +45,7 @@ Booked: confirm the email for the invite, send the calendar invite the same hour
 ## If they ask the price
 > "It's built around your shop, so I'd rather see your numbers first. If the math doesn't work in thirty minutes, we stop there."
 
-If they ask a second time, answer straight **[CONFIRM: proposed structure]**: "$15,000 for the first year with everything in it, or $2,500 to set up and $1,500 a month." Never dodge twice.
+If they ask a second time, answer straight: "It is $25,000 for the year. $15,000 gets it built, the rest is spread across the year, and there is a $2,500 setup fee." Never dodge twice.
 
 ## Objections
 | They say | You say |
@@ -71,4 +71,4 @@ If they ask a second time, answer straight **[CONFIRM: proposed structure]**: "$
 ## Open items before the first demo
 - **[CONFIRM] HVAC demo line.** A number the owner can call and a calendar it books into. Do not book a demo you cannot run.
 - **[CONFIRM] Booking link** for the invite.
-- **[CONFIRM] The $15,000 annual structure** in `outreach/hvac/sales-call-15k.md`, and whether the earlier $6,500 package still exists.
+- **[CONFIRM] Two price details:** whether the $2,500 setup fee sits on top of the $25,000, and the schedule for the $10,000 balance.

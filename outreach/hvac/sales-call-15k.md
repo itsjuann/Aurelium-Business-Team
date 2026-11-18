@@ -1,6 +1,6 @@
-# The $15k call: selling the whole system to an HVAC shop (v1, 2026-11-18)
+# The $15k-upfront call: selling the whole system to an HVAC shop (v2, 2026-11-18)
 
-Owner: Discovery & Demo Coach. Seller: Juan. Source for what is included: Juan's "Aurelium Business System — Offer Sheet" and "Aurelium HVAC Offer". Pricing lives in `business/aurelium-motion.md`; the $15,000 structure below is **[CONFIRM]** until Juan signs off on it.
+Owner: Discovery & Demo Coach. Seller: Juan. Source for what is included: Juan's "Aurelium Business System — Offer Sheet" and "Aurelium HVAC Offer". Pricing lives in `business/aurelium-motion.md` and was set by Juan on 2026-11-18: $25,000 for the year, $15,000 upfront, plus a $2,500 setup fee.
 
 **What we are selling:** not an AI receptionist. One front-office system, built for their shop, that answers and books every call, follows up on every estimate, brings past customers back, earns reviews, gets them found, and shows the owner what it made them.
 
@@ -18,15 +18,18 @@ Owner: Discovery & Demo Coach. Seller: Juan. Source for what is included: Juan's
 | Get Found | Google search, Google Maps and AI assistants: service and town pages, Business Profile posts, review replies, monthly ranking report |
 | Owner dashboard + reports | Calls, jobs and revenue booked, live; weekly numbers by email; monthly results call |
 
-## Price (proposed, [CONFIRM])
-| Option | What they pay | Year-one total |
-|---|---|---|
-| **Annual, everything included** | **$15,000**, setup waived. Half to start the build, half at go-live on day 14 | $15,000 |
-| Monthly | $2,500 setup, then $1,500 a month | $20,500 |
+## Price (set by Juan, 2026-11-18)
+| Item | Amount |
+|---|---|
+| Year-one price, whole system | $25,000 |
+| Due at signing | $15,000 |
+| Balance | $10,000 across the year, about $833 a month for 12 months **[CONFIRM schedule]** |
+| Setup fee | $2,500 **[CONFIRM: on top of the $25,000, or inside it]** |
 
-- The annual option is the offer doc's own rule applied to $1,500 a month: two months free and the setup fee waived.
-- Six-month minimum on the monthly option, then month to month. They own their data and their number.
-- Guarantee **[CONFIRM threshold]**: if the system does not book the agreed amount of work in the first 90 days, Aurelium keeps working at no monthly charge until it does.
+- Working reading until Juan confirms: the setup fee is on top, so **$17,500 at signing** and **$27,500 in year one**.
+- For the math on the call: $27,500 a year is about $2,290 a month. A CSR costs $3,500 or more a month and does not work nights.
+- They own their data and their number. Setup fee is non-refundable once the build starts.
+- Guarantee **[CONFIRM threshold]**: if the system does not book the agreed amount of work in the first 90 days, Aurelium keeps working at no extra charge until it does.
 
 ## Two calls, not one
 A $15,000 decision is not made on a cold call. The cold call books Call 1.
@@ -48,25 +51,26 @@ Do the math out loud with their answers. Then: "Let me build this with {{company
 2. **They call it (10 min).** They say the heat is out. The job lands on the calendar and in the CRM while they watch. Then show the estimate follow-up, the tune-up campaign and the review request firing.
 3. **The whole system (10 min).** Walk the stack above, each piece tied to a leak they named on Call 1. Skip pieces they did not care about.
 4. **The math (5 min).** Missed calls per month × their booking rate × their average ticket, plus one install. Their numbers, not ours.
-5. **The offer (5 min).** "It is $15,000 for the first year, everything in it, setup included. Half to start, half the day it goes live. Or $2,500 to set up and $1,500 a month. Most owners take the year because it is $5,500 less."
+5. **The offer (5 min).** "It is $25,000 for the year, everything in it. $15,000 gets the build started, and the rest is spread across the year at about $833 a month. There is a one-time $2,500 setup fee. All in, that is about $2,290 a month, less than a CSR, and it works nights and weekends."
 6. **The close (10 min).** "We can be live in 14 days. Do you want to start Monday?" Then stop talking.
 
 ## Objections at this price
 | They say | You say |
 |---|---|
-| "$15,000 is a lot." | "You told me about {{their missed-job number}} a month. At your ticket that is {{their figure}} a month going to the next shop. Which is the bigger number?" |
+| "$25,000 is a lot." | "You told me about {{their missed-job number}} a month. At your ticket that is {{their figure}} a month going to the next shop. Over a year, which is the bigger number?" |
+| "Why $15,000 upfront?" | "Because the build is the heavy part: your CRM, your receptionist, your website and your automations are all made in the first 14 days. The rest is spread out so the system is paying for itself while you pay it off." |
 | "We already use ServiceTitan / Housecall Pro / Jobber." | "Keep it. This sits in front of it: it answers, books and follows up, and the job goes into what you already run." |
 | "Can I just get the receptionist?" | "You can. But a caught call with no follow-up still leaks at the estimate and at the tune-up. The system is what turns a call into a customer who comes back." |
 | "What if it does not work?" | State the 90-day guarantee, exactly as written in the proposal. |
 | "You are new. Who else is using it?" | Tell the truth: "You would be one of my first HVAC shops. That is why you get me personally on every call for the first 30 days, and why the guarantee is in writing." |
-| "I need to think about it." | "Fair. What would you need to see to decide? If it is the price, the monthly option starts at $2,500." |
+| "I need to think about it." | "Fair. What would you need to see to decide? Is it the system, the price, or the timing?" Then answer that one thing. |
 
 ## What must exist before Call 2 (do not book it without these)
 - [ ] HVAC demo line that answers as their company and books into a calendar
 - [ ] Demo CRM that shows the booked job, an estimate follow-up and a review request (no real customer data; mind the name clash with the real Keystone Comfort HVAC)
-- [ ] One-page proposal with the two options and the written guarantee
+- [ ] One-page proposal with the price, the payment schedule and the written guarantee
 - [ ] A way to take the first payment the same day (invoice or payment link)
-- [ ] Juan's answer on: the $15,000 structure, the guarantee threshold, and how many builds he can run at once
+- [ ] Juan's answer on: whether the setup fee sits on top of the $25,000, the schedule for the $10,000 balance, the guarantee threshold, and how many builds he can run at once
 
 ## Honest limits
 - No HVAC client is live yet, so there is no case study. Never imply one. The demo and the written guarantee carry the proof.

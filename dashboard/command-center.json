@@ -27,7 +27,7 @@
    "dept": "Orchestration",
    "agents": 1,
    "status": "green",
-   "headline": "HVAC sprint: confirm the $15k offer, stand up the demo line and demo CRM, start calls",
+   "headline": "HVAC sprint: stand up the demo line and demo CRM, start calls, confirm two price details",
    "open_items": 1,
    "waiting_on_juan": 4,
    "view": "orchestration"
@@ -36,7 +36,7 @@
    "dept": "Sales",
    "agents": 3,
    "status": "yellow",
-   "headline": "Selling the whole system, not the receptionist. $15k annual offer proposed; 12 HVAC owners in HQ; emails blocked on mailing address",
+   "headline": "Selling the whole system at $25,000 a year, $15,000 upfront, plus $2,500 setup. 12 HVAC owners in HQ; emails blocked on mailing address",
    "open_items": 3,
    "waiting_on_juan": 3,
    "view": "sales"
@@ -81,7 +81,7 @@
    "dept": "Finance",
    "agents": 1,
    "status": "yellow",
-   "headline": "MRR $0. Proposed: $15,000 annual, or $2,500 setup + $1,500/mo. One annual close meets the two-week cash target",
+   "headline": "MRR $0. Price set by Juan: $25,000 a year, $15,000 upfront, $2,500 setup. One close brings in $17,500 at signing",
    "open_items": 1,
    "waiting_on_juan": 1,
    "view": "finance"
@@ -305,12 +305,12 @@
    "status": "Open"
   },
   {
-   "item": "Confirm the $15,000 annual offer and the guarantee threshold",
-   "blocks": "Proposal and the second sales call",
+   "item": "Confirm two price details and the guarantee threshold",
+   "blocks": "Proposal wording",
    "owner": "Juan",
    "since": "2026-11-13",
    "due": "",
-   "status": "Proposed 2026-11-18, waiting on Juan"
+   "status": "Price set 2026-11-18; setup fee placement and balance schedule open"
   },
   {
    "item": "HVAC list of 5\u201325 truck shops",
@@ -594,22 +594,28 @@
    "note": "Midpoint of $115\u2013140 estimate"
   },
   {
-   "item": "Annual, everything included (proposed)",
+   "item": "Year-one price, whole system",
+   "amount": 25000,
+   "kind": "price",
+   "note": "Set by Juan 2026-11-18"
+  },
+  {
+   "item": "Due at signing",
    "amount": 15000,
    "kind": "price",
-   "note": "Year one, setup waived; half to start, half at go-live. To confirm"
+   "note": "Upfront part of the $25,000"
   },
   {
-   "item": "Monthly option, year-one total",
-   "amount": 20500,
+   "item": "Balance across the year",
+   "amount": 10000,
    "kind": "price",
-   "note": "$2,500 setup + 12 x $1,500"
+   "note": "About $833 a month for 12 months; schedule to confirm"
   },
   {
-   "item": "Monthly option, cash at signing",
-   "amount": 4000,
+   "item": "Setup fee",
+   "amount": 2500,
    "kind": "price",
-   "note": "Setup plus first month"
+   "note": "Read as on top of the $25,000; to confirm"
   }
  ],
  "content": [
@@ -679,7 +685,7 @@
    "note": "Free plan; 50 used on 11/18"
   }
  ],
- "synced_at": "2026-11-18T19:11:27Z",
+ "synced_at": "2026-11-18T19:14:28Z",
  "hq_stages": [
   {
    "stage": "New lead",

@@ -39,16 +39,18 @@
 - Owner dashboard, weekly numbers by email, monthly results call.
 - Built on ElevenLabs Agents, n8n and Twilio (our own agent is "Aurelium Motion Receptionist" on Claude Haiku 4.5 with a `save_lead` tool). Platform per client is Juan's call.
 
-**Pricing**
-| Option | Amount | Status |
-|---|---|---|
-| Annual, everything included | **$15,000** for year one, setup waived; half to start the build, half at go-live | **[CONFIRM]** proposed 2026-11-18 from Juan's "$15k call" target; equals the offer doc's annual rule (two months free, setup waived) at $1,500/month |
-| Monthly | $2,500 setup + $1,500 per month ($20,500 in year one) | Set by Juan 2026-11-13 |
-| $6,500 package | | **[CONFIRM]** whether it still exists and what it covers |
+**Pricing (set by Juan, 2026-11-18)**
+| Item | Amount |
+|---|---|
+| Year-one price, whole system | **$25,000** |
+| Due at signing | **$15,000** |
+| Balance | **$10,000** spread across the year (working reading: 12 monthly payments of about $833, starting at go-live) **[CONFIRM schedule]** |
+| Setup fee | **$2,500** (working reading: on top of the $25,000, due at signing, so $17,500 at signing and $27,500 in year one) **[CONFIRM: on top of, or inside, the $25,000]** |
 
-- Supersedes the earlier draft tiers ($297–$797/mo), the Business System sheet's $5,000 + $797, and the HVAC offer doc's $2,500/mo.
-- Terms carried from the offer sheets until Juan says otherwise: 6-month minimum on monthly, then month to month; live in 14 days for the full system; no free trial, a demo built with their company name instead; they own their data and their number.
-- **[CONFIRM]** the 90-day guarantee threshold at this price.
+- This replaces every earlier price: the $15,000 annual proposal, $2,500 + $1,500/month, the $6,500 package, the draft tiers, and both offer sheets' prices.
+- For the owner's math: $27,500 a year is about $2,290 a month, under the $3,500+ a month a CSR costs.
+- Terms carried from the offer sheets until Juan says otherwise: live in 14 days for the full system; no free trial, a demo built with their company name instead; setup fee non-refundable once the build starts; they own their data and their number.
+- **[CONFIRM]** the 90-day guarantee threshold at this price, and what year two costs.
 - Pricing is discussed on the second sales call and in the proposal, never in cold outreach.
 
 **Why we win**
@@ -102,7 +104,7 @@
 
 ## 6. Current goals (Q4 2026)
 
-1. **Sign HVAC clients on the whole system: $15,000 for year one ([CONFIRM]) or $2,500 setup + $1,500/month.** Juan's cash target (set 2026-11-13): turn $4k of incoming cash into $15k–$20k collected within about two weeks. Offer-doc milestone: first signed HVAC client by December 20, 2026.
+1. **Sign HVAC clients on the whole system: $25,000 for year one, $15,000 upfront, plus a $2,500 setup fee.** Juan's cash target (set 2026-11-13): turn $4k of incoming cash into $15k–$20k collected within about two weeks. Offer-doc milestone: first signed HVAC client by December 20, 2026.
 2. **Build the right list:** 200 HVAC shops with 5–25 trucks in the region, with the hottest 50 tagged (running ads or hiring a CSR). The current HQ HVAC list is mostly too small.
 3. **Demos:** 2+ booked per week as the floor; the two-week cash target needs far more (see `outputs/` sprint math).
 4. Get the sending infrastructure right before email volume: secondary domains, SPF/DKIM/DMARC, warm-up caps per `outputs/sending-caps.md`.
