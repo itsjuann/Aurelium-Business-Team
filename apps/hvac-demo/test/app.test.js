@@ -99,6 +99,14 @@ test('strict validation: unknown fields, bad enums, bad phone, wrong types', asy
   await s.close();
 });
 
+test('optional fields sent empty or null count as left out', async () => {
+  const s = await start();
+  assert.equal((await s.tool('save_lead', lead({ service_town: '', appointment_pref: null }))).status, 200);
+  assert.equal((await s.tool('check_availability', avail({ preferred_day: '' }))).status, 200);
+  assert.equal((await s.tool('save_lead', lead({ caller_name: '' }))).status, 400);
+  await s.close();
+});
+
 test('phone numbers normalize to E.164', () => {
   assert.equal(normalizePhone('(215) 555-0199'), '+12155550199');
   assert.equal(normalizePhone('+1 215-555-0199'), '+12155550199');

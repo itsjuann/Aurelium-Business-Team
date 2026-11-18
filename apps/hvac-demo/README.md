@@ -3,8 +3,18 @@
 One small service for the HVAC demo line (`clients/_demo-hvac/receptionist/script.md`). It gives the receptionist a
 calendar to book into and gives Juan a CRM screen to share on Call 2, so the owner watches their own call land.
 
-**Status: built and tested locally. Not deployed.** Deploying is a Deploys-class action: Website & App Security
-Reviewer and Security Reviewer sign off, then Juan approves.
+**Status: deployed to Render on 2026-11-18 at commit `cea6910`**, approved by Juan after a Security Reviewer
+"go with conditions". Every later deploy is its own approval; auto-deploy is off.
+
+| | |
+|---|---|
+| Address | https://aurelium-hvac-demo-2sqc.onrender.com |
+| Render service | `aurelium-hvac-demo-2sqc` (`srv-dbv2lvl6e07s73ai3m60`), free plan, Virginia, blueprint `apps/hvac-demo/render.yaml` |
+| Secrets | `SAVE_LEAD_WEBHOOK_SECRET` and `DEMO_CRM_VIEW_KEY`, generated on Render, visible only on the service's Environment page |
+| Smoke test after deploy | `/healthz` 200, `/api/state` 401 without a session, bad-secret tool call 401, bad sign-in 401, security headers present |
+| Not yet in the deployed version | Optional fields sent as empty strings are accepted (committed after `cea6910`; needs a redeploy approval) |
+
+The free plan sleeps when idle and loses its data on restart. Open `/healthz` a minute before a demo.
 
 - No dependencies. Node 20 or newer.
 - Fictional seed customers only (555-01xx numbers, "Sample data" tag). The only real data is what an owner says on
@@ -90,9 +100,13 @@ Website & App Security Reviewer: **pass with conditions**. Fixed after the revie
 once, bad URLs return 400, sender-supplied field names no longer echoed, records capped at 500 of each kind.
 The fixes have tests; the reviewer has not re-read them.
 
-Conditions still open for deploy time:
+Security Reviewer, same day: **go with conditions** for commit `cea6910`. The static-secret form is accepted for this
+demo service only; the value must never be reused for a client endpoint.
 
-- Check which address the host puts last in `X-Forwarded-For` on the first deploy. Per-source limits rely on it.
+Conditions still open:
+
+- Check which address Render puts last in `X-Forwarded-For`. Per-source limits rely on it. Not checked yet.
+- Client Data Protection sign-off before the first real prospect call.
 - The instance must be reachable only through the host's proxy.
 - Security Reviewer accepts or refuses the static-secret form.
 - Preview protection, branch protection, a project-scoped deploy token, both secrets in the host's secret store.

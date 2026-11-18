@@ -68,7 +68,8 @@ function validate(schema, body) {
   if (Object.keys(body).some((key) => !Object.hasOwn(schema, key))) bad.push('unknown_field');
   for (const [key, spec] of Object.entries(schema)) {
     const raw = body[key];
-    if (raw === undefined || raw === null) {
+    // Optional fields a model sends as null or an empty string count as left out.
+    if (raw === undefined || raw === null || (raw === '' && !spec.required)) {
       if (spec.required) bad.push(key);
       continue;
     }
