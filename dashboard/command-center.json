@@ -1,7 +1,7 @@
 {
  "summary": [
   {
-   "week_of": "2026-11-10",
+   "week_of": "2026-11-16",
    "demos_booked": 0,
    "demos_goal": 5,
    "emails_sent": 0,
@@ -11,7 +11,7 @@
    "mrr": 0,
    "fixed_costs_month": 148,
    "approvals_waiting": 2,
-   "blockers_open": 6,
+   "blockers_open": 7,
    "security_verdict": "CLEAR WITH CONDITIONS",
    "findings_open": 14,
    "findings_critical": 0,
@@ -27,7 +27,7 @@
    "dept": "Orchestration",
    "agents": 1,
    "status": "green",
-   "headline": "Focus narrowed to HVAC; two-week cash target $15k\u2013$20k",
+   "headline": "HVAC sprint: start calling the 12, confirm the $6,500 package, stand up the HVAC demo line",
    "open_items": 1,
    "waiting_on_juan": 4,
    "view": "orchestration"
@@ -35,10 +35,10 @@
   {
    "dept": "Sales",
    "agents": 3,
-   "status": "red",
-   "headline": "HVAC only: $2,500 setup + $1,500/mo. HQ HVAC list is mostly too small; new 5\u201325 truck list needed",
+   "status": "yellow",
+   "headline": "HVAC only: 12 owners from Apollo loaded into HQ; call script ready; email sequence staged but blocked on address and domain",
    "open_items": 3,
-   "waiting_on_juan": 2,
+   "waiting_on_juan": 3,
    "view": "sales"
   },
   {
@@ -110,10 +110,10 @@
    "agent": "Cold Outreach SDR",
    "dept": "Sales",
    "role": "Prospecting, cold email, replies",
-   "last_run": "2026-11-13",
-   "status": "blocked",
-   "latest": "Dental batch staged, 0 verified leads, BLOCKED on address/domain",
-   "file": "outreach/batches/2026-11-13-dental.md"
+   "last_run": "2026-11-18",
+   "status": "ran",
+   "latest": "12 HVAC owners loaded into HQ from Apollo; call script and 3-touch email sequence written",
+   "file": "outreach/hvac/call-script.md"
   },
   {
    "agent": "Outbound Systems Strategist",
@@ -227,10 +227,10 @@
    "agent": "Outreach Compliance Officer",
    "dept": "Security",
    "role": "CAN-SPAM, suppression, caps, DNS",
-   "last_run": "2026-11-13",
+   "last_run": "2026-11-18",
    "status": "ran",
-   "latest": "Dental batch: copy PASS, send FAIL (address, domain)",
-   "file": "outreach/COMPLIANCE.md"
+   "latest": "HVAC email sequence: copy PASS, send FAIL (address, domain)",
+   "file": "outreach/hvac/email-sequence.md"
   },
   {
    "agent": "Website & App Security Reviewer",
@@ -245,9 +245,9 @@
    "agent": "Security Reviewer (veto)",
    "dept": "Security",
    "role": "Final gate on 5 action classes",
-   "last_run": "2026-11-13",
+   "last_run": "2026-11-18",
    "status": "ran",
-   "latest": "Audit verdict CLEAR WITH CONDITIONS",
+   "latest": "HVAC email sequence BLOCK until address and domain exist; HQ import of 12 leads approved by Juan",
    "file": "outputs/2026-11-13-security-audit.md"
   }
  ],
@@ -262,13 +262,13 @@
    "file": "outputs/sending-infrastructure.md"
   },
   {
-   "item": "Dental cold-email batch (3 touches, 0 verified leads)",
+   "item": "HVAC cold-email sequence (3 touches) for the Apollo list",
    "class": "email",
    "agent": "Cold Outreach SDR",
-   "amount": "0 recipients",
-   "since": "2026-11-13",
+   "amount": "12 recipients",
+   "since": "2026-11-18",
    "status": "BLOCKED by Security until address + domain exist",
-   "file": "outreach/batches/2026-11-13-dental.md"
+   "file": "outreach/hvac/email-sequence.md"
   }
  ],
  "blockers": [
@@ -317,8 +317,16 @@
    "blocks": "Demos at the $2,500 + $1,500 price",
    "owner": "Cold Outreach SDR",
    "since": "2026-11-13",
-   "due": "2026-11-17",
-   "status": "HQ list has 8 of 87 shops with 50+ reviews"
+   "due": "2026-11-21",
+   "status": "12 loaded from Apollo; 9 more to check; 175 Apollo credits left"
+  },
+  {
+   "item": "HVAC demo line (number + calendar)",
+   "blocks": "Running any HVAC demo",
+   "owner": "Juan + Receptionist Builder",
+   "since": "2026-11-18",
+   "due": "2026-11-20",
+   "status": "Open"
   }
  ],
  "findings": [
@@ -471,9 +479,16 @@
   {
    "item": "Build list: 200 HVAC shops, 5\u201325 trucks, hottest 50 tagged",
    "owner": "Cold Outreach SDR",
-   "due": "2026-11-17",
-   "status": "red",
-   "note": "Current HQ HVAC list is mostly too small for the offer"
+   "due": "2026-11-21",
+   "status": "yellow",
+   "note": "12 fit owners loaded from Apollo on 11/18; 9 possibles to check; Free plan blocks agent-run searches"
+  },
+  {
+   "item": "Call the 12 HVAC owners (3 attempts each over 7 days)",
+   "owner": "Juan",
+   "due": "2026-11-25",
+   "status": "yellow",
+   "note": "Script in outreach/hvac/call-script.md"
   },
   {
    "item": "PO Box / virtual office \u2192 address in business file",
@@ -650,14 +665,26 @@
    "value": 0,
    "target": 4,
    "note": "No sends yet"
+  },
+  {
+   "metric": "HVAC owners loaded in HQ (Apollo)",
+   "value": 12,
+   "target": 50,
+   "note": "Campaign HVAC Apollo Nov 2026"
+  },
+  {
+   "metric": "Apollo credits remaining",
+   "value": 175,
+   "target": 0,
+   "note": "Free plan; 50 used on 11/18"
   }
  ],
- "synced_at": "2026-11-14T01:35:39Z",
+ "synced_at": "2026-11-18T18:53:56Z",
  "hq_stages": [
   {
    "stage": "New lead",
    "order": 0,
-   "leads": 466,
+   "leads": 478,
    "value": 0
   },
   {
@@ -745,6 +772,14 @@
    "lost": 1
   },
   {
+   "campaign": "HVAC Apollo Nov 2026",
+   "leads": 12,
+   "untouched": 12,
+   "in_progress": 0,
+   "won": 0,
+   "lost": 0
+  },
+  {
    "campaign": "No-website preview video Nov 2026",
    "leads": 5,
    "untouched": 5,
@@ -759,16 +794,16 @@
    "leads": 193
   },
   {
+   "industry": "HVAC",
+   "leads": 99
+  },
+  {
    "industry": "Landscaping",
    "leads": 98
   },
   {
    "industry": "Cleaning / janitorial",
    "leads": 97
-  },
-  {
-   "industry": "HVAC",
-   "leads": 87
   },
   {
    "industry": "Dental / medical",
@@ -796,26 +831,6 @@
   }
  ],
  "hq_activity": [
-  {
-   "day": "2026-11-01",
-   "activities": 0,
-   "outbound": 0
-  },
-  {
-   "day": "2026-11-02",
-   "activities": 0,
-   "outbound": 0
-  },
-  {
-   "day": "2026-11-03",
-   "activities": 17,
-   "outbound": 2
-  },
-  {
-   "day": "2026-11-04",
-   "activities": 42,
-   "outbound": 12
-  },
   {
    "day": "2026-11-05",
    "activities": 16,
@@ -865,19 +880,39 @@
    "day": "2026-11-14",
    "activities": 5,
    "outbound": 0
+  },
+  {
+   "day": "2026-11-15",
+   "activities": 0,
+   "outbound": 0
+  },
+  {
+   "day": "2026-11-16",
+   "activities": 0,
+   "outbound": 0
+  },
+  {
+   "day": "2026-11-17",
+   "activities": 0,
+   "outbound": 0
+  },
+  {
+   "day": "2026-11-18",
+   "activities": 0,
+   "outbound": 0
   }
  ],
  "hq_summary": [
   {
-   "total_leads": 502,
-   "open_leads": 484,
+   "total_leads": 514,
+   "open_leads": 496,
    "won": 0,
    "lost": 18,
    "call_booked": 1,
    "proposals_sent": 0,
    "appointments": 2,
    "proposals_docs": 2,
-   "activities_14d": 80
+   "activities_14d": 21
   }
  ]
 }
