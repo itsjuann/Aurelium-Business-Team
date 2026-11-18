@@ -63,7 +63,7 @@
    "dept": "Delivery",
    "agents": 3,
    "status": "yellow",
-   "headline": "No deployments yet. Offer now promises dispatch-software integration and a 90-day $15k guarantee; integration route not scoped",
+   "headline": "HVAC demo line drafted, not built: needs a demo CRM choice and booking endpoints. Dispatch-software integration route still not scoped",
    "open_items": 1,
    "waiting_on_juan": 0,
    "view": "delivery"
@@ -173,10 +173,10 @@
    "agent": "Receptionist Builder",
    "dept": "Delivery",
    "role": "ElevenLabs scripts, flows, tests",
-   "last_run": "",
-   "status": "idle",
-   "latest": "Own demo agent live; retention setting open (F3)",
-   "file": ""
+   "last_run": "2026-11-18",
+   "status": "ran",
+   "latest": "HVAC demo line drafted (prompt, 8 flows, tool specs, 12 test calls); not built or published",
+   "file": "clients/_demo-hvac/receptionist/script.md"
   },
   {
    "agent": "Delivery Manager",
@@ -318,7 +318,7 @@
    "owner": "Juan + Receptionist Builder",
    "since": "2026-11-18",
    "due": "2026-11-20",
-   "status": "Open"
+   "status": "Script drafted 11/18; demo CRM screen not chosen, booking endpoints not built, agent not published"
   },
   {
    "item": "Integration route for each dispatch system (ServiceTitan, Housecall Pro, Jobber)",
@@ -542,9 +542,9 @@
   {
    "item": "HVAC demo line (AC-out call booked into demo CRM)",
    "owner": "Receptionist Builder",
-   "due": "2026-11-17",
+   "due": "2026-11-20",
    "status": "yellow",
-   "note": "Needed for every HVAC demo"
+   "note": "Draft in clients/_demo-hvac/; needs demo CRM choice, endpoints, security review, then publish approval"
   },
   {
    "item": "GitHub push protection + gitleaks hook",
