@@ -36,7 +36,7 @@
    "dept": "Sales",
    "agents": 3,
    "status": "yellow",
-   "headline": "Selling the whole system at $25,000 a year, $15,000 upfront, plus $2,500 setup. 12 HVAC owners in HQ; emails blocked on mailing address",
+   "headline": "Selling the whole system: $15,000 upfront, $2,500 setup, $1,200 a month. 12 HVAC owners in HQ; emails blocked on mailing address",
    "open_items": 3,
    "waiting_on_juan": 3,
    "view": "sales"
@@ -62,9 +62,9 @@
   {
    "dept": "Delivery",
    "agents": 3,
-   "status": "green",
-   "headline": "No client deployments yet; 5-day go-live plan ready",
-   "open_items": 0,
+   "status": "yellow",
+   "headline": "No deployments yet. Offer now promises dispatch-software integration and a 90-day $15k guarantee; integration route not scoped",
+   "open_items": 1,
    "waiting_on_juan": 0,
    "view": "delivery"
   },
@@ -81,7 +81,7 @@
    "dept": "Finance",
    "agents": 1,
    "status": "yellow",
-   "headline": "MRR $0. Price set by Juan: $25,000 a year, $15,000 upfront, $2,500 setup. One close brings in $17,500 at signing",
+   "headline": "MRR $0. Price set by Juan: $15,000 upfront, $2,500 setup, $1,200/mo. One close is $17,500 at signing and $1,200 MRR",
    "open_items": 1,
    "waiting_on_juan": 1,
    "view": "finance"
@@ -305,14 +305,6 @@
    "status": "Open"
   },
   {
-   "item": "Confirm two price details and the guarantee threshold",
-   "blocks": "Proposal wording",
-   "owner": "Juan",
-   "since": "2026-11-13",
-   "due": "",
-   "status": "Price set 2026-11-18; setup fee placement and balance schedule open"
-  },
-  {
    "item": "HVAC list of 5–25 truck shops",
    "blocks": "Demos at the $2,500 + $1,500 price",
    "owner": "Cold Outreach SDR",
@@ -327,6 +319,14 @@
    "since": "2026-11-18",
    "due": "2026-11-20",
    "status": "Open"
+  },
+  {
+   "item": "Integration route for each dispatch system (ServiceTitan, Housecall Pro, Jobber)",
+   "blocks": "Promising a 14-day go-live on the full system",
+   "owner": "Receptionist Builder + Juan",
+   "since": "2026-11-18",
+   "due": "2026-11-25",
+   "status": "Not yet scoped"
   }
  ],
  "findings": [
@@ -594,28 +594,28 @@
    "note": "Midpoint of $115–140 estimate"
   },
   {
-   "item": "Year-one price, whole system",
-   "amount": 25000,
+   "item": "Upfront, due at signing",
+   "amount": 15000,
    "kind": "price",
    "note": "Set by Juan 2026-11-18"
   },
   {
-   "item": "Due at signing",
-   "amount": 15000,
-   "kind": "price",
-   "note": "Upfront part of the $25,000"
-  },
-  {
-   "item": "Balance across the year",
-   "amount": 10000,
-   "kind": "price",
-   "note": "About $833 a month for 12 months; schedule to confirm"
-  },
-  {
-   "item": "Setup fee",
+   "item": "Setup fee, due at signing",
    "amount": 2500,
    "kind": "price",
-   "note": "Read as on top of the $25,000; to confirm"
+   "note": "Set by Juan 2026-11-18"
+  },
+  {
+   "item": "Monthly, per client",
+   "amount": 1200,
+   "kind": "price",
+   "note": "MRR per client; billing assumed to start at go-live"
+  },
+  {
+   "item": "Year-one total per client",
+   "amount": 31900,
+   "kind": "price",
+   "note": "$17,500 at signing + 12 x $1,200"
   }
  ],
  "content": [

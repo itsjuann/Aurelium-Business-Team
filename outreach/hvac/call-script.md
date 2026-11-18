@@ -45,7 +45,7 @@ Booked: confirm the email for the invite, send the calendar invite the same hour
 ## If they ask the price
 > "It's built around your shop, so I'd rather see your numbers first. If the math doesn't work in thirty minutes, we stop there."
 
-If they ask a second time, answer straight: "It is $25,000 for the year. $15,000 gets it built, the rest is spread across the year, and there is a $2,500 setup fee." Never dodge twice.
+If they ask a second time, answer straight: "It is $15,000 to build it, a $2,500 setup fee, and $1,200 a month after that." Never dodge twice.
 
 ## Objections
 | They say | You say |
@@ -55,6 +55,7 @@ If they ask a second time, answer straight: "It is $25,000 for the year. $15,000
 | "We answer our own phones." | "During the day, sure. I'm asking about 9pm, Sundays, and the first cold snap when every line is busy." |
 | "Send me some info." | "Happy to. So I send the right thing: is the bigger headache after-hours calls or estimates that go quiet?" Then send one short email and log a follow-up. |
 | "Too expensive." (after price) | "Compared to what? A CSR costs more than that a year and does not work nights. Let's see whether your numbers say it pays or not." |
+| "We already have software for that." | "Keep it. This books into what you already run. Which one are you on?" |
 | "So it's an answering bot?" | "That is one piece. The rest is what happens after the call: the estimate follow-up, the tune-up reminders, the reviews, the website and the dashboard." |
 | "Not interested." | "Understood. Thanks for the minute." Log it. Do not push. |
 | "Take me off your list." | "Done. You won't hear from me again." Mark **Do not contact** in HQ and add them to the suppression list the same day. |
@@ -71,4 +72,4 @@ If they ask a second time, answer straight: "It is $25,000 for the year. $15,000
 ## Open items before the first demo
 - **[CONFIRM] HVAC demo line.** A number the owner can call and a calendar it books into. Do not book a demo you cannot run.
 - **[CONFIRM] Booking link** for the invite.
-- **[CONFIRM] Two price details:** whether the $2,500 setup fee sits on top of the $25,000, and the schedule for the $10,000 balance.
+- **[CONFIRM]** whether the $1,200 monthly billing starts at go-live.

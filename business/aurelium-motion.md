@@ -37,20 +37,25 @@
 - New website with booking and the receptionist's number built in.
 - Get Found: Google search, Google Maps and AI-assistant visibility (service and town pages, Business Profile posts, review replies, monthly ranking report).
 - Owner dashboard, weekly numbers by email, monthly results call.
+- **Works with their dispatch software.** Booked jobs land in the system they already run (ServiceTitan, Housecall Pro, Jobber). Included in the price (adopted 2026-11-18).
+- **Territory exclusivity.** One HVAC client per service area: the towns the shop names at signing, written into the agreement, for as long as they are a client (adopted 2026-11-18).
 - Built on ElevenLabs Agents, n8n and Twilio (our own agent is "Aurelium Motion Receptionist" on Claude Haiku 4.5 with a `save_lead` tool). Platform per client is Juan's call.
 
-**Pricing (set by Juan, 2026-11-18)**
+**Pricing (set by Juan, 2026-11-18, final for now)**
 | Item | Amount |
 |---|---|
-| Year-one price, whole system | **$25,000** |
-| Due at signing | **$15,000** |
-| Balance | **$10,000** spread across the year (working reading: 12 monthly payments of about $833, starting at go-live) **[CONFIRM schedule]** |
-| Setup fee | **$2,500** (working reading: on top of the $25,000, due at signing, so $17,500 at signing and $27,500 in year one) **[CONFIRM: on top of, or inside, the $25,000]** |
+| Upfront, due at signing | **$15,000** |
+| Setup fee, due at signing | **$2,500** |
+| Monthly | **$1,200** per month |
+| Cash at signing | $17,500 |
+| Year-one total | $31,900 ($17,500 + 12 × $1,200) |
+| Year two onward | $14,400 a year at $1,200 per month |
 
-- This replaces every earlier price: the $15,000 annual proposal, $2,500 + $1,500/month, the $6,500 package, the draft tiers, and both offer sheets' prices.
-- For the owner's math: $27,500 a year is about $2,290 a month, under the $3,500+ a month a CSR costs.
+- This replaces every earlier price: the $25,000 year price, the $15,000 annual proposal, $2,500 + $1,500/month, the $6,500 package, the draft tiers, and both offer sheets' prices.
+- For the owner's math: year one works out to about $2,660 a month, under the $3,500+ a month a CSR costs. From year two it is $1,200 a month.
+- Working assumption **[CONFIRM]**: the $1,200 monthly billing starts at go-live.
 - Terms carried from the offer sheets until Juan says otherwise: live in 14 days for the full system; no free trial, a demo built with their company name instead; setup fee non-refundable once the build starts; they own their data and their number.
-- **[CONFIRM]** the 90-day guarantee threshold at this price, and what year two costs.
+- **90-day guarantee (adopted 2026-11-18):** If the system has not booked at least $15,000 in jobs within 90 days of go-live, the $1,200 monthly fee pauses and Aurelium keeps working at no charge until it has. Booked jobs are counted from the system's own records, so source tagging and the monthly report are mandatory on every deployment.
 - Pricing is discussed on the second sales call and in the proposal, never in cold outreach.
 
 **Why we win**
@@ -58,6 +63,7 @@
 - The owner calls the AI live on the demo and watches the booking land in the CRM.
 - One recovered install pays for months of the system; the ROI math is done with the owner's own numbers.
 - Honest positioning: it says it is an AI receptionist if asked.
+- Three promises no answering service makes: it books into the software they already run, they are the only HVAC shop in their area that gets it, and $15,000 in booked jobs in 90 days is guaranteed in writing.
 
 ## 3. Audience: who we sell to
 
@@ -104,7 +110,7 @@
 
 ## 6. Current goals (Q4 2026)
 
-1. **Sign HVAC clients on the whole system: $25,000 for year one, $15,000 upfront, plus a $2,500 setup fee.** Juan's cash target (set 2026-11-13): turn $4k of incoming cash into $15k–$20k collected within about two weeks. Offer-doc milestone: first signed HVAC client by December 20, 2026.
+1. **Sign HVAC clients on the whole system: $15,000 upfront, $2,500 setup, then $1,200 a month.** Juan's cash target (set 2026-11-13): turn $4k of incoming cash into $15k–$20k collected within about two weeks. Offer-doc milestone: first signed HVAC client by December 20, 2026.
 2. **Build the right list:** 200 HVAC shops with 5–25 trucks in the region, with the hottest 50 tagged (running ads or hiring a CSR). The current HQ HVAC list is mostly too small.
 3. **Demos:** 2+ booked per week as the floor; the two-week cash target needs far more (see `outputs/` sprint math).
 4. Get the sending infrastructure right before email volume: secondary domains, SPF/DKIM/DMARC, warm-up caps per `outputs/sending-caps.md`.
