@@ -227,15 +227,15 @@ Filling the FAQ for a demo: Juan fills rows 1, 2, 5 to 14 from the prospect's ow
 
 ---
 
-## 6. Tools (specs only, nothing built)
+## 6. Tools (endpoints built in `apps/hvac-demo/`, not deployed)
 
-No endpoint exists. Building and deploying one is a separate Deploys-class task for `website-app-security-reviewer`. Tool names appear in the prompt. URLs, tokens and secrets never do.
+The three endpoints and the demo CRM screen are built and tested in `apps/hvac-demo/` (2026-11-18). Nothing is deployed, so there is still no URL. Deploying is a Deploys-class action for `website-app-security-reviewer`, `security-reviewer` and Juan. One difference from the list below: the endpoints accept either the signed header or the shared secret sent as a fixed header, because ElevenLabs tools are expected to send only a fixed secret. See `apps/hvac-demo/README.md`. Tool names appear in the prompt. URLs, tokens and secrets never do.
 
 Shared requirements for every webhook tool, from `docs/webhook-security-checklist.md`:
 - HTTPS only. Auth header name: `X-Aurelium-Signature`, an HMAC over the raw body with a timestamp. Requests older than 5 minutes are rejected.
 - Secret name: `SAVE_LEAD_WEBHOOK_SECRET` (already in `.env.example`). Value lives in the ElevenLabs tool secret store and the endpoint's server-side env only.
 - Strict JSON schema, unknown fields rejected, phone normalized to E.164, idempotent on `conversation_id`, rate limited, logs carry IDs and status only.
-- Destination URL: `[PLACEHOLDER demo CRM endpoint URL]`. Not chosen yet (open question 1).
+- Destination URL: `[PLACEHOLDER demo CRM endpoint URL]`. Set once `apps/hvac-demo/` is deployed. Paths: `/tools/check_availability`, `/tools/book_appointment`, `/tools/save_lead`. `check_availability` is POST only.
 
 ### 6.1 `check_availability` (webhook, GET or POST)
 

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Front Office</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<section id="login" class="login" hidden>
+  <form id="login-form" class="card login-card">
+    <h1>Front Office</h1>
+    <p class="muted">Demo CRM. Enter the access key to continue.</p>
+    <label for="key">Access key</label>
+    <input id="key" type="password" autocomplete="off" required>
+    <button type="submit" class="btn primary">Open</button>
+    <p id="login-error" class="error" role="alert" hidden>That key was not accepted.</p>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="brand">
+      <span id="shop" class="shop"></span>
+      <span class="sub">Front Office</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><span id="stat-booked" class="num">0</span><span class="lbl">Booked by the AI receptionist</span></div>
+      <div class="stat"><span id="stat-leads" class="num">0</span><span class="lbl">Leads captured</span></div>
+      <div class="live"><span class="dot"></span><span id="live-text">Live</span></div>
+    </div>
+    <div class="actions">
+      <button id="btn-settings" class="btn">Set up demo</button>
+      <button id="btn-reset" class="btn danger">Clear demo</button>
+      <button id="btn-logout" class="btn">Sign out</button>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="col">
+      <h2>Schedule</h2>
+      <div id="calendar" class="calendar"></div>
+      <h2>Leads to call back</h2>
+      <div id="leads" class="leads"></div>
+    </section>
+    <aside class="col">
+      <h2>Record</h2>
+      <div id="detail" class="card detail"></div>
+    </aside>
+  </main>
+</div>
+
+<dialog id="settings">
+  <form id="settings-form" method="dialog" class="dialog-body">
+    <h2>Set up demo</h2>
+    <p class="muted">Shown on this screen and in the customer texts. Cleared by "Clear demo".</p>
+    <label for="set-shop">Shop name</label>
+    <input id="set-shop" maxlength="80" required>
+    <label for="set-towns">Service towns, separated by commas</label>
+    <input id="set-towns" maxlength="200">
+    <div class="row">
+      <button type="button" id="settings-cancel" class="btn">Cancel</button>
+      <button type="submit" class="btn primary">Save</button>
+    </div>
+  </form>
+</dialog>
+<script src="/app.js"></script>
+</body>
+</html>

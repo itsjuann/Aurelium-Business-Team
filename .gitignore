@@ -168,3 +168,4 @@ clients/**/*.json
 *.webm
 *.flac
 /dashboard/db/
+/apps/*/data/
