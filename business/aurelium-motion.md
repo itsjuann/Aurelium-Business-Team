@@ -80,7 +80,7 @@
 - GitHub — this repo and anything we deploy
 - Vercel / Render — website and app hosting (no projects deployed yet)
 - Notion — needs re-authorization before agents can use it
-- Cold-email sending: **plan approved by Juan 2026-11-13** (see `outputs/sending-infrastructure.md`): secondary domains aureliummotion.co and getaurelium.com, two Google Workspace mailboxes each, Instantly for sequencing and warm-up. Juan buys the domains and mailboxes himself with 2FA; Deliverability then publishes DNS and starts the 21-day warm-up. Status: **not yet purchased**. Never send cold outreach from aureliummotion.com or a gmail.com address.
+- Cold-email sending: **plan approved by Juan 2026-11-13** (see `outputs/sending-infrastructure.md`): secondary domains aureliummotion.co and getaurelium.com, two Google Workspace mailboxes each, Instantly for sequencing and warm-up. Juan buys the domains and mailboxes himself with 2FA; Deliverability then publishes DNS and starts the 21-day warm-up. Status: **not yet purchased**. Never send cold outreach from aureliummotion.com or a gmail.com address. **One-time exception decided by Juan on 2026-11-18:** the 12 owners in the HQ campaign "HVAC Apollo Nov 2026" may be emailed one-to-one from aureliummotion@gmail.com, as individual drafts Juan sends by hand, spread out, plain text, no links or tracking. This covers that batch only and still requires the physical mailing address in the footer. Sequences and any larger batch wait for the secondary domain.
 - Demo booking link: **[CONFIRM]** (Google Calendar appointment page or Cal.com)
 
 ## 5. Brand voice
