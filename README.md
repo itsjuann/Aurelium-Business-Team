@@ -30,7 +30,8 @@ Needs Node 22.13+. Data lives in a SQLite file (`data/app.db`).
 
 Copy `.env.example` and set at least `ADMIN_PASSWORD`, `SESSION_SECRET` and `BASE_URL`
 (the public address printed inside every QR code). `render.yaml` deploys it to Render with a
-persistent disk. Run a single instance: the scheduler runs in-process once a minute.
+persistent disk, generates the admin password and session secret, and uses the service's
+Render address until you set `BASE_URL` to a custom domain. Run a single instance: the scheduler runs in-process once a minute.
 
 Until providers are connected, texts and emails are **simulated**: recorded under Messages, never sent.
 

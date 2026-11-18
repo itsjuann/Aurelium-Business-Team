@@ -11,7 +11,8 @@ export const config = {
   isProd,
   port: Number(env.PORT || 3000),
   // Public origin printed inside QR codes and messages, e.g. https://guests.example.com
-  baseUrl: (env.BASE_URL || `http://localhost:${env.PORT || 3000}`).replace(/\/$/, ''),
+  // Falls back to the address Render assigns the service.
+  baseUrl: (env.BASE_URL || env.RENDER_EXTERNAL_URL || `http://localhost:${env.PORT || 3000}`).replace(/\/$/, ''),
   dbPath: env.DB_PATH || 'data/app.db',
   adminPassword: env.ADMIN_PASSWORD || 'admin',
   sessionSecret: env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
