@@ -1,0 +1,26 @@
+# Render Blueprint for the HVAC demo CRM and booking endpoints.
+# Both secrets are generated on Render and never appear in this repo.
+# Auto-deploy is off: every deploy is a separate approval.
+services:
+  - type: web
+    name: aurelium-hvac-demo
+    runtime: node
+    plan: free
+    region: virginia
+    branch: claude/sharp-wozniak-oaqxpl
+    rootDir: apps/hvac-demo
+    buildCommand: "true"
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    autoDeploy: false
+    envVars:
+      - key: SAVE_LEAD_WEBHOOK_SECRET
+        generateValue: true
+      - key: DEMO_CRM_VIEW_KEY
+        generateValue: true
+      - key: TRUST_PROXY
+        value: "1"
+      - key: REQUIRE_HTTPS
+        value: "1"
+      - key: NODE_VERSION
+        value: "22"
