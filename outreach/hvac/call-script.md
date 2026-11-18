@@ -3,7 +3,9 @@
 Owner: Cold Outreach SDR. Caller: Juan. Offer and pricing: `business/aurelium-motion.md`. Demo flow and objection answers come from Juan's offer doc, "Aurelium HVAC Offer".
 List: campaign **HVAC Apollo Nov 2026** in Aurelium Motion HQ (12 owners and managers, loaded 2026-11-18).
 
-**Goal of the call:** book a 30-minute demo. Not to sell, not to explain the product.
+**Goal of the call:** book a 30-minute discovery call (Call 1 in `outreach/hvac/sales-call-15k.md`). Not to sell, not to explain the product.
+
+**What we sell:** the whole front-office system, not an AI receptionist. The receptionist is one piece of it.
 
 ## Before you dial (2 minutes per shop)
 - Open the lead in HQ. Read the contact name and title.
@@ -22,8 +24,8 @@ If the contact is out: ask for the best time, thank them, log it. Do not pitch t
 ## 2. Opener (permission first)
 > "Hi {{first_name}}, Juan Jackson with Aurelium Motion. I'm local, here in Philly. You weren't expecting my call. Can I take thirty seconds to tell you why I called, and you tell me if it's worth another two minutes?"
 
-## 3. The reason (two sentences, then stop)
-> "We set up AI receptionists for HVAC shops. It answers every call, books the job onto your tech calendar, and texts you the details, including nights and weekends."
+## 3. The reason (three sentences, then stop)
+> "We build a front-office system for HVAC shops. An AI receptionist answers and books every call, and the same system chases unsold estimates, brings past customers back for tune-ups and asks for reviews. You see all of it in one dashboard."
 
 ## 4. One question, then listen
 > "What happens right now when someone calls at nine on a Saturday night with no heat?"
@@ -36,14 +38,14 @@ Follow-ups, only the ones that fit:
 Write down their words. Their numbers are the demo.
 
 ## 5. The ask
-> "Here's what I'd suggest. Thirty minutes. You call the AI yourself, tell it your heat's out, and watch the job land on the calendar. Then we run the math with your numbers, not mine. If it isn't a fit, I'll tell you. Does {{day}} at {{time}} or {{day}} at {{time}} work?"
+> "Here's what I'd suggest. Thirty minutes on your numbers: calls, missed calls, estimates that never close. If it looks worth it, I build a demo with {{company}}'s name on it and you call it yourself. If it isn't a fit, I'll tell you. Does {{day}} at {{time}} or {{day}} at {{time}} work?"
 
 Booked: confirm the email for the invite, send the calendar invite the same hour, log it in HQ and move the lead to **Call booked**.
 
 ## If they ask the price
-> "It's a setup fee and a flat monthly. I'd rather you hear it answer a call first and see your own numbers. If the math doesn't work in thirty minutes, we stop there."
+> "It's built around your shop, so I'd rather see your numbers first. If the math doesn't work in thirty minutes, we stop there."
 
-If they ask a second time, answer straight: **$2,500 setup and $1,500 a month.** Never dodge twice.
+If they ask a second time, answer straight **[CONFIRM: proposed structure]**: "$15,000 for the first year with everything in it, or $2,500 to set up and $1,500 a month." Never dodge twice.
 
 ## Objections
 | They say | You say |
@@ -52,7 +54,8 @@ If they ask a second time, answer straight: **$2,500 setup and $1,500 a month.**
 | "Customers hate robots." | "Fair. If someone asks, it says it's an AI receptionist. Call it yourself and judge. They hate voicemail more." |
 | "We answer our own phones." | "During the day, sure. I'm asking about 9pm, Sundays, and the first cold snap when every line is busy." |
 | "Send me some info." | "Happy to. So I send the right thing: is the bigger headache after-hours calls or estimates that go quiet?" Then send one short email and log a follow-up. |
-| "Too expensive." (after price) | "Compared to what? One recovered install covers months of it. Let's see whether your numbers say that or not." |
+| "Too expensive." (after price) | "Compared to what? A CSR costs more than that a year and does not work nights. Let's see whether your numbers say it pays or not." |
+| "So it's an answering bot?" | "That is one piece. The rest is what happens after the call: the estimate follow-up, the tune-up reminders, the reviews, the website and the dashboard." |
 | "Not interested." | "Understood. Thanks for the minute." Log it. Do not push. |
 | "Take me off your list." | "Done. You won't hear from me again." Mark **Do not contact** in HQ and add them to the suppression list the same day. |
 
@@ -68,4 +71,4 @@ If they ask a second time, answer straight: **$2,500 setup and $1,500 a month.**
 ## Open items before the first demo
 - **[CONFIRM] HVAC demo line.** A number the owner can call and a calendar it books into. Do not book a demo you cannot run.
 - **[CONFIRM] Booking link** for the invite.
-- **[CONFIRM] What the $6,500 package covers**, so the proposal wording is ready.
+- **[CONFIRM] The $15,000 annual structure** in `outreach/hvac/sales-call-15k.md`, and whether the earlier $6,500 package still exists.

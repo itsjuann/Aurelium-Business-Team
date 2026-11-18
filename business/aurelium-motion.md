@@ -18,32 +18,38 @@
 | Physical mailing address for email footers | **[CONFIRM — pending]**. Juan is setting up a PO Box or virtual office (decided 2026-11-13). Required by CAN-SPAM; every cold-email batch stays blocked until this line holds a real address. |
 | Time zone | America/New_York |
 | Legal entity | **[CONFIRM]** (LLC / sole proprietor) |
-| What we are | An AI growth and marketing agency. Core product is the Aurelium Front Office for HVAC: a custom CRM with an AI receptionist built in. Focus as of 2026-11-13: HVAC deals only. |
+| What we are | An AI growth and marketing agency. Core product is the Aurelium Front Office for HVAC: a complete front-office system (CRM, AI receptionist, follow-up, website, search visibility, reporting). Focus as of 2026-11-13: HVAC deals only. |
 
 ## 2. Core offer: Aurelium Front Office for HVAC
 
 > **Focus decided by Juan on 2026-11-13: HVAC deals only.** Every other vertical is paused. The source of truth for what is included, the guarantee, the demo flow and the objection answers is Juan's offer doc, "Aurelium HVAC Offer" (https://claude.ai/artifact/T15BkbgChhJi6iLkEm2VaE). Where that doc and this file disagree on price, this file wins because it carries Juan's latest word.
 
-**One sentence:** A custom CRM with an AI receptionist built in, for HVAC shops in the Philadelphia region: every call answered, booked and followed up, 24/7.
+**One sentence:** One front-office system built for an HVAC shop: it answers and books every call, follows up on every estimate, brings past customers back, earns reviews, gets the shop found, and shows the owner what it made them.
 
-**What the client gets** (from the offer doc)
-- AI receptionist, 24/7, in their brand voice: triages emergencies vs routine, quotes service call fees.
-- Live booking onto the tech calendar, with a confirmation text to the customer.
-- Custom HVAC CRM: one dashboard for every lead, call, job and customer.
-- Estimate follow-up at day 2, 7 and 14. Maintenance-plan reactivation for spring AC and fall furnace tune-ups.
-- Review requests after every completed job. Missed-call text back. Monthly ROI report.
-- Built on ElevenLabs Agents (our own agent is "Aurelium Motion Receptionist" on Claude Haiku 4.5 with a `save_lead` tool). The offer doc mentions Vapi and Twilio for minutes; platform per client is Juan's call.
+> **Positioning decided by Juan on 2026-11-18: we sell the whole system, never "an AI receptionist".** The receptionist is one piece. Every script, email, post and proposal leads with the system and the revenue it recovers. Full sales flow: `outreach/hvac/sales-call-15k.md`.
 
-**Pricing (set by Juan, 2026-11-13)**
-| Item | Amount |
-|---|---|
-| Setup fee | $2,500 one-time |
-| Monthly (MRR) | $1,500 per month |
-| Package | $6,500 **[CONFIRM: what the $6,500 covers. Working reading: the upfront package, setup plus the first three months prepaid at $500 off ($2,500 + $4,500 − $500).]** |
+**What the client gets** (everything in Juan's two offer sheets)
+- AI receptionist, 24/7, in their brand voice: sorts emergencies from routine, quotes the service-call fee, books the job.
+- Live booking onto the tech calendar, with confirmation and day-before reminder texts.
+- Custom HVAC CRM: one record per customer with every call, job, estimate, text and review.
+- Missed-call and unbooked-lead text back. Estimate follow-up at day 2, 7 and 14. Maintenance-plan reactivation for spring AC and fall furnace tune-ups.
+- Review requests after every completed job.
+- New website with booking and the receptionist's number built in.
+- Get Found: Google search, Google Maps and AI-assistant visibility (service and town pages, Business Profile posts, review replies, monthly ranking report).
+- Owner dashboard, weekly numbers by email, monthly results call.
+- Built on ElevenLabs Agents, n8n and Twilio (our own agent is "Aurelium Motion Receptionist" on Claude Haiku 4.5 with a `save_lead` tool). Platform per client is Juan's call.
 
-- Supersedes the earlier draft tiers ($297–$797/mo) and the offer doc's Growth price of $2,500/mo.
-- Terms carried from the offer doc until Juan says otherwise: 6-month minimum then month to month; live in 10 days; no free trial, a live demo instead. **[CONFIRM]** the 90-day guarantee threshold: the doc's $7,500 was three months of fees at $2,500/mo; at $1,500/mo three months is $4,500.
-- Pricing is discussed on the demo and in the proposal, never in cold outreach.
+**Pricing**
+| Option | Amount | Status |
+|---|---|---|
+| Annual, everything included | **$15,000** for year one, setup waived; half to start the build, half at go-live | **[CONFIRM]** proposed 2026-11-18 from Juan's "$15k call" target; equals the offer doc's annual rule (two months free, setup waived) at $1,500/month |
+| Monthly | $2,500 setup + $1,500 per month ($20,500 in year one) | Set by Juan 2026-11-13 |
+| $6,500 package | | **[CONFIRM]** whether it still exists and what it covers |
+
+- Supersedes the earlier draft tiers ($297–$797/mo), the Business System sheet's $5,000 + $797, and the HVAC offer doc's $2,500/mo.
+- Terms carried from the offer sheets until Juan says otherwise: 6-month minimum on monthly, then month to month; live in 14 days for the full system; no free trial, a demo built with their company name instead; they own their data and their number.
+- **[CONFIRM]** the 90-day guarantee threshold at this price.
+- Pricing is discussed on the second sales call and in the proposal, never in cold outreach.
 
 **Why we win**
 - Local: Philly operator, not a national call center.
@@ -96,7 +102,7 @@
 
 ## 6. Current goals (Q4 2026)
 
-1. **Sign HVAC clients at $2,500 setup + $1,500/month.** Juan's cash target (set 2026-11-13): turn $4k of incoming cash into $15k–$20k collected within about two weeks. Offer-doc milestone: first signed HVAC client by December 20, 2026.
+1. **Sign HVAC clients on the whole system: $15,000 for year one ([CONFIRM]) or $2,500 setup + $1,500/month.** Juan's cash target (set 2026-11-13): turn $4k of incoming cash into $15k–$20k collected within about two weeks. Offer-doc milestone: first signed HVAC client by December 20, 2026.
 2. **Build the right list:** 200 HVAC shops with 5–25 trucks in the region, with the hottest 50 tagged (running ads or hiring a CSR). The current HQ HVAC list is mostly too small.
 3. **Demos:** 2+ booked per week as the floor; the two-week cash target needs far more (see `outputs/` sprint math).
 4. Get the sending infrastructure right before email volume: secondary domains, SPF/DKIM/DMARC, warm-up caps per `outputs/sending-caps.md`.
