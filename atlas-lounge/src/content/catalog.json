@@ -1,0 +1,218 @@
+{
+  "services": [
+    {
+      "slug": "massage",
+      "name": "Massage",
+      "category": "Massage",
+      "status": "published",
+      "requiredCredentialType": "massage_therapy",
+      "summary": "An unhurried, full-body or focused session shaped around how you feel on the day.",
+      "description": "A private massage session, paced to you. Your practitioner begins with a short conversation about what you would like from the time, then works with pressure and tempo you are comfortable with, whether that is a full-body session or closer attention to a few areas.",
+      "includes": [
+        "A brief conversation before the session to agree focus and pressure",
+        "Hands-on massage for the full booked duration",
+        "Time to settle before and after, so the session never feels rushed"
+      ],
+      "designedFor": [
+        "Anyone who wants dedicated time to rest and unwind",
+        "People who train regularly and want recovery built into their week",
+        "Those who spend long days seated, travelling, or on their feet"
+      ],
+      "whatToExpect": [
+        "You choose the duration: 60, 90, or 120 minutes",
+        "Your practitioner checks in on pressure and comfort throughout",
+        "You remain appropriately draped at all times",
+        "You may ask to adjust, pause, or end the session at any point"
+      ],
+      "precautions": [
+        "Massage is not medical treatment and is not a substitute for care from a licensed healthcare provider.",
+        "If you are pregnant, recovering from surgery or injury, or managing a medical condition, please speak with your healthcare provider before booking.",
+        "Tell us in advance about allergies, skin sensitivities, or areas you would like avoided.",
+        "Please reschedule if you are unwell or have a fever."
+      ],
+      "bufferBeforeMin": 0,
+      "bufferAfterMin": 15,
+      "variants": [
+        { "durationMin": 60, "priceCents": 12000, "status": "published" },
+        { "durationMin": 90, "priceCents": 17000, "status": "published" },
+        { "durationMin": 120, "priceCents": 22000, "status": "published" }
+      ]
+    },
+    {
+      "slug": "myofascial-release",
+      "name": "Myofascial Release",
+      "category": "Massage",
+      "status": "draft",
+      "requiredCredentialType": "massage_therapy",
+      "summary": "Slow, sustained hands-on work for areas that feel tight or restricted.",
+      "description": "A slower style of hands-on work that uses sustained, gentle pressure rather than flowing strokes. Sessions concentrate on a small number of areas and move at a deliberate pace.",
+      "includes": [
+        "A conversation about the areas you would like to focus on",
+        "Sustained, low-intensity hands-on techniques",
+        "Simple suggestions for movement between sessions"
+      ],
+      "designedFor": [
+        "People who prefer slow, focused work over a full-body session",
+        "Those who notice the same areas feeling tight week after week"
+      ],
+      "whatToExpect": [
+        "Little or no oil is used, so wear or bring comfortable clothing",
+        "Pressure is held for longer than in a typical massage",
+        "Your practitioner works within your comfort at all times"
+      ],
+      "precautions": [
+        "This session is not medical treatment and does not diagnose or treat any condition.",
+        "Please speak with your healthcare provider first if you have a medical condition, recent injury, or recent surgery.",
+        "Let us know about any areas that are painful or sensitive."
+      ],
+      "bufferBeforeMin": 0,
+      "bufferAfterMin": 15,
+      "variants": [{ "durationMin": 60, "priceCents": 13000, "status": "draft" }]
+    },
+    {
+      "slug": "stretch-and-mobility",
+      "name": "Stretch & Mobility",
+      "category": "Mobility",
+      "status": "draft",
+      "requiredCredentialType": null,
+      "summary": "Practitioner-guided stretching and movement, at a pace that suits you.",
+      "description": "A guided session of assisted stretching and gentle movement. Your practitioner leads you through each position, working within a comfortable range and adjusting as you go.",
+      "includes": [
+        "A short movement check-in to decide where to spend the time",
+        "Practitioner-assisted stretching",
+        "A few movements to continue on your own"
+      ],
+      "designedFor": [
+        "People who want to move more comfortably day to day",
+        "Those who train and want mobility work alongside it",
+        "Anyone who finds it hard to make time to stretch"
+      ],
+      "whatToExpect": [
+        "You stay fully clothed, so wear something you can move in",
+        "Stretches are held within a comfortable range, never forced",
+        "Sessions run 30 or 60 minutes"
+      ],
+      "precautions": [
+        "This session is not medical treatment or physical therapy.",
+        "Please speak with your healthcare provider first if you have a joint condition, recent injury, or recent surgery.",
+        "Tell your practitioner straight away if any position is uncomfortable."
+      ],
+      "bufferBeforeMin": 0,
+      "bufferAfterMin": 15,
+      "variants": [
+        { "durationMin": 30, "priceCents": 9000, "status": "draft" },
+        { "durationMin": 60, "priceCents": 15000, "status": "draft" }
+      ]
+    },
+    {
+      "slug": "muscle-activation",
+      "name": "Muscle Activation",
+      "category": "Activation",
+      "status": "draft",
+      "requiredCredentialType": null,
+      "summary": "Targeted, low-intensity work to prepare the body for movement.",
+      "description": "A focused session of light, targeted exercises and hands-on cues intended to help you feel prepared for training or daily activity.",
+      "includes": [
+        "A brief movement check-in",
+        "Guided, low-intensity activation exercises",
+        "A short routine to repeat before activity"
+      ],
+      "designedFor": [
+        "People preparing for training, sport, or an active day",
+        "Those returning to regular movement after time away"
+      ],
+      "whatToExpect": [
+        "You stay fully clothed, so wear something you can move in",
+        "Work is light and controlled rather than strenuous",
+        "Sessions run 30 or 60 minutes"
+      ],
+      "precautions": [
+        "This session is not medical treatment or physical therapy.",
+        "Please speak with your healthcare provider first if you have an injury or medical condition.",
+        "Stop and tell your practitioner if anything feels painful."
+      ],
+      "bufferBeforeMin": 0,
+      "bufferAfterMin": 15,
+      "variants": [
+        { "durationMin": 30, "priceCents": 8000, "status": "draft" },
+        { "durationMin": 60, "priceCents": 14000, "status": "draft" }
+      ]
+    },
+    {
+      "slug": "massage-and-muscle-activation",
+      "name": "Massage + Muscle Activation",
+      "category": "Combination",
+      "status": "draft",
+      "requiredCredentialType": "massage_therapy",
+      "summary": "Hands-on massage paired with guided activation in a single session.",
+      "description": "A combined session that begins with massage and finishes with a short sequence of guided activation work, so you leave feeling both rested and ready to move.",
+      "includes": [
+        "A conversation to agree how the time is divided",
+        "Hands-on massage",
+        "Guided, low-intensity activation exercises"
+      ],
+      "designedFor": [
+        "People who want recovery and preparation in one appointment",
+        "Those with limited time who train regularly"
+      ],
+      "whatToExpect": [
+        "The session moves from the table to light movement",
+        "Bring or wear clothing you can move in for the second part",
+        "Sessions run 60 or 90 minutes"
+      ],
+      "precautions": [
+        "This session is not medical treatment and is not a substitute for care from a licensed healthcare provider.",
+        "Please speak with your healthcare provider first if you are pregnant, injured, or managing a medical condition.",
+        "Tell us in advance about allergies, sensitivities, or areas to avoid."
+      ],
+      "bufferBeforeMin": 0,
+      "bufferAfterMin": 15,
+      "variants": [
+        { "durationMin": 60, "priceCents": 15000, "status": "draft" },
+        { "durationMin": 90, "priceCents": 20000, "status": "draft" }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "slug": "essential-recovery",
+      "name": "Essential Recovery",
+      "summary": "Four 60-minute massage sessions.",
+      "serviceSlug": "massage",
+      "durationMin": 60,
+      "sessionCount": 4,
+      "priceCents": 44000,
+      "status": "draft"
+    },
+    {
+      "slug": "enhanced-recovery",
+      "name": "Enhanced Recovery",
+      "summary": "Four 90-minute massage sessions.",
+      "serviceSlug": "massage",
+      "durationMin": 90,
+      "sessionCount": 4,
+      "priceCents": 62000,
+      "status": "draft"
+    },
+    {
+      "slug": "performance-recovery",
+      "name": "Performance Recovery",
+      "summary": "Eight 60-minute massage sessions.",
+      "serviceSlug": "massage",
+      "durationMin": 60,
+      "sessionCount": 8,
+      "priceCents": 84000,
+      "status": "draft"
+    },
+    {
+      "slug": "elite-recovery",
+      "name": "Elite Recovery",
+      "summary": "Eight 90-minute massage sessions.",
+      "serviceSlug": "massage",
+      "durationMin": 90,
+      "sessionCount": 8,
+      "priceCents": 120000,
+      "status": "draft"
+    }
+  ]
+}

@@ -48,3 +48,11 @@ Until providers are connected, texts and emails are **simulated**: recorded unde
 - Autopilot sends at most one blast per week.
 
 This is not legal advice: check TCPA (US) / CASL (Canada) requirements for each client.
+
+---
+
+## Also in this repository: The Atlas Lounge
+
+A separate product, a luxury wellness website and client-management platform (Next.js,
+Supabase, Stripe), lives in [`atlas-lounge/`](atlas-lounge/README.md). It shares no code or
+configuration with Restaurant Autopilot above.
