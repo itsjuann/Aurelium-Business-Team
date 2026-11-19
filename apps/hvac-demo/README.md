@@ -46,6 +46,12 @@ tomorrow and skip Sundays.
 - Also fixed here: a first booking lost its customer name, phone and address on screen (present in the version
   live at `51502f8`).
 
+## Light and dark mode (added 2026-11-18, not deployed yet)
+
+The screen follows the device's light or dark setting. The "Dark mode" / "Light mode" button, on the sign-in card
+and in the header, switches it and the choice is remembered in that browser. Only the theme choice is stored
+there; no call data is.
+
 ## Run it locally
 
 ```bash

@@ -8,6 +8,31 @@
   let seen = null; // ids already on screen, to highlight what just arrived
   let timer = null;
 
+  // Light and dark mode. Follows the device until the person picks one; the choice is remembered on this device.
+  const THEME_KEY = 'am_demo_theme';
+  function storedTheme() {
+    try { const t = localStorage.getItem(THEME_KEY); return t === 'light' || t === 'dark' ? t : null; } catch (e) { return null; }
+  }
+  function activeTheme() {
+    return storedTheme() || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  function paintTheme() {
+    const t = activeTheme();
+    if (storedTheme()) document.documentElement.setAttribute('data-theme', t);
+    document.querySelectorAll('.theme-toggle').forEach((b) => {
+      b.textContent = t === 'dark' ? 'Light mode' : 'Dark mode';
+      b.setAttribute('aria-pressed', String(t === 'dark'));
+    });
+  }
+  document.querySelectorAll('.theme-toggle').forEach((b) => b.addEventListener('click', () => {
+    const next = activeTheme() === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* private window: the choice lasts until reload */ }
+    document.documentElement.setAttribute('data-theme', next);
+    paintTheme();
+  }));
+  if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paintTheme);
+  paintTheme();
+
   function el(tag, cls, text) {
     const n = document.createElement(tag);
     if (cls) n.className = cls;
