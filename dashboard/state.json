@@ -175,7 +175,7 @@
    "role": "ElevenLabs scripts, flows, tests",
    "last_run": "2026-11-19",
    "status": "ran",
-   "latest": "HVAC demo agent now answers the number ending 4865 (moved from Aurelium Motion Receptionist by Juan). 12 test calls not run",
+   "latest": "Demo CRM live with revenue, pipeline, guarantee tracker and dark mode. 12 test calls on hold: ElevenLabs account issue",
    "file": "apps/hvac-demo/README.md"
   },
   {
@@ -318,7 +318,7 @@
    "owner": "Juan",
    "since": "2026-11-18",
    "due": "2026-11-20",
-   "status": "Live on the number ending 4865 since 11/19. Still to do: confirm the tool secret is pasted, 12 test calls, Data Protection sign-off before a real prospect call"
+   "status": "Service live at 07b2c0e with revenue, pipeline and dark mode. On hold: 12 test calls and tool-secret check, until ElevenLabs resolves the account issue"
   },
   {
    "item": "Integration route for each dispatch system (ServiceTitan, Housecall Pro, Jobber)",
@@ -333,8 +333,8 @@
    "blocks": "The 12 test calls; possibly live calls on the demo number",
    "owner": "Juan",
    "since": "2026-11-18",
-   "due": "2026-11-19",
-   "status": "Open. ElevenLabs refused the test run with a billing error"
+   "due": "",
+   "status": "Juan emailed ElevenLabs about an account issue on 11/18; waiting on their reply. Test calls on hold until then"
   }
  ],
  "findings": [
