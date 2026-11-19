@@ -173,9 +173,9 @@
    "agent": "Receptionist Builder",
    "dept": "Delivery",
    "role": "ElevenLabs scripts, flows, tests",
-   "last_run": "2026-11-18",
+   "last_run": "2026-11-19",
    "status": "ran",
-   "latest": "Demo service live on Render; ElevenLabs draft agent built with 3 tools, no phone number. Waiting on Juan to paste the tool secret",
+   "latest": "HVAC demo agent now answers the number ending 4865 (moved from Aurelium Motion Receptionist by Juan). 12 test calls not run",
    "file": "apps/hvac-demo/README.md"
   },
   {
@@ -318,7 +318,7 @@
    "owner": "Juan",
    "since": "2026-11-18",
    "due": "2026-11-20",
-   "status": "Service live on Render, draft agent built. Next: Juan pastes the tool secret into ElevenLabs, 12 test calls, Data Protection sign-off, then phone number approval"
+   "status": "Live on the number ending 4865 since 11/19. Still to do: confirm the tool secret is pasted, 12 test calls, Data Protection sign-off before a real prospect call"
   },
   {
    "item": "Integration route for each dispatch system (ServiceTitan, Housecall Pro, Jobber)",
@@ -544,7 +544,7 @@
    "owner": "Receptionist Builder",
    "due": "2026-11-20",
    "status": "yellow",
-   "note": "Live at aurelium-hvac-demo-2sqc.onrender.com (free plan). Draft agent built, no number. Needs the tool secret pasted, 12 test calls, number approval"
+   "note": "On the number ending 4865. Aurelium Motion Receptionist has no number. Needs the tool secret confirmed and the 12 test calls"
   },
   {
    "item": "GitHub push protection + gitleaks hook",

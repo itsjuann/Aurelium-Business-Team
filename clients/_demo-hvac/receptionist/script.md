@@ -1,8 +1,8 @@
-# HVAC Demo Line — AI Receptionist v1 (built as a draft on ElevenLabs 2026-11-18, no phone number)
+# HVAC Demo Line — AI Receptionist v1 (built on ElevenLabs 2026-11-18, on the number ending 4865 since 2026-11-19)
 
 Platform: ElevenLabs Agents · LLM: claude-haiku-4-5 · Voice: [PLACEHOLDER voice id, Juan picks] · Language: en
 Mode: 24/7 demo line · Retention: 30 days audio, 30 days transcript, set explicitly (see section 8)
-Status: **Built as a draft, 2026-11-18.** Agent "HVAC Demo Line v2 (swap-in shop)" (`agent_6501m7rdkh4wfj5tfc6k01nxx1af`) with the prompt, first message, four variables, three tools, FAQ document, 30-day retention, data fields and evaluation criteria below. No phone number is assigned; giving it one is a separate approval. The tools return 401 until Juan pastes the Render secret into the ElevenLabs secret `hvac_demo_tool_secret`. Voice reused from the older "HVAC Demo Line - Ava (Keystone Comfort)" agent, which is untouched. The 12 test calls have not been run.
+Status: **Built as a draft, 2026-11-18.** Agent "HVAC Demo Line v2 (swap-in shop)" (`agent_6501m7rdkh4wfj5tfc6k01nxx1af`) with the prompt, first message, four variables, three tools, FAQ document, 30-day retention, data fields and evaluation criteria below. Phone: on 2026-11-19 Juan moved Aurelium's one Twilio number (ending 4865) from "Aurelium Motion Receptionist" (`agent_7001m5tmf51keh2aghbrzkvv7862`) to this agent. The Aurelium Motion Receptionist has no number until it is moved back. The tools return 401 until Juan pastes the Render secret into the ElevenLabs secret `hvac_demo_tool_secret`. Voice reused from the older "HVAC Demo Line - Ava (Keystone Comfort)" agent, which is untouched. The 12 test calls have not been run.
 Drafted: 2026-11-18 · Due on delivery board: 2026-11-20 · Owner: Receptionist Builder
 
 What this is: the receptionist piece of the Aurelium Front Office for HVAC, answering as the prospect's shop on Call 2 of `outreach/hvac/sales-call-15k.md`. The owner calls it, says the heat or the AC is out, and watches the job land in the demo CRM. It is one piece of the system Juan is selling, not the product.
