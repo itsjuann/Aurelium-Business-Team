@@ -164,10 +164,10 @@
    "agent": "Client Onboarding",
    "dept": "Delivery",
    "role": "Proposals, intake, setup checklist",
-   "last_run": "",
-   "status": "idle",
-   "latest": "Waiting for first won demo",
-   "file": "clients/_template/"
+   "last_run": "2026-11-18",
+   "status": "ran",
+   "latest": "One-page HVAC proposal template drafted; 12 open terms need Juan and a lawyer before first signature",
+   "file": "clients/_template-hvac/proposal.md"
   },
   {
    "agent": "Receptionist Builder",
