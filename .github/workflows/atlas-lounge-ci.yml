@@ -1,0 +1,45 @@
+name: Atlas Lounge CI
+
+on:
+  push:
+    paths: ["atlas-lounge/**", ".github/workflows/atlas-lounge-ci.yml"]
+  pull_request:
+    paths: ["atlas-lounge/**", ".github/workflows/atlas-lounge-ci.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: atlas-lounge
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s
+          --health-timeout 5s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: atlas-lounge/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run test:db
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e -- --trace off
