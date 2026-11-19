@@ -8,6 +8,14 @@ Each scenario is written so it can be pasted into an ElevenLabs simulation test:
 
 Pass bar: 12 of 12 before Juan publishes.
 
+**Run log**
+
+| Date (ET) | What happened |
+|---|---|
+| 2026-11-18 | The 12 scenarios were saved on the agent as ElevenLabs simulation tests named "HVAC demo 01" to "HVAC demo 12", with real tool calls (no mocks). A first run of scenario 1 stopped after three turns: ElevenLabs returned "Your subscription has a failed or incomplete payment." **No scenario has been run to completion. 0 of 12 passed, 0 of 12 failed, 12 not run.** |
+
+One thing seen in the three turns that did run: the receptionist went straight to "What's your name?" without first asking about a gas or burning smell, which scenario 1 requires. Check it on the first full run.
+
 ## Part 1: scripted scenarios
 
 | # | Scenario | Caller | Pass when |

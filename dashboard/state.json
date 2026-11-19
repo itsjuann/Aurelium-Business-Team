@@ -11,7 +11,7 @@
    "mrr": 0,
    "fixed_costs_month": 148,
    "approvals_waiting": 2,
-   "blockers_open": 7,
+   "blockers_open": 8,
    "security_verdict": "CLEAR WITH CONDITIONS",
    "findings_open": 14,
    "findings_critical": 0,
@@ -63,7 +63,7 @@
    "dept": "Delivery",
    "agents": 3,
    "status": "yellow",
-   "headline": "HVAC demo service live on Render; draft receptionist built, not yet tested or given a number. Dispatch-software integration route still not scoped",
+   "headline": "HVAC demo line is on the number ending 4865, but ElevenLabs is refusing test runs over a failed payment. 12 test calls not run",
    "open_items": 1,
    "waiting_on_juan": 0,
    "view": "delivery"
@@ -81,7 +81,7 @@
    "dept": "Finance",
    "agents": 1,
    "status": "yellow",
-   "headline": "MRR $0. Price set by Juan: $15,000 upfront, $2,500 setup, $1,200/mo. One close is $17,500 at signing and $1,200 MRR",
+   "headline": "MRR $0. Price set by Juan: $15,000 upfront, $2,500 setup, $1,200/mo. One close is $17,500 at signing and $1,200 MRR. ElevenLabs reports a failed or incomplete payment",
    "open_items": 1,
    "waiting_on_juan": 1,
    "view": "finance"
@@ -327,6 +327,14 @@
    "since": "2026-11-18",
    "due": "2026-11-25",
    "status": "Not yet scoped"
+  },
+  {
+   "item": "ElevenLabs subscription: failed or incomplete payment",
+   "blocks": "The 12 test calls; possibly live calls on the demo number",
+   "owner": "Juan",
+   "since": "2026-11-18",
+   "due": "2026-11-19",
+   "status": "Open. ElevenLabs refused the test run with a billing error"
   }
  ],
  "findings": [
