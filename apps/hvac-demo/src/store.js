@@ -5,6 +5,9 @@ const { nyNow, addDays } = require('./time');
 const { windowId, parseWindowId } = require('./slots');
 
 const DEFAULT_SHOP = 'Demo Heating and Air';
+// Example values from the offer doc. Juan replaces them with the owner's own numbers from Call 1.
+const DEFAULT_TICKET = 400;
+const DEFAULT_INSTALL = 10000;
 const RETENTION_MS = 30 * 86400000; // prospect demo data is kept 30 days at most
 const MAX_RECORDS = 500; // of each kind; the oldest call record is dropped first
 
@@ -26,7 +29,7 @@ class Store {
   }
   fresh() {
     return {
-      settings: { shop_name: DEFAULT_SHOP, service_towns: '' },
+      settings: { shop_name: DEFAULT_SHOP, service_towns: '', avg_ticket: DEFAULT_TICKET, avg_install: DEFAULT_INSTALL, values_are_examples: true },
       customers: [], jobs: [], leads: [],
       seq: { job: 1041, lead: 200, cust: 500 },
       seed_date: null,
@@ -104,7 +107,6 @@ class Store {
     if (!job) {
       job = { id: this.nextId('job', 'J'), conversation_id: v.conversation_id, created_at: this.now(), source: 'ai_receptionist_phone', status: 'booked', sample: false };
       this.state.jobs.push(job);
-      this.trim();
     }
     Object.assign(job, {
       window_id: win.window_id, date: win.date, start: win.start, appointment_type: v.appointment_type, urgency: v.urgency,
@@ -112,6 +114,7 @@ class Store {
       vulnerable_occupant: v.vulnerable_occupant === true, estimate_requested: v.estimate_requested === true || v.appointment_type === 'estimate',
       after_hours: v.after_hours, updated_at: this.now(),
     });
+    this.trim(); // after the job points at its customer, so the new customer is kept
     this.save();
     return job;
   }
@@ -151,8 +154,33 @@ class Store {
     this.save();
     return job;
   }
-  setSettings({ shop_name, service_towns }) {
-    this.state.settings = { shop_name, service_towns: service_towns || '' };
+  money() {
+    const s = this.state.settings;
+    return {
+      avg_ticket: Number.isInteger(s.avg_ticket) ? s.avg_ticket : DEFAULT_TICKET,
+      avg_install: Number.isInteger(s.avg_install) ? s.avg_install : DEFAULT_INSTALL,
+      values_are_examples: s.values_are_examples !== false,
+    };
+  }
+  // An estimate that was visited and then accepted becomes an install.
+  winEstimate(id) {
+    const job = this.state.jobs.find((j) => j.id === id);
+    if (!job || !job.estimate_requested || job.status !== 'complete') return null;
+    job.status = 'won';
+    job.won_at = this.now();
+    this.save();
+    return job;
+  }
+  setSettings({ shop_name, service_towns, avg_ticket, avg_install }) {
+    const cur = this.money();
+    const typed = avg_ticket !== undefined || avg_install !== undefined;
+    this.state.settings = {
+      shop_name, service_towns: service_towns || '',
+      avg_ticket: avg_ticket !== undefined ? avg_ticket : cur.avg_ticket,
+      avg_install: avg_install !== undefined ? avg_install : cur.avg_install,
+      // Still "example values" until someone changes a number from the defaults.
+      values_are_examples: cur.values_are_examples && !(typed && (avg_ticket !== cur.avg_ticket || avg_install !== cur.avg_install)),
+    };
     this.state.seed_date = null; // sample customers pick up the first town
     this.ensureSeed();
     this.save();

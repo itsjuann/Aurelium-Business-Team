@@ -34,6 +34,18 @@ Field names, types and limits match section 6 of the script. Windows are 8–11,
 in America/New_York. Urgent calls are offered today when a window is at least 30 minutes away; routine calls start
 tomorrow and skip Sundays.
 
+## Revenue, pipeline and the guarantee tracker (added 2026-11-18, not deployed yet)
+
+- "Set up demo" takes the owner's average service call and average install from Call 1. Until they are typed in, the
+  screen uses $400 and $10,000 and labels them as example values.
+- A booked repair or tune-up counts as booked revenue at the service-call average. An estimate counts as open
+  pipeline at the install average until Juan clicks "Mark estimate visit done" and then "Mark estimate won".
+- The header shows revenue booked by the system and open pipeline. The guarantee bar shows booked revenue against
+  the $15,000 in 90 days. Only jobs that came in through the AI receptionist are counted; sample jobs never are.
+- The pipeline board has five stages: New lead, Visit booked, Job done, Estimate out, Install won.
+- Also fixed here: a first booking lost its customer name, phone and address on screen (present in the version
+  live at `51502f8`).
+
 ## Run it locally
 
 ```bash

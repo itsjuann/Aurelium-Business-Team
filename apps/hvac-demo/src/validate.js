@@ -25,6 +25,7 @@ const T = {
   date: () => ({ kind: 'date' }),
   id: () => ({ kind: 'id' }),
   windowId: () => ({ kind: 'windowId' }),
+  int: (min, max) => ({ kind: 'int', min, max }),
 };
 
 function check(rule, v) {
@@ -51,6 +52,8 @@ function check(rule, v) {
       return isValidDate(v) ? { ok: true, v } : { ok: false };
     case 'id':
       return typeof v === 'string' && /^[A-Za-z0-9_.:-]{1,128}$/.test(v) ? { ok: true, v } : { ok: false };
+    case 'int':
+      return Number.isInteger(v) && v >= rule.min && v <= rule.max ? { ok: true, v } : { ok: false };
     case 'windowId':
       return typeof v === 'string' && /^w_\d{4}-\d{2}-\d{2}_\d{2}$/.test(v) ? { ok: true, v } : { ok: false };
     default:
@@ -121,6 +124,8 @@ const schemas = {
   settings: {
     shop_name: req(T.str(80)),
     service_towns: opt(T.str(200)),
+    avg_ticket: opt(T.int(0, 100000)),
+    avg_install: opt(T.int(0, 1000000)),
   },
   login: { key: req(T.str(200)) },
   complete: { job_id: req(T.id()) },

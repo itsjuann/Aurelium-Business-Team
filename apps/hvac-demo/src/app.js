@@ -170,22 +170,41 @@ function createApp(cfg) {
         });
       }
     }
+    const done = job.status === 'complete' || job.status === 'won';
+    if (job.status === 'won') list.forEach((a) => { if (a.kind.startsWith('Estimate follow-up')) { a.status = 'Stopped'; a.note = 'Estimate accepted'; } });
     list.push({
-      kind: 'Review request', status: job.status === 'complete' ? 'Queued' : 'Staged', note: job.status === 'complete' ? 'Demo: shown here, not sent' : 'Goes out when the job is marked complete',
+      kind: 'Review request', status: done ? 'Queued' : 'Staged', note: done ? 'Demo: shown here, not sent' : 'Goes out when the job is marked complete',
       text: `Thanks for choosing ${shop}. If we took good care of you, would you leave us a quick Google review? [review link]`,
     });
     return list;
+  }
+  // Where a job sits in the pipeline and what it is worth, using the shop's own averages.
+  // Service visits count as booked revenue. An estimate is open pipeline until it is won.
+  function worth(job, money) {
+    if (job.estimate_requested) {
+      if (job.status === 'won') return { stage: 'won', value: money.avg_install, counts_as: 'booked' };
+      if (job.status === 'complete') return { stage: 'estimate_open', value: money.avg_install, counts_as: 'pipeline' };
+      return { stage: 'booked', value: money.avg_install, counts_as: 'pipeline' };
+    }
+    return { stage: job.status === 'complete' ? 'completed' : 'booked', value: money.avg_ticket, counts_as: 'booked' };
+  }
+  function leadWorth(lead, money) {
+    if (lead.reason === 'estimate') return money.avg_install;
+    return ['no_heat', 'no_cooling', 'leak', 'maintenance', 'reschedule'].includes(lead.reason) ? money.avg_ticket : 0;
   }
   function viewState() {
     store.ensureSeed();
     const s = store.state;
     const today = nyNow(now()).date;
     const shop = s.settings.shop_name;
+    const money = store.money();
     const customers = new Map(s.customers.map((c) => [c.id, c]));
     const jobs = s.jobs.map((j) => {
       const win = slots.parseWindowId(j.window_id);
       const c = customers.get(j.customer_id) || {};
+      const w = worth(j, money);
       return {
+        stage: w.stage, value: w.value, counts_as: w.counts_as, estimate: j.estimate_requested,
         id: j.id, date: j.date, start: j.start, window_label: win.label, day_label: shortDay(j.date, today),
         appointment_type: j.appointment_type, urgency: j.urgency, system_type: j.system_type, issue_summary: j.issue_summary,
         vulnerable_occupant: j.vulnerable_occupant, after_hours: j.after_hours, status: j.status, sample: j.sample,
@@ -195,17 +214,24 @@ function createApp(cfg) {
       };
     });
     const leads = s.leads.map((l) => ({
+      value: leadWorth(l, money),
       id: l.id, caller_name: l.caller_name, callback_phone: l.callback_phone, reason: REASON_LABEL[l.reason] || 'Other', urgency: l.urgency,
       service_town: l.service_town, appointment_pref: l.appointment_pref, wants_human: l.wants_human, call_summary: l.call_summary,
       source: 'AI receptionist, phone call', task: l.wants_human ? 'Call back: caller asked for a person' : 'Call back',
       created_at: l.created_at, updated_at: l.updated_at || l.created_at,
     }));
     return {
-      settings: s.settings,
+      settings: { shop_name: s.settings.shop_name, service_towns: s.settings.service_towns, ...money },
       days: [0, 1, 2, 3].map((n) => ({ date: addDays(today, n), label: shortDay(addDays(today, n), today) })),
       windows: slots.WINDOWS.map((w) => ({ start: w.start, label: w.label })),
       jobs, leads,
       counts: { booked_by_ai: jobs.filter((j) => !j.sample).length, leads: leads.length },
+      // Money counts only what came in through the AI receptionist. Sample data is never counted.
+      totals: {
+        booked_revenue: jobs.filter((j) => !j.sample && j.counts_as === 'booked').reduce((n, j) => n + j.value, 0),
+        open_pipeline: jobs.filter((j) => !j.sample && j.counts_as === 'pipeline').reduce((n, j) => n + j.value, 0) + leads.reduce((n, l) => n + l.value, 0),
+        guarantee_target: 15000, guarantee_days: 90,
+      },
     };
   }
 
@@ -295,6 +321,13 @@ function createApp(cfg) {
         if (!parsed.ok) return send(res, 400, { error: 'invalid_request', fields: parsed.fields });
         store.setSettings(parsed.value);
         log({ route: 'settings', status: 200 });
+        return send(res, 200, { ok: true });
+      }
+      if (p === '/api/jobs/won') {
+        const parsed = validate(schemas.complete, parseJson(req, raw));
+        const job = parsed.ok ? store.winEstimate(parsed.value.job_id) : null;
+        if (!job) return send(res, 404, { error: 'not_found' });
+        log({ route: 'won', status: 200, id: job.id });
         return send(res, 200, { ok: true });
       }
       if (p === '/api/jobs/complete') {

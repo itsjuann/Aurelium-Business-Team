@@ -18,6 +18,8 @@
     const m = /^\+1(\d{3})(\d{3})(\d{4})$/.exec(p || '');
     return m ? `(${m[1]}) ${m[2]}-${m[3]}` : (p || '');
   }
+  const usd = (n) => `$${Number(n || 0).toLocaleString('en-US')}`;
+  const STAGES = [['lead', 'New lead'], ['booked', 'Visit booked'], ['completed', 'Job done'], ['estimate_open', 'Estimate out'], ['won', 'Install won']];
   const TYPE = { repair: 'Repair', maintenance: 'Maintenance', estimate: 'Estimate' };
   const SYSTEM = { heating: 'Heating', cooling: 'Cooling', both: 'Heating and cooling', unknown: 'Not sure' };
 
@@ -72,6 +74,14 @@
     $('shop').textContent = state.settings.shop_name;
     $('stat-booked').textContent = state.counts.booked_by_ai;
     $('stat-leads').textContent = state.counts.leads;
+    $('stat-revenue').textContent = usd(state.totals.booked_revenue);
+    $('stat-pipeline').textContent = usd(state.totals.open_pipeline);
+    const target = state.totals.guarantee_target;
+    const pct = Math.min(100, Math.round((state.totals.booked_revenue / target) * 100));
+    $('g-amount').textContent = `${usd(state.totals.booked_revenue)} of ${usd(target)} in booked jobs`;
+    $('g-fill').style.width = `${pct}%`;
+    $('g-bar').setAttribute('aria-valuenow', String(Math.min(state.totals.booked_revenue, target)));
+    $('g-note').textContent = `Counted from jobs the system booked, at ${usd(state.settings.avg_ticket)} a service call and ${usd(state.settings.avg_install)} an install${state.settings.values_are_examples ? ' (example values: set the shop\'s own in "Set up demo")' : ' (the shop\'s own averages)'}. Sample jobs are not counted.`;
 
     const ids = new Set([...state.jobs.map((j) => `job:${j.id}:${j.updated_at}`), ...state.leads.map((l) => `lead:${l.id}:${l.updated_at}`)]);
     const fresh = new Set();
@@ -104,7 +114,7 @@
           if (selected && selected.kind === 'job' && selected.id === j.id) b.classList.add('selected');
           if (fresh.has(`job:${j.id}`)) b.classList.add('fresh');
           b.appendChild(el('div', 'name', j.customer.name));
-          b.appendChild(el('div', 'meta', `${TYPE[j.appointment_type]}${j.status === 'complete' ? ' · Complete' : ''}`));
+          b.appendChild(el('div', 'meta', `${TYPE[j.appointment_type]}${j.status === 'complete' ? ' · Complete' : j.status === 'won' ? ' · Won' : ''}`));
           badges(b, [j.urgency === 'urgent' && ['urgent', 'Urgent'], !j.sample && ['source', 'AI receptionist']]);
           b.addEventListener('click', () => { selected = { kind: 'job', id: j.id }; render(); });
           slot.appendChild(b);
@@ -114,19 +124,39 @@
       cal.appendChild(day);
     });
 
-    const leads = $('leads');
-    leads.replaceChildren();
-    if (!state.leads.length) leads.appendChild(el('div', 'empty', 'No leads yet. A call that ends without a booking lands here.'));
-    state.leads.slice().sort((a, b) => b.updated_at - a.updated_at).forEach((l) => {
-      const b = el('button', 'lead');
-      b.type = 'button';
-      if (selected && selected.kind === 'lead' && selected.id === l.id) b.classList.add('selected');
-      if (fresh.has(`lead:${l.id}`)) b.classList.add('fresh');
-      b.appendChild(el('div', 'name', `${l.caller_name} · ${l.reason}`));
-      b.appendChild(el('div', 'meta muted', l.task));
-      badges(b, [l.urgency !== 'routine' && ['urgent', l.urgency === 'safety' ? 'Safety' : 'Urgent'], l.wants_human && ['info', 'Wants a person']]);
-      b.addEventListener('click', () => { selected = { kind: 'lead', id: l.id }; render(); });
-      leads.appendChild(b);
+    const board = $('pipeline');
+    board.replaceChildren();
+    const cards = {
+      lead: state.leads.slice().sort((x, y) => y.updated_at - x.updated_at).map((l) => ({ kind: 'lead', id: l.id, name: l.caller_name, meta: `${l.reason} · ${l.task}`, value: l.value, potential: true, ai: true, urgent: l.urgency !== 'routine' })),
+    };
+    state.jobs.slice().sort((x, y) => y.updated_at - x.updated_at).forEach((j) => {
+      (cards[j.stage] = cards[j.stage] || []).push({ kind: 'job', id: j.id, name: j.customer.name, meta: `${TYPE[j.appointment_type]} · ${j.day_label}`, value: j.value, potential: j.counts_as === 'pipeline', ai: !j.sample, urgent: j.urgency === 'urgent' });
+    });
+    STAGES.forEach(([key, title]) => {
+      const list = cards[key] || [];
+      const col = el('div', 'stage');
+      const head = el('div', 'stage-head');
+      head.appendChild(el('span', 'stage-title', title));
+      head.appendChild(el('span', 'stage-total', usd(list.reduce((n, c) => n + (c.ai ? c.value : 0), 0))));
+      col.appendChild(head);
+      if (!list.length) col.appendChild(el('div', 'stage-empty', '—'));
+      list.forEach((c) => {
+        const b = el('button', 'pcard');
+        b.type = 'button';
+        if (c.ai) b.classList.add('ai');
+        if (c.urgent) b.classList.add('urgent');
+        if (selected && selected.kind === c.kind && selected.id === c.id) b.classList.add('selected');
+        if (fresh.has(`${c.kind}:${c.id}`)) b.classList.add('fresh');
+        b.appendChild(el('div', 'name', c.name));
+        b.appendChild(el('div', 'meta', c.meta));
+        const foot = el('div', 'pfoot');
+        foot.appendChild(el('span', 'pvalue', c.value ? `${usd(c.value)}${c.potential ? ' potential' : ''}` : ''));
+        foot.appendChild(el('span', `badge ${c.ai ? 'source' : ''}`, c.ai ? 'AI receptionist' : 'Sample'));
+        b.appendChild(foot);
+        b.addEventListener('click', () => { selected = { kind: c.kind, id: c.id }; render(); });
+        col.appendChild(b);
+      });
+      board.appendChild(col);
     });
 
     renderDetail();
@@ -154,7 +184,7 @@
       if (!l) { selected = null; return renderDetail(); }
       box.appendChild(el('h3', '', l.caller_name));
       badges(box, [['source', `Source: ${l.source}`], l.urgency !== 'routine' && ['urgent', l.urgency === 'safety' ? 'Safety' : 'Urgent'], l.wants_human && ['info', 'Wants a person']]);
-      kv(box, [['Lead', l.id], ['Phone', phone(l.callback_phone)], ['Reason', l.reason], ['Town', l.service_town], ['Prefers', l.appointment_pref]]);
+      kv(box, [['Lead', l.id], ['Phone', phone(l.callback_phone)], ['Reason', l.reason], ['Town', l.service_town], ['Prefers', l.appointment_pref], ['Worth', l.value ? `${usd(l.value)} if booked` : '']]);
       section(box, 'Call summary').appendChild(el('p', '', l.call_summary));
       section(box, 'Task').appendChild(el('p', '', l.task));
       return;
@@ -170,11 +200,13 @@
       j.vulnerable_occupant && ['urgent', 'Vulnerable occupant'],
       !j.sample && [j.customer.is_new ? 'new' : '', j.customer.is_new ? 'New customer' : 'Existing customer'],
       j.status === 'complete' && ['new', 'Complete'],
+      j.status === 'won' && ['new', 'Estimate won'],
     ]);
     kv(box, [
       ['Job', j.id], ['Phone', phone(j.customer.phone)],
       ['Address', [j.customer.address, j.customer.town].filter(Boolean).join(', ')],
       ['Visit', `${j.day_label}, ${j.window_label}`], ['Type', TYPE[j.appointment_type]], ['System', SYSTEM[j.system_type]],
+      ['Worth', j.counts_as === 'booked' ? `${usd(j.value)} booked` : `${usd(j.value)} in the pipeline until the estimate is won`],
     ]);
     section(box, 'Call summary').appendChild(el('p', '', j.issue_summary));
 
@@ -189,8 +221,14 @@
       if (a.note) row.appendChild(el('p', 'note', a.note));
       auto.appendChild(row);
     });
-    if (j.status !== 'complete') {
-      const done = el('button', 'btn primary mt', 'Mark job complete');
+    if (j.status === 'complete' && j.estimate) {
+      const won = el('button', 'btn primary mt', 'Mark estimate won');
+      won.type = 'button';
+      won.addEventListener('click', async () => { await api('/api/jobs/won', { job_id: j.id }); refresh(); });
+      auto.appendChild(won);
+    }
+    if (j.status === 'booked') {
+      const done = el('button', 'btn primary mt', j.estimate ? 'Mark estimate visit done' : 'Mark job complete');
       done.type = 'button';
       done.addEventListener('click', async () => { await api('/api/jobs/complete', { job_id: j.id }); refresh(); });
       auto.appendChild(done);
@@ -217,12 +255,17 @@
   $('btn-settings').addEventListener('click', () => {
     $('set-shop').value = state.settings.shop_name;
     $('set-towns').value = state.settings.service_towns;
+    $('set-ticket').value = state.settings.avg_ticket;
+    $('set-install').value = state.settings.avg_install;
     $('settings').showModal();
   });
   $('settings-cancel').addEventListener('click', () => $('settings').close());
   $('settings-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    await api('/api/settings', { shop_name: $('set-shop').value, service_towns: $('set-towns').value || undefined });
+    await api('/api/settings', {
+      shop_name: $('set-shop').value, service_towns: $('set-towns').value || undefined,
+      avg_ticket: Math.round(Number($('set-ticket').value)), avg_install: Math.round(Number($('set-install').value)),
+    });
     $('settings').close();
     seen = null;
     refresh();

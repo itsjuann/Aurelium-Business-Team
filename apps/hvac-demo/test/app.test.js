@@ -174,6 +174,8 @@ test('booking: only offered windows, lands in the CRM, idempotent, moves on rebo
   const view = (await s.call('/api/state', { headers: { Cookie: cookie } })).json;
   const job = view.jobs.find((j) => j.id === jobId);
   assert.equal(job.source, 'AI receptionist, phone call');
+  assert.equal(job.customer.name, 'Pat Example', 'a first booking keeps its customer record');
+  assert.equal(job.customer.address, '1 Test Road');
   assert.equal(job.customer.phone, '+12155550199');
   assert.equal(job.customer.is_new, true);
   assert.equal(job.vulnerable_occupant, true);
@@ -182,6 +184,16 @@ test('booking: only offered windows, lands in the CRM, idempotent, moves on rebo
   assert.equal(view.counts.booked_by_ai, 1);
   assert.equal((await s.tool('book_appointment', booking({ window_id: 'w_2026-11-17_08' }))).json.reason, 'window_unavailable');
   assert.equal((await s.tool('book_appointment', booking({ window_id: 'w_2026-11-19_09' }))).json.reason, 'window_unavailable');
+  await s.close();
+});
+
+test('one booking, no retry: the customer record is on the job', async () => {
+  const s = await start();
+  const w = (await s.tool('check_availability', avail())).json.windows[0];
+  const id = (await s.tool('book_appointment', booking({ window_id: w.window_id }))).json.job_id;
+  const cookie = await login(s);
+  const job = (await s.call('/api/state', { headers: { Cookie: cookie } })).json.jobs.find((j) => j.id === id);
+  assert.deepEqual([job.customer.name, job.customer.phone, job.customer.town], ['Pat Example', '+12155550199', 'Testville']);
   await s.close();
 });
 
@@ -211,6 +223,44 @@ test('estimate bookings stage day 2, 7 and 14 follow-ups; completing a job queue
   assert.equal((await s.call('/api/jobs/complete', post)).status, 200);
   job = await get();
   assert.equal(job.automations.find((a) => a.kind === 'Review request').status, 'Queued');
+  await s.close();
+});
+
+test('revenue and pipeline: service visits count as booked, estimates stay in the pipeline until won', async () => {
+  const s = await start();
+  const cookie = await login(s);
+  const h = { Cookie: cookie, 'X-Demo-CSRF': '1' };
+  const view = async () => (await s.call('/api/state', { headers: { Cookie: cookie } })).json;
+  let v = await view();
+  assert.deepEqual([v.totals.booked_revenue, v.totals.open_pipeline, v.totals.guarantee_target], [0, 0, 15000], 'sample jobs are never counted');
+  assert.equal(v.settings.values_are_examples, true);
+  assert.equal((await s.call('/api/settings', { headers: h, body: { shop_name: 'Test Comfort Co', avg_ticket: 450, avg_install: 12000 } })).status, 200);
+  assert.equal((await s.call('/api/settings', { headers: h, body: { shop_name: 'Test Comfort Co', avg_ticket: -1 } })).status, 400);
+  assert.equal((await s.call('/api/settings', { headers: h, body: { shop_name: 'Test Comfort Co', avg_ticket: '450' } })).status, 400);
+  const w1 = (await s.tool('check_availability', avail())).json.windows[0];
+  const repair = (await s.tool('book_appointment', booking({ window_id: w1.window_id }))).json.job_id;
+  const w2 = (await s.tool('check_availability', avail({ urgency: 'routine', appointment_type: 'estimate', conversation_id: 'conv_2' }))).json.windows[0];
+  const est = (await s.tool('book_appointment', booking({ window_id: w2.window_id, urgency: 'routine', appointment_type: 'estimate', conversation_id: 'conv_2', callback_phone: '2155550166' }))).json.job_id;
+  await s.tool('save_lead', lead({ reason: 'no_heat', urgency: 'urgent' }));
+  v = await view();
+  assert.equal(v.settings.values_are_examples, false);
+  assert.equal(v.totals.booked_revenue, 450);
+  assert.equal(v.totals.open_pipeline, 12000 + 450);
+  assert.equal(v.jobs.find((j) => j.id === repair).stage, 'booked');
+  assert.equal((await s.call('/api/jobs/won', { headers: h, body: { job_id: est } })).status, 404, 'an estimate cannot be won before the visit');
+  assert.equal((await s.call('/api/jobs/won', { headers: h, body: { job_id: repair } })).status, 404);
+  await s.call('/api/jobs/complete', { headers: h, body: { job_id: est } });
+  assert.equal((await view()).jobs.find((j) => j.id === est).stage, 'estimate_open');
+  assert.equal((await s.call('/api/jobs/won', { headers: h, body: { job_id: est } })).status, 200);
+  v = await view();
+  const won = v.jobs.find((j) => j.id === est);
+  assert.equal(won.stage, 'won');
+  assert.ok(won.automations.filter((a) => a.kind.startsWith('Estimate follow-up')).every((a) => a.status === 'Stopped'));
+  assert.equal(v.totals.booked_revenue, 450 + 12000);
+  assert.equal(v.totals.open_pipeline, 450);
+  await s.call('/api/reset', { headers: h, body: {} });
+  v = await view();
+  assert.deepEqual([v.settings.avg_ticket, v.settings.avg_install, v.settings.values_are_examples], [400, 10000, true]);
   await s.close();
 });
 
