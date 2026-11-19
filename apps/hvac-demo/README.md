@@ -3,7 +3,7 @@
 One small service for the HVAC demo line (`clients/_demo-hvac/receptionist/script.md`). It gives the receptionist a
 calendar to book into and gives Juan a CRM screen to share on Call 2, so the owner watches their own call land.
 
-**Status: live on Render at commit `51502f8` (redeployed 2026-11-18 evening; first deployed at `cea6910`)**, approved by Juan after a Security Reviewer
+**Status: live on Render at commit `07b2c0e` (third deploy, 2026-11-18 late evening; first deployed at `cea6910`)**, approved by Juan after a Security Reviewer
 "go with conditions". Every later deploy is its own approval; auto-deploy is off.
 
 | | |
@@ -34,7 +34,7 @@ Field names, types and limits match section 6 of the script. Windows are 8–11,
 in America/New_York. Urgent calls are offered today when a window is at least 30 minutes away; routine calls start
 tomorrow and skip Sundays.
 
-## Revenue, pipeline and the guarantee tracker (added 2026-11-18, not deployed yet)
+## Revenue, pipeline and the guarantee tracker (live since `07b2c0e`)
 
 - "Set up demo" takes the owner's average service call and average install from Call 1. Until they are typed in, the
   screen uses $400 and $10,000 and labels them as example values.
@@ -44,9 +44,9 @@ tomorrow and skip Sundays.
   the $15,000 in 90 days. Only jobs that came in through the AI receptionist are counted; sample jobs never are.
 - The pipeline board has five stages: New lead, Visit booked, Job done, Estimate out, Install won.
 - Also fixed here: a first booking lost its customer name, phone and address on screen (present in the version
-  live at `51502f8`).
+  that was live at `51502f8`).
 
-## Light and dark mode (added 2026-11-18, not deployed yet)
+## Light and dark mode (live since `07b2c0e`)
 
 The screen follows the device's light or dark setting. The "Dark mode" / "Light mode" button, on the sign-in card
 and in the header, switches it and the choice is remembered in that browser. Only the theme choice is stored
