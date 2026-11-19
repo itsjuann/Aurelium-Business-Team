@@ -3,7 +3,7 @@
 One small service for the HVAC demo line (`clients/_demo-hvac/receptionist/script.md`). It gives the receptionist a
 calendar to book into and gives Juan a CRM screen to share on Call 2, so the owner watches their own call land.
 
-**Status: deployed to Render on 2026-11-18 at commit `cea6910`**, approved by Juan after a Security Reviewer
+**Status: live on Render at commit `51502f8` (redeployed 2026-11-18 evening; first deployed at `cea6910`)**, approved by Juan after a Security Reviewer
 "go with conditions". Every later deploy is its own approval; auto-deploy is off.
 
 | | |
@@ -12,7 +12,6 @@ calendar to book into and gives Juan a CRM screen to share on Call 2, so the own
 | Render service | `aurelium-hvac-demo-2sqc` (`srv-dbv2lvl6e07s73ai3m60`), free plan, Virginia, blueprint `apps/hvac-demo/render.yaml` |
 | Secrets | `SAVE_LEAD_WEBHOOK_SECRET` and `DEMO_CRM_VIEW_KEY`, generated on Render, visible only on the service's Environment page |
 | Smoke test after deploy | `/healthz` 200, `/api/state` 401 without a session, bad-secret tool call 401, bad sign-in 401, security headers present |
-| Not yet in the deployed version | Optional fields sent as empty strings are accepted (committed after `cea6910`; needs a redeploy approval) |
 
 The free plan sleeps when idle and loses its data on restart. Open `/healthz` a minute before a demo.
 
