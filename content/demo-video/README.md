@@ -1,6 +1,6 @@
 # HVAC demo walkthrough video
 
-`hvac-demo-walkthrough.mp4`: 1 minute 50 seconds, 1920×1080, captions plus a computer-voice narration. Recorded 2026-11-19.
+`hvac-demo-walkthrough.mp4`: 2 minutes 3 seconds, 1920×1080, captions plus an AI-voice narration (Higgsfield). Recorded 2026-11-19.
 
 **Status: draft for Juan's review. Not published anywhere.** Posting it is a Publishes-class action: Security
 Reviewer sign-off, then Juan approves.
@@ -27,33 +27,33 @@ Reviewer sign-off, then Juan approves.
 
 ## Not in this cut
 
-- No music, and the narration is not an ElevenLabs voice: ElevenLabs refused voice generation on 2026-11-19
-  (account payment issue). See "The voice" below.
+- No music. The call itself is still on-screen text, not a recorded call. See "The voice" below.
 - No booking link on the end card; there is none yet.
 - One wide format only. A vertical cut for Reels and Shorts needs a different layout.
 
 ## The voice
 
-- Narration is generated on this machine with Piper (`pip install piper-tts`), voice `en-us-libritts-high`,
-  speaker 6. It is a synthetic voice, not Juan and not the AI receptionist's voice.
-- The voice model's card lists its training data as LibriTTS under **CC BY 4.0**, which allows commercial use
-  with attribution. Credit line if the video is published: "Narration voice: Piper, LibriTTS model (CC BY 4.0)."
-  Confirm that licence before the video is published; this is from the model card, not a legal review.
-- A first candidate voice (`ryan-high`) was dropped: its card says CC BY-NC-SA, non-commercial only.
-- The model is about 120 MB and is not in the repo. It comes from the Piper release at
-  `github.com/rhasspy/piper/releases/download/v0.0.2/voice-en-us-libritts-high.tar.gz`.
-- The spoken lines are in `narration.json`. They are separate from the on-screen captions in `record.js`.
-- Nobody has listened to this narration yet. Check how it says "Juan", "Aurelium" and "H V A C".
+- Narration is a Higgsfield preset voice, "Grady" (male), generated with Higgsfield's default speech model
+  (`seed_audio`), one clip per line in `narration.json`. It is a synthetic voice, not Juan and not the AI
+  receptionist's voice.
+- Cost: about 10 Higgsfield credits for 16 lines plus three retakes.
+- Three lines were retaken because the first take ran long (one had a five-second pause mid-line). The shorter
+  take of each was kept. Each clip has its leading and trailing silence trimmed.
+- Nobody has listened to this narration yet. Check how it says "Juan", "Aurelium" and "H V A C", and that the
+  "nine one one" line (the longest, about 12 seconds) reads cleanly.
+- Check Higgsfield's terms for commercial use of generated voice on the Basic plan before the video is published.
+- An earlier cut used a free local voice (Piper). `make_voice.py` still builds that version if it is ever needed.
+- The spoken lines are separate from the on-screen captions in `record.js`.
 
 ## Re-record
 
 ```bash
-python3 content/demo-video/make_voice.py <path to en-us-libritts-high.onnx> 6 /tmp/voice
-node content/demo-video/record.js content/demo-video /tmp/voice
+node content/demo-video/record.js content/demo-video <voice folder>
 ```
 
-Leave the voice folder off the second command for a silent, captions-only cut. Change the speaker number
-(0 to 903) for a different voice.
+The voice folder holds `n1.wav` to `n16.wav` and a `durations.json` with each clip's length in seconds. Leave
+it off for a silent, captions-only cut. The Higgsfield clips are not in the repo; regenerate them from
+`narration.json` with any Higgsfield voice.
 
 Needs Playwright and ffmpeg. It starts the demo service locally with throwaway secrets and temporary data, so it
 never touches the live service. Captions and timings are in `record.js`.
