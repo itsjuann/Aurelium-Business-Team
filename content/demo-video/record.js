@@ -1,7 +1,8 @@
 'use strict';
 // Records the HVAC demo walkthrough: a scripted example call on the left, the real demo CRM
 // (apps/hvac-demo) reacting on the right, with captions. No narration, no real customer data.
-// Usage: node record.js <output dir>   (needs Playwright and ffmpeg)
+// Usage: node record.js <output dir> [voice dir]   (needs Playwright and ffmpeg)
+// With a voice dir from make_voice.py, each scene waits for its narration line and the audio is mixed in.
 const { chromium } = require('playwright');
 const { spawn, execFileSync } = require('node:child_process');
 const crypto = require('node:crypto');
@@ -10,6 +11,8 @@ const path = require('node:path');
 
 const APP = path.join(__dirname, '..', '..', 'apps', 'hvac-demo');
 const OUT = path.resolve(process.argv[2] || __dirname);
+const VOICE = process.argv[3] ? path.resolve(process.argv[3]) : null;
+const DUR = VOICE ? JSON.parse(fs.readFileSync(path.join(VOICE, 'durations.json'), 'utf8')) : {};
 const PORT = 8797;
 const BASE = `http://localhost:${PORT}`;
 const TOOL = crypto.randomBytes(24).toString('hex');
@@ -95,27 +98,42 @@ async function main() {
       };
     });
     const vo = (fn, ...args) => page.evaluate(([f, a]) => window.vo[f](...a), [fn, args]);
-    const say = async (role, text) => { await vo('say', role, text); await sleep(Math.max(1700, 900 + text.length * 38)); };
-    const cap = async (text, ms) => { await vo('cap', text); await sleep(ms); };
+    // Narration: one line at a time. narrate() waits for the previous line to finish, notes when this one starts.
+    const cues = [];
+    let tStart = 0, voiceFreeAt = 0;
+    const voiceDone = async () => { const w = voiceFreeAt - Date.now(); if (w > 0) await sleep(w); };
+    const narrate = async (key) => {
+      if (!DUR[key]) return 0;
+      await voiceDone();
+      cues.push({ key, at: Date.now() - tStart });
+      voiceFreeAt = Date.now() + DUR[key] * 1000 + 350;
+      return DUR[key] * 1000;
+    };
+    const say = async (role, text) => { await vo('say', role, text); await sleep(VOICE ? Math.max(1250, 650 + text.length * 27) : Math.max(1700, 900 + text.length * 38)); };
+    const cap = async (text, ms, key) => { const d = key ? await narrate(key) : 0; await vo('cap', text); await sleep(Math.max(ms, d + 500)); };
 
     // ---- 1. Title -----------------------------------------------------------
     await vo('title', [['big', "It's 9:14 at night."], ['mid', 'A furnace just quit.'], ['sm', "Here is what your shop's phone does next."]]);
     await page.waitForSelector('#app:not([hidden])');
-    const tStart = Date.now();
-    await sleep(4600);
+    tStart = Date.now();
+    await sleep(400);
+    await sleep(Math.max(4200, (await narrate('n1')) + 600));
     await vo('titleOff');
     await sleep(700);
 
     // ---- 2. The call --------------------------------------------------------
     await vo('phone', true, '9:14 PM · after hours', `Calling ${SHOP}`);
+    await narrate('n2');
     await cap('Every call gets answered, in your shop\'s name. Nights and weekends too.', 900);
     await say('ai', `Thanks for calling ${SHOP}. This call may be recorded. How can I help?`);
     await say('caller', "My heat's out and it's freezing in here.");
     await say('ai', "I'm sorry, that's no fun this time of year. Do you smell gas, or is a carbon monoxide alarm going off?");
+    await narrate('n3');
     await vo('cap', 'It checks for danger first. Then one question at a time.');
     await say('caller', 'No, nothing like that.');
     await say('ai', "Good. What's your first and last name?");
     await say('caller', 'Pat Example.');
+    await narrate('n4');
     await say('ai', "And the best number to reach you?");
     await say('caller', '215-555-0142.');
     await say('ai', "That's 2-1-5, 5-5-5, 0-1-4-2. Did I get that right?");
@@ -123,6 +141,7 @@ async function main() {
     await say('ai', 'Is anyone in the home elderly, very young, or unwell?');
     await say('caller', "My mother lives with us.");
     const wins = (await tool('check_availability', { appointment_type: 'repair', urgency: 'urgent', conversation_id: 'video_call_1' })).windows;
+    await narrate('n5');
     await vo('cap', 'It reads your real calendar. It never makes up a time.');
     await say('ai', `I have ${wins[0].spoken}, or ${wins[1].spoken}. Which works?`);
     await say('caller', 'The first one.');
@@ -131,30 +150,32 @@ async function main() {
       service_address: '12 Test Road', service_town: 'Testville', system_type: 'heating', issue_summary: 'Heat is out and the house is cold.',
       existing_customer: false, vulnerable_occupant: true, after_hours: true, conversation_id: 'video_call_1',
     });
+    await narrate('n6');
     await vo('cap', 'Booked. The job is on your calendar before the caller hangs up.');
     await page.waitForSelector('.job.ai');
     await vo('ring', '.job.ai');
     await say('ai', `You're booked for ${booked.spoken_window}. I can't promise an exact time. The tech will be there in that window. I'm flagging this for the on-call tech now.`);
     await sleep(900);
+    await voiceDone();
 
     // ---- 3. What landed in the CRM -----------------------------------------
     await vo('phone', false);
     await vo('ring', null);
     await sleep(900);
     await vo('ring', '.stats');
-    await cap('Every job is tagged with where it came from and what it is worth.', 4200);
+    await cap('Every job is tagged with where it came from and what it is worth.', 4200, 'n7');
     await vo('ring', '#detail');
-    await cap('Urgent, after hours, new customer: your dispatcher sees it all at a glance.', 4200);
+    await cap('Urgent, after hours, new customer: your dispatcher sees it all at a glance.', 4200, 'n8');
     await vo('ring', null);
     await vo('to', '#detail .section:last-child', 'center');
-    await cap('The customer gets a confirmation text. A review request is lined up for when the job is done.', 5000);
+    await cap('The customer gets a confirmation text. A review request is lined up for when the job is done.', 5000, 'n9');
     await page.click('#detail >> text=Mark job complete');
-    await cap('Job done. The review request goes out on its own.', 3800);
+    await cap('Job done. The review request goes out on its own.', 3800, 'n10');
 
     // ---- 4. A second call: an estimate ---------------------------------------
     await vo('top');
     const est = (await tool('check_availability', { appointment_type: 'estimate', urgency: 'routine', conversation_id: 'video_call_2' })).windows;
-    await cap('Next morning, another call: a 22-year-old furnace, and the owner wants a price.', 3600);
+    await cap('Next morning, another call: a 22-year-old furnace, and the owner wants a price.', 3600, 'n11');
     await tool('book_appointment', {
       window_id: est[0].window_id, appointment_type: 'estimate', urgency: 'routine', caller_name: 'Morgan Demo', callback_phone: '215-555-0184',
       service_address: '3 Sample Street', service_town: 'Sampleton', system_type: 'heating', issue_summary: 'Furnace is 22 years old and still running. Wants a price on a replacement.',
@@ -164,27 +185,27 @@ async function main() {
     await vo('to', '#pipeline', 'start');
     await sleep(900);
     await vo('ring', '#pipeline');
-    await cap('It books the estimate visit and puts the install in your pipeline.', 4600);
+    await cap('It books the estimate visit and puts the install in your pipeline.', 4600, 'n12');
     await vo('ring', null);
     await page.click('.pcard >> text=Morgan Demo');
     await vo('to', '#detail .section:last-child', 'center');
-    await cap('If the estimate goes quiet, follow-ups go out on day 2, 7 and 14.', 4600);
+    await cap('If the estimate goes quiet, follow-ups go out on day 2, 7 and 14.', 4600, 'n13');
     await page.click('#detail >> text=Mark estimate visit done');
     await sleep(1800);
     await page.click('#detail >> text=Mark estimate won');
     await vo('to', '#pipeline', 'start');
-    await cap('When the install closes, it moves to won.', 3600);
+    await cap('When the install closes, it moves to won.', 3600, 'n14');
     await vo('top');
     await sleep(900);
     await vo('ring', '.guarantee');
-    await cap('And it counts toward the $15,000 in booked jobs we guarantee in your first 90 days.', 5600);
+    await cap('And it counts toward the $15,000 in booked jobs we guarantee in your first 90 days.', 5600, 'n15');
     await vo('ring', null);
     await vo('cap', '');
     await sleep(500);
 
     // ---- 5. End card ---------------------------------------------------------
     await vo('title', [['big', 'Aurelium Front Office for HVAC'], ['mid', 'Every call answered. Every job booked. Every estimate followed up.'], ['sm', 'Want to hear it answer as your shop? Book a 30-minute call with Juan at Aurelium Motion.'], ['fine', 'Demo with sample data. The call shown is a scripted example, not a recording of a customer.']]);
-    await sleep(6500);
+    await sleep(Math.max(6500, (await narrate('n16')) + 1200));
     const tEnd = Date.now();
 
     const video = page.video();
@@ -193,8 +214,19 @@ async function main() {
     const ss = ((tStart - t0) / 1000 + 0.15).toFixed(2);
     const dur = ((tEnd - tStart) / 1000 - 0.3).toFixed(2);
     const mp4 = path.join(OUT, 'hvac-demo-walkthrough.mp4');
-    execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', ss, '-i', raw, '-t', dur, '-c:v', 'libx264', '-preset', 'slow', '-crf', '24', '-pix_fmt', 'yuv420p', '-r', '25', '-movflags', '+faststart', '-an', mp4]);
-    console.log(JSON.stringify({ mp4, seconds: Number(dur), bytes: fs.statSync(mp4).size }));
+    const args = ['-y', '-loglevel', 'error', '-ss', ss, '-i', raw];
+    const venc = ['-t', dur, '-c:v', 'libx264', '-preset', 'slow', '-crf', '24', '-pix_fmt', 'yuv420p', '-r', '25', '-movflags', '+faststart'];
+    if (cues.length) {
+      // Each narration line is delayed to the moment its scene started, then all lines are mixed onto one track.
+      cues.forEach((c) => args.push('-i', path.join(VOICE, `${c.key}.wav`)));
+      const parts = cues.map((c, i) => `[${i + 1}:a]adelay=${Math.max(0, c.at - 150)}:all=1[a${i}]`);
+      const mix = `${cues.map((c, i) => `[a${i}]`).join('')}amix=inputs=${cues.length}:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[aout]`;
+      args.push('-filter_complex', `${parts.join(';')};${mix}`, '-map', '0:v', '-map', '[aout]', ...venc, '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', mp4);
+    } else {
+      args.push(...venc, '-an', mp4);
+    }
+    execFileSync('ffmpeg', args);
+    console.log(JSON.stringify({ mp4, seconds: Number(dur), bytes: fs.statSync(mp4).size, narrationLines: cues.length, cues }));
   } finally {
     if (browser) await browser.close();
     srv.kill();

@@ -1,6 +1,6 @@
 # HVAC demo walkthrough video
 
-`hvac-demo-walkthrough.mp4`: 1 minute 44 seconds, 1920×1080, captions only, no sound. Recorded 2026-11-19.
+`hvac-demo-walkthrough.mp4`: 1 minute 50 seconds, 1920×1080, captions plus a computer-voice narration. Recorded 2026-11-19.
 
 **Status: draft for Juan's review. Not published anywhere.** Posting it is a Publishes-class action: Security
 Reviewer sign-off, then Juan approves.
@@ -27,15 +27,33 @@ Reviewer sign-off, then Juan approves.
 
 ## Not in this cut
 
-- No voiceover or music. ElevenLabs refused voice generation on 2026-11-19 (account payment issue).
+- No music, and the narration is not an ElevenLabs voice: ElevenLabs refused voice generation on 2026-11-19
+  (account payment issue). See "The voice" below.
 - No booking link on the end card; there is none yet.
 - One wide format only. A vertical cut for Reels and Shorts needs a different layout.
+
+## The voice
+
+- Narration is generated on this machine with Piper (`pip install piper-tts`), voice `en-us-libritts-high`,
+  speaker 6. It is a synthetic voice, not Juan and not the AI receptionist's voice.
+- The voice model's card lists its training data as LibriTTS under **CC BY 4.0**, which allows commercial use
+  with attribution. Credit line if the video is published: "Narration voice: Piper, LibriTTS model (CC BY 4.0)."
+  Confirm that licence before the video is published; this is from the model card, not a legal review.
+- A first candidate voice (`ryan-high`) was dropped: its card says CC BY-NC-SA, non-commercial only.
+- The model is about 120 MB and is not in the repo. It comes from the Piper release at
+  `github.com/rhasspy/piper/releases/download/v0.0.2/voice-en-us-libritts-high.tar.gz`.
+- The spoken lines are in `narration.json`. They are separate from the on-screen captions in `record.js`.
+- Nobody has listened to this narration yet. Check how it says "Juan", "Aurelium" and "H V A C".
 
 ## Re-record
 
 ```bash
-node content/demo-video/record.js content/demo-video
+python3 content/demo-video/make_voice.py <path to en-us-libritts-high.onnx> 6 /tmp/voice
+node content/demo-video/record.js content/demo-video /tmp/voice
 ```
+
+Leave the voice folder off the second command for a silent, captions-only cut. Change the speaker number
+(0 to 903) for a different voice.
 
 Needs Playwright and ffmpeg. It starts the demo service locally with throwaway secrets and temporary data, so it
 never touches the live service. Captions and timings are in `record.js`.
