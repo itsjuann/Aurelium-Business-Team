@@ -36,7 +36,7 @@ Reviewer sign-off, then Juan approves.
 - Narration is a Higgsfield preset voice, "Grady" (male), generated with Higgsfield's default speech model
   (`seed_audio`), one clip per line in `narration.json`. It is a synthetic voice, not Juan and not the AI
   receptionist's voice.
-- Cost: about 10 Higgsfield credits for 16 lines plus three retakes.
+- Cost: 12 Higgsfield credits for 16 lines plus three retakes (balance went from 324.8 to 312.8).
 - Three lines were retaken because the first take ran long (one had a five-second pause mid-line). The shorter
   take of each was kept. Each clip has its leading and trailing silence trimmed.
 - Nobody has listened to this narration yet. Check how it says "Juan", "Aurelium" and "H V A C", and that the
