@@ -146,10 +146,10 @@
    "agent": "Content Engine",
    "dept": "Marketing",
    "role": "Short-form scripts, captions, Buffer",
-   "last_run": "",
-   "status": "idle",
-   "latest": "No content week drafted yet (/content-week)",
-   "file": ""
+   "last_run": "2026-11-19",
+   "status": "ran",
+   "latest": "HVAC demo walkthrough video drafted (1:44, captions only). Not published",
+   "file": "content/demo-video/README.md"
   },
   {
    "agent": "Paid Media Strategist",
