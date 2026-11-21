@@ -1,0 +1,11 @@
+{
+  "_note": "Narration for hvac-explainer.mp4, one line per step, in the demo line's own ElevenLabs voice (Cassidy). After e1 the video plays a ring tone and call lines c1 and c2 from call-lines.json.",
+  "e1": "It's nine fourteen at night, and a furnace just quit. Your shop picks up.",
+  "e2": "It checks for danger, takes the details, and books the job on your real calendar, before the caller hangs up.",
+  "e3": "Every job is tagged with where it came from, and what it's worth.",
+  "e4": "The customer gets a confirmation text, and a reminder the day before.",
+  "e5": "If an estimate goes quiet, follow ups go out on day two, day seven, and day fourteen, until it's won.",
+  "e6": "When the job is done, it asks for the review.",
+  "e7": "And we guarantee fifteen thousand dollars in booked jobs, in your first ninety days. In writing.",
+  "e8": "All of it. One system. Aurelium Front Office, for H V A C."
+}
