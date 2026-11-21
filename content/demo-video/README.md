@@ -1,6 +1,6 @@
 # HVAC demo walkthrough video
 
-`hvac-demo-walkthrough.mp4`: 2 minutes 3 seconds, 1920×1080, captions plus an AI-voice narration (Higgsfield). Recorded 2026-11-19.
+`hvac-demo-walkthrough.mp4`: 1 minute 52 seconds, 1920×1080, captions plus narration in the voice the HVAC demo line itself uses. Recorded 2026-11-20.
 
 **Status: draft for Juan's review. Not published anywhere.** Posting it is a Publishes-class action: Security
 Reviewer sign-off, then Juan approves.
@@ -54,17 +54,17 @@ node content/demo-video/reel.js content/demo-video
 
 ## The voice
 
-- Narration is a Higgsfield preset voice, "Grady" (male), generated with Higgsfield's default speech model
-  (`seed_audio`), one clip per line in `narration.json`. It is a synthetic voice, not Juan and not the AI
-  receptionist's voice.
-- Cost: 12 Higgsfield credits for 16 lines plus three retakes (balance went from 324.8 to 312.8).
-- Three lines were retaken because the first take ran long (one had a five-second pause mid-line). The shorter
-  take of each was kept. Each clip has its leading and trailing silence trimmed.
-- Nobody has listened to this narration yet. Check how it says "Juan", "Aurelium" and "H V A C", and that the
-  "nine one one" line (the longest, about 12 seconds) reads cleanly.
-- Check Higgsfield's terms for commercial use of generated voice on the Basic plan before the video is published.
-- An earlier cut used a free local voice (Piper). `make_voice.py` still builds that version if it is ever needed.
-- The spoken lines are separate from the on-screen captions in `record.js`.
+- Narration is the same ElevenLabs voice the HVAC demo line answers with: "Cassidy - Crisp, Direct and Clear"
+  (voice `56AoDkrOh6qfVPDXZ7Pt`, read from the agent's own settings), model `eleven_v4`. Juan asked for his
+  voice agent's voice on 2026-11-20, once the ElevenLabs account was active again.
+- So the voice in the video is the voice an owner hears on the phone. It is still narration, not a recording of
+  a call: the call in the video is on-screen text, labelled as a scripted example.
+- Cost: about 1,800 ElevenLabs credits of the 40,000 monthly allowance (16 lines; five of them got two takes).
+- Each clip has its leading and trailing silence trimmed. Clip lengths look normal for every line.
+- Nobody has listened to this narration yet. Check how it says "Juan", "Aurelium" and "H V A C".
+- Earlier cuts used a Higgsfield voice ("Grady") and a free local voice (Piper). `make_voice.py` still builds the
+  Piper version if it is ever needed.
+- The spoken lines are in `narration.json`, separate from the on-screen captions in `record.js`.
 
 ## Re-record
 

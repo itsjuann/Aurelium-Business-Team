@@ -148,7 +148,7 @@
    "role": "Short-form scripts, captions, Buffer",
    "last_run": "2026-11-20",
    "status": "ran",
-   "latest": "HVAC demo videos drafted: 2:03 narrated walkthrough and a 23-second vertical reel. Not published",
+   "latest": "HVAC demo videos drafted: 1:52 walkthrough narrated in the demo line's own voice, and a 23-second vertical reel. Not published",
    "file": "content/demo-video/README.md"
   },
   {
@@ -334,7 +334,7 @@
    "owner": "Juan",
    "since": "2026-11-18",
    "due": "",
-   "status": "Juan emailed ElevenLabs about an account issue on 11/18; waiting on their reply. Test calls on hold until then"
+   "status": "Resolved 11/20: account shows active. The 12 test calls can run again; the API key needs saving on the aurelium-business-team environment first"
   }
  ],
  "findings": [
