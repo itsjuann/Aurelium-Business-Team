@@ -1,0 +1,18 @@
+{
+  "_note": "The spoken call in the walkthrough, in order. Odd lines are the receptionist (the demo line's own ElevenLabs voice), even lines are the caller (ElevenLabs voice 'Chris', filtered to sound like a phone line). c13 and c15 name the time windows out loud, so record.js checks the calendar is offering the same ones.",
+  "c1": "Thanks for calling Demo Heating and Air. This call may be recorded. How can I help?",
+  "c2": "My heat's out, and it's freezing in here.",
+  "c3": "I'm sorry, that's no fun this time of year. Do you smell gas, or is a carbon monoxide alarm going off?",
+  "c4": "No, nothing like that.",
+  "c5": "Good. What's your first and last name?",
+  "c6": "Pat Example.",
+  "c7": "And the best number to reach you?",
+  "c8": "Two one five, five five five, zero one four two.",
+  "c9": "That's two, one, five. Five, five, five. Zero, one, four, two. Did I get that right?",
+  "c10": "Yes. I'm at twelve Test Road, in Testville.",
+  "c11": "Is anyone in the home elderly, very young, or unwell?",
+  "c12": "My mother lives with us.",
+  "c13": "I have tomorrow between eight and eleven, or tomorrow between eleven and two. Which works?",
+  "c14": "The first one.",
+  "c15": "You're booked for tomorrow between eight and eleven. I can't promise an exact time. The tech will be there in that window. I'm flagging this for the on-call tech now."
+}
