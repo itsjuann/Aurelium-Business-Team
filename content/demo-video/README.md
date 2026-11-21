@@ -5,6 +5,27 @@
 **Status: draft for Juan's review. Not published anywhere.** Posting it is a Publishes-class action: Security
 Reviewer sign-off, then Juan approves.
 
+## Vertical reel cut
+
+`hvac-demo-reel.mp4`: 23 seconds, 1080×1920, no sound. Recorded 2026-11-20 with `reel.js`.
+
+Made after Juan shared a dashboard Reel he liked as a reference for the format: a camera that zooms into
+details of the screen, pans, pulls back to the whole dashboard, a cursor that clicks, and a light-to-dark wipe
+at the end. Only the format is borrowed. The screen, data, wording and motion are our own.
+
+- Seven beats, one short caption each: the call, booked, its value, the record, review queued, the estimate
+  moving through the pipeline to won, the guarantee, then the sign-off in dark mode.
+- The dashboard sits in the top two thirds of the frame; the bottom third is left clear for the Instagram caption
+  and buttons.
+- No music. Add it inside Instagram or TikTok when posting, where the track is licensed for the platform.
+- The recording runs at 25 frames a second, so motion is a little less smooth than a phone screen recording.
+- Same rules as the long cut: real demo CRM, fictional shop and callers, "Demo · sample data" on screen, no results
+  claimed. Draft only; posting it needs Security Reviewer sign-off and Juan's approval.
+
+```bash
+node content/demo-video/reel.js content/demo-video
+```
+
 ## What it shows
 
 1. Title: "It's 9:14 at night. A furnace just quit."
