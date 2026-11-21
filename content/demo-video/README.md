@@ -7,7 +7,7 @@ Reviewer sign-off, then Juan approves.
 
 ## Step-by-step explainer (the newest cut)
 
-`hvac-explainer.mp4`: 66 seconds, 1080×1920, narrated. Recorded 2026-11-20 with `explainer.js` from
+`hvac-explainer.mp4`: 86 seconds, 1080×1920, narrated. Recorded 2026-11-20 with `explainer.js` from
 `explainer.html`.
 
 Made after Juan shared two clips of a home-services ad as the look he wants while the narrator talks through
@@ -17,28 +17,38 @@ The layout, colours, wording, step names and data are our own, and it shows no r
 
 | Step | Headline | Card |
 |---|---|---|
-| 1 | Every call answered. | The call: a ring tone, then the receptionist and the caller are heard |
+| 1 | Every call answered. | The call as a chat: a ring tone, then nine spoken lines, each sliding in as it is said |
 | 2 | Booked on the call. | The calendar, with the new job dropping into tomorrow 8 to 11 |
 | 3 | Every job tagged. | The job with its source, urgency badges and value |
 | 4 | Confirmed by text. | The confirmation text and the day-before reminder |
 | 5 | Estimates followed up. | An estimate, day 2, 7 and 14 lighting up, then "won" |
 | 6 | Reviews asked for. | Five stars and the review request |
-| 7 | $15,000 guaranteed. | The 90-day guarantee and a sample progress bar |
 | End | All of it. One system. | The whole path on one screen |
+
+Changes Juan asked for on 2026-11-20:
+
+- **No $15,000.** The guarantee step and its narration line were removed. The video makes no promise now.
+- **No "demo".** The shop is "Wrenfield Heating and Air" and the caller is "Marcus Hale", both made up. A web
+  search for "Wrenfield Heating" found no business by that name; that is one search, not a trademark check.
+- **A longer, smoother chat.** The call runs about 32 seconds. Each new line grows open so the lines above
+  glide up, older lines dim, and three dots pulse while the phone rings.
+- The on-screen mark now reads "Example shop · sample data". It stays because the shop is not a real client,
+  and the repo's rule is no fabricated clients. Removing it is Juan's call, with Security Reviewer sign-off.
+
+Notes:
 
 - It is drawn for the video. Unlike the walkthrough and the reel, it is not a recording of the demo CRM, so
   the cards are illustrations of what the system does.
-- Narration is the demo line's own voice (Cassidy), lines in `explainer-lines.json`. The caller in step 1 is the
-  "Chris" voice. About 620 more ElevenLabs credits.
-- Every figure is sample data for a fictional shop, and "Demo · sample data" stays on screen. The only promise
-  is the guarantee, worded as in the offer. Nobody has listened to the audio yet.
+- Narration is the demo line's own voice (Cassidy); the caller is the "Chris" voice. All lines are in
+  `explainer-lines.json`. Nobody has listened to the audio yet.
+- The other two cuts (walkthrough and reel) still say "Demo Heating and Air" and mention the $15,000.
 - The bottom of the frame is left clear for the Instagram caption and buttons. No music.
 
 ```bash
 node content/demo-video/explainer.js content/demo-video <voice folder>
 ```
 
-The voice folder holds `e1.wav` to `e8.wav`, `ring.wav`, `c1.wav`, `c2.wav` and a `durations.json`.
+The voice folder holds `e1.wav` to `e6.wav`, `e8.wav`, `ring.wav`, `k1.wav` to `k9.wav` and a `durations.json`.
 
 ## Vertical reel cut
 

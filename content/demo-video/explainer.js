@@ -1,7 +1,7 @@
 'use strict';
 // Records the vertical step-by-step explainer (explainer.html) with narration.
 // Usage: node explainer.js <output dir> <voice dir>
-// The voice dir holds e1..e8.wav (one narration line per step), ring.wav, c1.wav, c2.wav and durations.json.
+// The voice dir holds e1..e6.wav and e8.wav (narration), ring.wav, k1..k9.wav (the call) and durations.json.
 const { chromium } = require('playwright');
 const { execFileSync } = require('node:child_process');
 const fs = require('node:fs');
@@ -30,16 +30,33 @@ async function main() {
     // Play one audio clip: note when it starts, then wait for it to finish.
     const speak = async (key, tail = 380) => { cues.push({ key, at: Date.now() - tStart }); await sleep(DUR[key] * 1000 + tail); };
 
-    // Step 1: the call. The narrator sets the scene, then the phone rings and both sides are heard.
+    // Step 1: the call. The narrator sets the scene, the phone rings, then the whole exchange is heard
+    // while each line slides into the chat.
+    const CALL = [
+      ['ai', 'Thanks for calling Wrenfield Heating and Air. This call may be recorded. How can I help?'],
+      ['caller', "My heat's out, and it's freezing in here."],
+      ['ai', "I'm sorry, that's no fun this time of year. Do you smell gas, or is a carbon monoxide alarm going off?"],
+      ['caller', 'No, nothing like that.'],
+      ['ai', "Good. What's your first and last name?"],
+      ['caller', 'Marcus Hale.'],
+      ['ai', 'Thanks, Marcus. I have tomorrow between eight and eleven, or tomorrow between eleven and two. Which works?'],
+      ['caller', 'The first one.'],
+      ['ai', "You're booked for tomorrow between eight and eleven. The tech will be there in that window."],
+    ];
     await sleep(500);
     await speak('e1');
-    await speak('ring', 250);
-    await ex('show', 'b1'); await speak('c1', 250);
-    await ex('show', 'b2'); await speak('c2', 300);
-    await ex('show', 'b3'); await sleep(900);
+    await ex('ringing', true);
+    await speak('ring', 300);
+    await ex('ringing', false);
+    for (let i = 0; i < CALL.length; i++) {
+      await ex('say', CALL[i][0], CALL[i][1]);
+      await sleep(180); // the bubble starts to open just before the voice
+      await speak(`k${i + 1}`, 330);
+    }
+    await sleep(700);
 
-    // Steps 2 to 7: move along the path, then the card plays while its line is spoken.
-    for (let i = 1; i < 7; i++) {
+    // Steps 2 to 6: move along the path, then the card plays while its line is spoken.
+    for (let i = 1; i < 6; i++) {
       await ex('go', i);
       await sleep(1250);
       await ex('play', i);
