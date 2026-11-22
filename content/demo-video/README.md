@@ -30,6 +30,7 @@ Changes Juan asked for on 2026-11-20:
 - **No $15,000.** The guarantee step and its narration line were removed. The video makes no promise now.
 - **No "demo".** The shop is "Wrenfield Heating and Air" and the caller is "Marcus Hale", both made up. A web
   search for "Wrenfield Heating" found no business by that name; that is one search, not a trademark check.
+- **"H-vac", not spelled out.** The closing line was re-recorded on 2026-11-21 so HVAC is said as a word.
 - **A longer, smoother chat.** The call runs about 32 seconds. Each new line grows open so the lines above
   glide up, older lines dim, and three dots pulse while the phone rings.
 - The on-screen mark now reads "Example shop · sample data". It stays because the shop is not a real client,

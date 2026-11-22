@@ -1,5 +1,5 @@
 {
-  "_note": "Audio for hvac-explainer.mp4. e-lines are narration in the demo line's own ElevenLabs voice (Cassidy). k-lines are the call in step 1: odd lines are the receptionist (Cassidy), even lines the caller (ElevenLabs 'Chris', filtered like a phone line). The shop 'Wrenfield Heating and Air' and the caller 'Marcus Hale' are made up. There is no e7: the guarantee step was removed at Juan's request.",
+  "_note": "Audio for hvac-explainer.mp4. e-lines are narration in the demo line's own ElevenLabs voice (Cassidy). k-lines are the call in step 1: odd lines are the receptionist (Cassidy), even lines the caller (ElevenLabs 'Chris', filtered like a phone line). The shop 'Wrenfield Heating and Air' and the caller 'Marcus Hale' are made up. There is no e7: the guarantee step was removed at Juan's request. HVAC is always written \"H-vac\" for the voice so it is said as a word, never spelled out.",
   "e1": "It's nine fourteen at night, and a furnace just quit. Your shop picks up.",
   "k1": "Thanks for calling Wrenfield Heating and Air. This call may be recorded. How can I help?",
   "k2": "My heat's out, and it's freezing in here.",
@@ -15,5 +15,5 @@
   "e4": "The customer gets a confirmation text, and a reminder the day before.",
   "e5": "If an estimate goes quiet, follow ups go out on day two, day seven, and day fourteen, until it's won.",
   "e6": "When the job is done, it asks for the review.",
-  "e8": "All of it. One system. Aurelium Front Office, for H V A C."
+  "e8": "All of it. One system. Aurelium Front Office, for H-vac."
 }
