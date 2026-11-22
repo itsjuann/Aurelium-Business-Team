@@ -1,0 +1,11 @@
+{
+  "_note": "Narration for hvac-dashboard-jobs.mp4, one line per beat, in the demo line's own ElevenLabs voice (Cassidy). HVAC is written \"H-vac\" so it is said as a word.",
+  "d1": "This is your dashboard. Watch what happens when the phone rings.",
+  "d2": "A no heat call comes in after hours. The job is created, and lands on tomorrow's schedule.",
+  "d3": "Each job carries the customer, the address, and what was said on the call.",
+  "d4": "More calls, more jobs. Each one goes into an open window on your calendar.",
+  "d5": "And every job adds to what the system has booked for you.",
+  "d6": "An estimate goes into your pipeline, so you can see what's still to be won.",
+  "d7": "A caller who doesn't book is saved as a lead, with a call back task.",
+  "d8": "Every job, on one screen. Aurelium Front Office, for H-vac."
+}

@@ -51,6 +51,39 @@ node content/demo-video/explainer.js content/demo-video <voice folder>
 
 The voice folder holds `e1.wav` to `e6.wav`, `e8.wav`, `ring.wav`, `k1.wav` to `k9.wav` and a `durations.json`.
 
+## The dashboard as jobs are created
+
+`hvac-dashboard-jobs.mp4`: 50 seconds, 1080×1920, narrated. Recorded 2026-11-21 with `dashboard-jobs.js`.
+
+Juan asked for a video of how the dashboard works when jobs are being created. It is shot on the real demo
+CRM (`apps/hvac-demo`) in dark mode, with the explainer's two-line headlines on top. Five calls arrive through
+the real booking endpoints, and the camera follows each one.
+
+| Beat | Headline | What is on screen |
+|---|---|---|
+| 1 | Your dashboard. Live. | The whole dashboard before anything happens |
+| 2 | A call comes in. A job appears. | A no-heat job lands on tomorrow's schedule |
+| 3 | Who. Where. What they said. | The job record: customer, address, badges, call summary |
+| 4 | More calls. More jobs. | Two more jobs drop onto the schedule |
+| 5 | Every job counted. | The revenue figure, now $1,260 for three jobs |
+| 6 | Estimates in the pipeline. | An estimate card in the pipeline at $11,500 potential |
+| 7 | No booking? Still a lead. | A lead card with a call-back task |
+| 8 | Every job. One screen. | The whole dashboard again, signed "Aurelium Front Office for HVAC" |
+
+- Same rules Juan set for the explainer: no $15,000 (the guarantee bar is hidden for this recording), no
+  "demo" said or shown, the made-up shop "Wrenfield Heating and Air", and HVAC said as "H-vac".
+- The callers, addresses and dollar figures are fictional sample data, and "Example shop · sample data" stays
+  on screen. The pre-loaded jobs keep their "Sample" tag.
+- The jobs are created by test calls to the booking endpoints, not by phone calls to the agent. No call audio
+  is in this video; the narrator is the only voice.
+- Narration lines are in `dashboard-jobs-lines.json`. About 560 ElevenLabs credits. Nobody has listened to it yet.
+
+```bash
+node content/demo-video/dashboard-jobs.js content/demo-video <voice folder>
+```
+
+The voice folder holds `d1.wav` to `d8.wav` and a `durations.json`.
+
 ## Vertical reel cut
 
 `hvac-demo-reel.mp4`: 23 seconds, 1080×1920, no sound. Recorded 2026-11-20 with `reel.js`.
